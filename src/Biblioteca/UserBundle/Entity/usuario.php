@@ -1,0 +1,123 @@
+<?php
+
+namespace Biblioteca\UserBundle\Entity;
+
+use FOS\UserBundle\Model\User as BaseUser;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Biblioteca\TegBundle\Validator\Constraints as TegAssert;
+
+/**
+ * usuario
+ * @ORM\Entity
+ * @ORM\Table(name="usuario")
+ * @ORM\Entity(repositoryClass="Biblioteca\UserBundle\Entity\usuarioRepository")
+ * 
+ * @author Armando Garcia <1211agarcia@gmail.com>
+ */
+class usuario extends BaseUser
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
+     *
+     * @Assert\NotBlank(message="Please enter your name.", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     min=5,
+     *     max=50,
+     *     minMessage="El nombre es muy corto. (min 5)",
+     *     maxMessage="El nombre es muy largo. (max 50)"
+     * )
+     * @TegAssert\ContainsAlphanumeric
+     */
+    protected $name;
+    
+    public function __construct()
+    {
+        parent::__construct();
+        // tu propia lógica
+    }
+
+    /**
+     * Implementación de una lista de roles para los usuarios 
+     * 
+     * @throws Exception
+     * @param Rol $rol 
+     */
+    public function addRole($rol)
+    {
+        switch($rol){
+            case 1:
+                array_push($this->roles, 'ROLE_USER');
+                break;
+            case 2:
+                array_push($this->roles, 'ROLE_ADMIN');
+                break;
+            default:
+                array_push($this->roles, 'ROLE_USER');
+                break;
+        }
+    }      
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    } 
+
+    /**
+     * Set nombre
+     *
+     * @param string $nombre
+     * @return usuario
+     */
+    public function setNombre($nombre)
+    {
+        $this->nombre = $nombre;
+
+        return $this;
+    }
+
+    /**
+     * Get nombre
+     *
+     * @return string 
+     */
+    public function getNombre()
+    {
+        return $this->nombre;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return usuario
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+}

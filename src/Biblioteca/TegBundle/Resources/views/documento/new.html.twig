@@ -1,0 +1,21 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    
+    <h1>Upload File</h1>
+
+	<form action="{{ path("documento_create") }}" method="post" {{ form_enctype(form) }}>
+	   {{ form_errors(form) }}
+
+	   {{ form_rest(form) }}
+
+	</form>
+    
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('documento') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

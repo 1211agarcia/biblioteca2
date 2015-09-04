@@ -1,0 +1,183 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>teg creation</h1>
+    {{ form_start(form) }}
+
+    	{{ form_errors(form) }}
+ 
+	    <div class="form-group">
+	        {{ form_label(form.publicacion) }}
+	        {{ form_errors(form.publicacion) }}
+            {% for Field in form.publicacion %}
+                <div class="col-xs-3">
+                    {{ form_errors(Field) }}
+                    {{ form_widget(Field, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+            {% endfor %}
+	    </div>
+
+	    <div class="form-group">
+            {{ form_label(form.cota) }}
+            {{ form_errors(form.cota) }}
+            <div class="col-xs-9">
+                {{ form_widget(form.cota) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.escuela) }}
+            {{ form_errors(form.escuela) }}
+            <div class="col-xs-9">
+                {{ form_widget(form.escuela) }}
+            </div>
+        </div>
+
+	    <div class="form-group">
+            {{ form_label(form.titulo) }}
+            {{ form_errors(form.titulo) }}
+            <div class="col-xs-9">
+                {{ form_widget(form.titulo) }}
+            </div>
+        </div>
+	    
+	   
+	    <div class="form-group">
+            {{ form_label(form.autores) }}
+            {{ form_errors(form.autores) }}
+            <div id="form-autor" class="col-xs-9">
+
+    		    <ul id="autor-fields-list" class="list-unstyled" data-prototype="{{ form_widget(form.autores.vars.prototype) | e }}">
+    			    {% for autorField in form.autores %}
+    			        <li>
+    			            {{ form_errors(autorField) }}
+    			            {{ form_widget(autorField) }}
+    			        </li>
+    			    {% endfor %}
+    		    </ul>
+                <a class="btn btn-success btn-sm" href="#" id="other-autor"><span class="glyphicon glyphicon-plus-sign"></span> Agregar Autor</a>
+            </div>
+		</div>
+
+
+        <div class="form-group">
+            {{ form_label(form.resumen) }}
+            {{ form_errors(form.resumen) }}
+            <div class="col-xs-9">
+                {{ form_widget(form.resumen) }}
+            </div>
+        </div>
+	    
+	    <div class="form-group">
+            {{ form_label(form.palabrasClave) }}
+            {{ form_errors(form.palabrasClave) }}
+            
+		    <div class="col-xs-9">
+                <ul id="word-fields-list" class="list-unstyled" data-prototype="{{ form_widget(form.palabrasClave.vars.prototype) | e }}">
+    			    {% for palabraField in form.palabrasClave %}
+    			        <li>
+    			            {{ form_errors(palabraField) }}
+    			            {{ form_widget(palabraField) }}
+    			        </li>
+    			    {% endfor %}
+                </ul>
+                <a class="btn btn-success btn-sm" href="#" id="add-another-word"><span class="glyphicon glyphicon-plus-sign"></span> Agregar otra palabra clave</a>
+            </div>
+		</div>
+        <div class="form-group">
+            {{ form_label(form.capitulos) }}
+            {{ form_errors(form.capitulos) }}
+            
+            <div class="col-xs-9">
+                <ul id="cap-fields-list" class="list-unstyled" data-prototype="{{ form_widget(form.capitulos.vars.prototype) | e }}">
+                    {% for capField in form.capitulos %}
+                        <li>
+                            {{ form_errors(capField) }}
+                            {{ form_widget(capField) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a class="btn btn-success btn-sm" href="#" id="add-another-cap"><span class="glyphicon glyphicon-plus-sign"></span> Agregar otro archivo</a>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-9">
+                
+            </div>
+        </div>
+ 
+	{{ form_end(form) }}
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('teg') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+    
+    // realiza un seguimiento de cuántos campos de autores y palabras clave se han pintado
+    var palabraCount = '{{ form.palabrasClave | length }}';
+    var autoresCount = '{{ form.autores | length }}';
+
+    jQuery(document).ready(function() {
+        jQuery('#other-autor').click(
+            function() {
+                if(autoresCount < 2)
+                {
+                    var autorList = jQuery('#autor-fields-list');
+                    var newWidget = autorList.attr('data-prototype');
+                    newWidget = newWidget.replace("__name__", autoresCount);
+                    newWidget = newWidget.replace("__name__", autoresCount);
+                    autoresCount++;
+
+                    // crea un nuevo elemento lista y lo añade a la lista
+                    var newLi = jQuery('<li id="2" class="input-group"></li>').html(newWidget);
+                    newLi.appendTo(jQuery('#autor-fields-list'));
+                    //cambiar nombre de etiqueta
+                    $("#other-autor").html("<span class='glyphicon glyphicon-remove-sign'></span> Quitar");
+                    $("#other-autor").attr("class", "input-group-addon btn btn-danger btn-sm");
+                    $("#other-autor").appendTo(newLi);
+                }
+                else
+                {
+                    autoresCount--;
+                    
+                    //cambiar nombre de etiqueta
+                    $("#other-autor").html("<span class='glyphicon glyphicon-plus-sign'></span> Agregar Autor");
+                    $("#other-autor").attr("class", "btn btn-success btn-sm");
+                    $("#other-autor").appendTo("#form-autor");
+                    $('#autor-fields-list #2').remove();
+                }
+                return false;
+            }
+        );
+
+        jQuery('#add-another-word').click(
+            function() {
+        
+                var palabraList = jQuery('#word-fields-list');
+                var newWidget = palabraList.attr('data-prototype');
+                newWidget = newWidget.replace("__name__", palabraCount);
+                newWidget = newWidget.replace("__name__", palabraCount);
+                palabraCount++;
+
+                // crea un nuevo elemento lista y lo añade a la lista
+                var newLi = jQuery('<li id="word-'+palabraCount+'" class="input-group"></li>').html(newWidget);
+
+                newLi.appendTo(jQuery('#word-fields-list'));
+                jQuery('<a id="quitar" name="word-'+palabraCount+'" class="input-group-addon btn btn-danger btn-sm">Quitar</a>').appendTo(jQuery('#word-'+palabraCount));
+
+                return false;
+            }
+        );
+        
+    });
+   
+    </script>
+{% endblock %}
