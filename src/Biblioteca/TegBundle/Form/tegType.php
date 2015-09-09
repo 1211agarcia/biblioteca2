@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Biblioteca\TegBundle\Form\documentoType;
+use Biblioteca\UserBundle\Form\Type\RegistrationType;
 class tegType extends AbstractType
 {
     /**
@@ -20,19 +21,22 @@ class tegType extends AbstractType
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
                     'attr'=> array('class' => 'form-control'),
+                    'empty_value' => 'Seleccionar escuela',
                     'choices'  => array(
-                        'computacion' => 'Computación',
-                        'quimica' => 'Química',
-                        'matematica' => 'Matemática',
-                        'biologia' => 'Biología',
-                        'fisica' => 'Física'),
+                        'Computacion' => 'Computación',
+                        'Quimica' => 'Química',
+                        'Matematica' => 'Matemática',
+                        'Biologia' => 'Biología',
+                        'Fisica' => 'Física'),
                     'required' => true,
                 )
             )
-            ->add('cota', 'text', 
+            ->add('cota', 'integer', 
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
-                    'attr'=> array('class' => 'form-control'),
+                    'attr'=> array('class' => 'form-control',
+                                    'min' => '1',
+                                    'max' => '99'),
                 )
 
             )
@@ -41,6 +45,9 @@ class tegType extends AbstractType
                     'label_attr' => array('class' => 'control-label col-xs-3'),
                     'widget' => 'choice',
                     'format' => 'dd-MM-yyyy',
+                    'years' => range(1998, date('Y')),
+                    'months' => range(1, date('m')),
+                    'days' => range(1, date('d')),
                     'empty_value' => 
                         array('year' => 'Año', 'month' => 'Mes', 'day' => 'Dia'),
 //                    'attr'      => array('class' => 'form-control'),
@@ -93,21 +100,34 @@ class tegType extends AbstractType
                 )
             )
         ;
-
+        //$builder->add('capitulos');
+/*        $builder->add('capitulos', 'collection', array(
+            'type' => new documentoType(),
+            'empty_data'  => null
+            )
+        );
+*/
         $builder
             ->add('capitulos', 'collection', array(
                 'label_attr' => array('class' => 'control-label col-xs-3'),
                 // cada elemento en el arreglo debe ser un campo "email"
-                'type'   =>'file',
+                'type' => new documentoType(),
                 'allow_add' => true,
                 'prototype' => true,
                 'options'  => array(
                     'required'  => false,
-                    'attr'      => array('class' => 'form-control')
+                    'attr'      => array('class' => '')
                     ),
                 )
             )
-        ;
+        ;/*
+        $builder
+            ->add('capitulos', 'entity', array(
+                'class' => 'BibliotecaTegBundle:documento',
+                'choice_label' => 'id',
+                )
+            )
+        ;*/
     }
     
     /**

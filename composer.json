@@ -1,5 +1,5 @@
 {
-    "name": "dixon/biblioteca2",
+    "name": "armando/biblioteca2",
     "license": "proprietary",
     "type": "project",
     "autoload": {
@@ -22,7 +22,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "doctrine/doctrine-fixtures-bundle": "dev-master",
-        "ircmaxell/password-compat": "^1.0"
+        "ircmaxell/password-compat": "^1.0",
+        "gedmo/doctrine-extensions": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

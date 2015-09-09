@@ -18,18 +18,25 @@
 	    </div>
 
 	    <div class="form-group">
-            {{ form_label(form.cota) }}
-            {{ form_errors(form.cota) }}
-            <div class="col-xs-9">
-                {{ form_widget(form.cota) }}
-            </div>
-        </div>
-
-        <div class="form-group">
             {{ form_label(form.escuela) }}
             {{ form_errors(form.escuela) }}
             <div class="col-xs-9">
                 {{ form_widget(form.escuela) }}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.cota) }}
+            {{ form_errors(form.cota) }}
+            <div class="col-xs-3">
+                {{ form_widget(form.cota) }}
+            </div>
+            <div class="col-xs-6">
+                <div id="prev_teg_cota" name="prev_teg_cota" class="form-control" readonly>
+                    D<span id="prev_cota_escuela">[escuela]</span>-
+                    <span id="prev_cota_indice">[indice]</span>-
+                    <span id="prev_cota_year">[Año de Publicacion]</span>
+                </div>
             </div>
         </div>
 
@@ -85,17 +92,17 @@
             </div>
 		</div>
         <div class="form-group">
-            {{ form_label(form.capitulos) }}
-            {{ form_errors(form.capitulos) }}
+            {# { form_label(form.capitulos) } #}
+            {# { form_errors(form.capitulos) } #        }
             
             <div class="col-xs-9">
-                <ul id="cap-fields-list" class="list-unstyled" data-prototype="{{ form_widget(form.capitulos.vars.prototype) | e }}">
-                    {% for capField in form.capitulos %}
+                <ul id="cap-fields-list" class="list-unstyled" data-prototype="{# { form_widget(form.capitulos.vars.prototype) | e } #}">
+                    {# % for capField in form.capitulos %}
                         <li>
                             {{ form_errors(capField) }}
                             {{ form_widget(capField) }}
                         </li>
-                    {% endfor %}
+                    {% endfor % #}
                 </ul>
                 <a class="btn btn-success btn-sm" href="#" id="add-another-cap"><span class="glyphicon glyphicon-plus-sign"></span> Agregar otro archivo</a>
             </div>
@@ -121,11 +128,12 @@
     {{ parent() }}
     <script type="text/javascript">
     
-    // realiza un seguimiento de cuántos campos de autores y palabras clave se han pintado
-    var palabraCount = '{{ form.palabrasClave | length }}';
-    var autoresCount = '{{ form.autores | length }}';
-
     jQuery(document).ready(function() {
+
+        // realiza un seguimiento de cuántos campos de autores y palabras clave se han pintado
+        var palabraCount = '{{ form.palabrasClave | length }}';
+        var autoresCount = '{{ form.autores | length }}';
+    
         jQuery('#other-autor').click(
             function() {
                 if(autoresCount < 2)
@@ -176,6 +184,42 @@
                 return false;
             }
         );
+
+        // Generar Cota
+        $('#biblioteca_tegbundle_teg_publicacion_year').change(function(){
+            if($(this).val() == 0)
+            {
+                $("#prev_cota_year").text("[Año de Publicación]");
+            }
+            else
+            {
+                $("#prev_cota_year").text(("0" + ($(this).val() % 100) ).slice (-2));
+            }
+        });
+
+        $('#biblioteca_tegbundle_teg_escuela').change(function(){
+            if($(this).val() == 0)
+            {
+                $("#prev_cota_escuela").text("[Escuela]");
+            }
+            else
+            {
+                $("#prev_cota_escuela").text($(this).val().charAt(0));
+            }
+        });
+
+        $('#biblioteca_tegbundle_teg_cota').change(function(){
+            if($(this).val() <= 0)
+            {
+                $("#prev_cota_indice").text("[indice]");
+            }
+            else
+            {
+                $("#prev_cota_indice").text(("0" + $(this).val()).slice (-2));
+            }
+        });
+
+        
         
     });
    

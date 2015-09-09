@@ -11,6 +11,8 @@
                 <th>Publicacion</th>
                 <th>Titulo</th>
                 <th>Palabrasclaves</th>
+                <th>Autores</th>
+                <th>Tutores</th>
                 <th>Resumen</th>
                 <th>Actions</th>
             </tr>
@@ -22,17 +24,43 @@
                 <td>{{ entity.cota }}</td>
                 <td>{% if entity.publicacion %}{{ entity.publicacion|date('m-Y') }}{% endif %}</td>
                 <td>{{ entity.titulo }}</td>
-                <td>{{ entity.palabrasClaves }}</td>
+                <td>
+                    <ul>
+                    {% for palabraField in entity.palabrasClave %}
+                        <li>
+                            {{ palabraField }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                    {% for Field in entity.autores %}
+                        <li>
+                            {{ Field }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                    {% for Field in entity.tutores %}
+                        <li>
+                            {{ Field }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </td>
                 <td>{{ entity.resumen }}</td>
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('teg_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('teg_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
+                    <ul>
+                        <li>
+                            <a href="{{ path('teg_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('teg_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
                 </td>
             </tr>
         {% endfor %}

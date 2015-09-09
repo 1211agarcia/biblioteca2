@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+
 /**
  * documento
  *
@@ -20,23 +21,32 @@ class documento
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    private $id;
 
     /**
+     * @var \Biblioteca\TegBundle\Entity\teg $teg
      *
-     * @ORM\ManyToOne(targetEntity="teg", inversedBy="capitulos", cascade={"merge", "remove"})
+     * @ORM\ManyToOne(targetEntity="teg", inversedBy="capitulos")
      * @ORM\JoinColumn(name="teg_id", referencedColumnName="id", onDelete="CASCADE")
+     * 
      */
     protected $teg;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    public $path;
+    private $path;
 
     /**
+     * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Por favor, ingrese el nombre del Documento.")
+     */
+    private $name;
+
+    /**
+     * @var UploadedFile
      * @Assert\File(maxSize="6000000")
-     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
+     * @Assert\NotBlank(message="Please, upload the Capitulo as a PDF file.")
      * @Assert\File(mimeTypes={ "application/pdf" })
      */
     private $file;
@@ -195,6 +205,16 @@ class documento
             $this->id.'.'.$this->getFile()->guessExtension()
         );
 
+        /* Actualizamos al nuevo Path
+         * para que se guarde en la base de datos el nombre asignado al archivo*/
+        $this->setPath($this->id.'.'.$this->path);
+        printf("<pre>");
+        print_r($this->getPath());
+        printf("</pre>");
+        printf("<pre>");
+        print_r($this->getId());
+        printf("</pre>");
+
         
         
         // limpia la propiedad «file» ya que no la necesitas más
@@ -232,5 +252,9 @@ class documento
     public function getTeg()
     {
         return $this->teg;
+    }
+
+    public function __toString() {
+        return sprintf('%d at %s (%s)', $this->getId(), $this->getName(), $this->getPath());
     }
 }

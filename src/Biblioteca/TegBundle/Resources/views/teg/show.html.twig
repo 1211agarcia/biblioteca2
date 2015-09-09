@@ -50,8 +50,18 @@
                 </td>
             </tr>
             <tr>
-                <th>Resumen</th>
-                <td><a href="{# { asset('uploads/capitulos/' ~ entity.capitulo) } #}">View capitulo (PDF)</a></td>
+                <th>Capitulos</th>
+                
+                <td>{# 
+                    <ul id="cap-fields-list" >
+                        {% for iField in entity.capitulos %}
+                            <li>
+                                {{ iField }}
+                                <a href="{ { asset('uploads/capitulos/' ~ iField) } }">View capitulo (PDF)</a>
+                            </li>
+                        {% endfor %}
+                    </ul> #}
+                </td>
             </tr>
 
             

@@ -53,10 +53,38 @@ class documentoController extends Controller
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getManager();
                 //$document->upload();
-                $em->persist($document);
-                $em->flush();
+                printf("<pre>");
+                //print_r($em->getConnection());
+                printf("</pre>");
 
-                return $this->redirect($this->generateUrl('documento_show', array('id' => $document->getId())));
+                $em->persist($document);
+                printf("<pre>");
+                printf("<b>Ya fue persistida</b> ");
+                print_r($document);
+                printf("</pre>");
+
+        /*$document->setPath($document->getId().'.'.$document->getPath());
+        printf("<pre>");
+        print_r($this->getPath());
+        printf("</pre>");
+        printf("<pre>");
+        print_r($this->getId());
+        printf("</pre>");*/
+
+        $em->persist($document);
+                printf("<pre>");
+                printf("<b>segunda persistida</b> ");
+                print_r($document);
+                printf("</pre>");
+
+
+                $em->flush();
+                printf("<pre>");
+                printf("<b>Ya fue flush</b> ");
+                print_r($document);
+                printf("</pre>");
+
+                //return $this->redirect($this->generateUrl('documento_show', array('id' => $document->getId())));
             }
         //}
 

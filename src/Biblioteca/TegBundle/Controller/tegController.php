@@ -52,17 +52,39 @@ class tegController extends Controller
 
         if ($form->isValid()) {
             
-            $capitulo = new documento();
+            //foreach ($entity->getCapitulos() as $key => $value) {
+                # code...
+            //}
+
+            foreach ($entity->getCapitulos() as $actualCapitulo) {  
+                
+                $capitulo = new documento();
+
+                $capitulo = $actualCapitulo;
+
+                //$capitulo->setFile($actualCapitulo);
+
+                $capitulo->setTeg($entity);
+
+                $entity->addCapitulo($capitulo);
+
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($entity);
+
+                $em->persist($capitulo);
+            }
+
+            //$capitulo = new documento();
                 //printf("<pre>");
                 //print_r( $entity->getCapitulos()[0] );
                 //printf("</pre>");
-            $capitulo->setFile($entity->getCapitulos()[0]);
-            $capitulo->setTeg($entity);
-            $entity->addCapitulo($capitulo);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->persist($capitulo);
+            //$capitulo->setFile($entity->getCapitulos()[0]);
+            //$capitulo->setTeg($entity);
+            
+            //$em = $this->getDoctrine()->getManager();
+            //$em->persist($entity);
+            //$em->persist($capitulo);
 
             $em->flush();
 
@@ -184,6 +206,8 @@ class tegController extends Controller
     */
     private function createEditForm(teg $entity)
     {
+        $entity->setCota(1);
+        
         $form = $this->createForm(new tegType(), $entity, array(
             'action' => $this->generateUrl('teg_update', array('id' => $entity->getId())),
             'method' => 'PUT',

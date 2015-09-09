@@ -4,8 +4,9 @@ namespace Biblioteca\TegBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Biblioteca\TegBundle\Entity\documento;
 
 /**
  * teg
@@ -26,29 +27,30 @@ class teg
 
     /**
      * @var string
+     * D[Inicial de Escuela]{indica}[año en 2 digitos]
      *
-     * @ORM\Column(name="cota", type="string", length=20, unique=true,nullable=false)
+     * @ORM\Column(type="string", length=20, unique=true)
      */
     private $cota;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="escuela", type="string", length=20, nullable=false)
+     * @ORM\Column(type="string", length=20)
      */
     private $escuela;
 
     /**
      * @var \Date
      *
-     * @ORM\Column(name="publicacion", type="date", nullable=false)
+     * @ORM\Column(type="date")
      */
     private $publicacion;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="titulo", type="string", length=500, nullable=false)
+     * @ORM\Column(type="string", length=500)
      * @Assert\Length(
      *     min=5,
      *     max=500,
@@ -61,43 +63,64 @@ class teg
     /**
      * @var array
      *
-     * @ORM\Column(name="palabrasClave", type="array", nullable=false)
+     * @ORM\Column(type="array")
      */
     private $palabrasClave;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="resumen", type="text", nullable=false)
+     * @ORM\Column(type="text")
      */
     private $resumen;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="autores", type="array", nullable=false)
+     * @ORM\Column(type="array")
      */
     private $autores;
 
     /**
      * @var array
      *
-     * @ORM\Column(name="tutores", type="array", nullable=false)
+     * @ORM\Column(type="array")
      */
     private $tutores;
 
     /**
+     * @var array
      *
-     * @ORM\OneToMany(targetEntity="documento", mappedBy="id") 
+     * @ORM\OneToMany(targetEntity="documento", mappedBy="teg") 
+     * @Assert\Valid
      */
     protected $capitulos;
+
+    /**
+     * @var datetime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @var datetime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
 
     public function __construct()
     {
         $this->autores = new ArrayCollection(array(''));
         $this->tutores = new ArrayCollection(array(''));
         $this->palabrasClave = new ArrayCollection(array('','',''));
-        $this->capitulos = new ArrayCollection(array(''));
+        //$this->capitulos = new ArrayCollection(array('Capitulo-1' => new documento(), new documento()));
+        $this->created = new \DateTime();
+        $this->updated = new \DateTime();
+        
     }
 
 
@@ -206,7 +229,7 @@ class teg
     /**
      * Set palabrasClave
      *
-     * @param string $palabrasClave
+     * @param array $palabrasClave
      * @return teg
      */
     public function setPalabrasClave($palabrasClave)
@@ -219,7 +242,7 @@ class teg
     /**
      * Get palabrasClave
      *
-     * @return string 
+     * @return array 
      */
     public function getPalabrasClave()
     {
@@ -299,9 +322,7 @@ class teg
     public function __toString() {
         return sprintf('%d at %s (%s)', $this->getId(), $this->getCota(), $this->getTitulo());
     }
-
-
-    
+  
 
     /**
      * Add capitulos
@@ -312,6 +333,8 @@ class teg
     public function addCapitulo(\Biblioteca\TegBundle\Entity\documento $capitulos)
     {
         $this->capitulos[] = $capitulos;
+        $capitulos->setTeg($this);
+        return $this;
 
         return $this;
     }
@@ -327,6 +350,16 @@ class teg
     }
 
     /**
+     * Remove capitulos
+     *
+     */
+    public function removeAllCapitulos()
+    {
+        unset($this->capitulos);
+        $this->capitulos = new ArrayCollection();
+    }
+
+    /**
      * Get capitulos
      *
      * @return \Doctrine\Common\Collections\Collection 
@@ -334,5 +367,51 @@ class teg
     public function getCapitulos()
     {
         return $this->capitulos;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return teg
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return teg
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

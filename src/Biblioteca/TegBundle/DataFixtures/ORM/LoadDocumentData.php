@@ -16,7 +16,7 @@ use Biblioteca\TegBundle\Entity\documento as Document;
  * @version 31/05/2015
  */
 
-class LoadDocumentoData extends AbstractFixture implements OrderedFixtureInterface
+class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
     * Función donde se implementa el DataFixture
@@ -25,27 +25,20 @@ class LoadDocumentoData extends AbstractFixture implements OrderedFixtureInterfa
     */
     public function load(ObjectManager $manager)
     {
-        $j = 1;
-
-        for ($i=0; $i < 18 ; $i++) { 
+        
+        for ($i=1; $i < 18 ; $i++) { 
             
             $document = new Document();
+            $teg = $manager->getRepository('BibliotecaTegBundle:teg')->find($i);
             
-            if ($i < 9) {
+            $document->setTeg($teg);
 
-                $document->setName('name_image'.$j);
-                $document->setFileName('/name_image/image'.$i.".jpg");
-                if ($i == 8)
-                    $j = 1;
-
-            } else if ($i < 18) {
-                $document->setName('name_video'.$j);
-                $document->setFileName('/name_video/video'.$i.".mp4");
-            }
+            $document->setName('Todo el tomo'.$i);
+            $document->setPath($i.".pdf");
 
             $manager->persist($document);
             $manager->flush();
-            $j++;
+            
         }
     }
     
@@ -55,6 +48,6 @@ class LoadDocumentoData extends AbstractFixture implements OrderedFixtureInterfa
     */
     public function getOrder()
     {
-        return 1;
+        return 3;
     }
 }
