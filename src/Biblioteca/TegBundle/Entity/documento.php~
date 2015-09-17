@@ -27,18 +27,18 @@ class documento
      * @var \Biblioteca\TegBundle\Entity\teg $teg
      *
      * @ORM\ManyToOne(targetEntity="teg", inversedBy="capitulos")
-     * @ORM\JoinColumn(name="teg_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(name="teg_id", referencedColumnName="id", onDelete="CASCADE")
      * 
      */
     protected $teg;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $path;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank(message="Por favor, ingrese el nombre del Documento.")
      */
     private $name;
@@ -205,6 +205,16 @@ class documento
             $this->id.'.'.$this->getFile()->guessExtension()
         );
 
+        /* Actualizamos al nuevo Path
+         * para que se guarde en la base de datos el nombre asignado al archivo*/
+        $this->setPath($this->id.'.'.$this->path);
+        printf("<pre>");
+        print_r($this->getPath());
+        printf("</pre>");
+        printf("<pre>");
+        print_r($this->getId());
+        printf("</pre>");
+
         
         
         // limpia la propiedad «file» ya que no la necesitas más
@@ -242,5 +252,9 @@ class documento
     public function getTeg()
     {
         return $this->teg;
+    }
+
+    public function __toString() {
+        return sprintf('%d at %s (%s)', $this->getId(), $this->getName(), $this->getPath());
     }
 }

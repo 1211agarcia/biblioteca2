@@ -16,6 +16,16 @@ use Biblioteca\TegBundle\Entity\documento;
  */
 class teg
 {
+    const ESCUELAS = array(
+                'Biología'=>'Biología',
+                'Computación'=>'Computación', 
+                'Física'=>'Física',
+                'Matemaática'=>'Matemaática',
+                'Química'=>'Química');
+
+    public static function getSchools() {
+        return self::ESCUELAS;
+    }
     /**
      * @var integer
      *
@@ -27,6 +37,7 @@ class teg
 
     /**
      * @var string
+     * D[Inicial de Escuela]{indica}[año en 2 digitos]
      *
      * @ORM\Column(type="string", length=20, unique=true)
      */
@@ -111,13 +122,20 @@ class teg
      */
     private $updated;
 
+    /**
+     * @var boolean $published
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $published;
+
     public function __construct()
     {
         $this->autores = new ArrayCollection(array(''));
         $this->tutores = new ArrayCollection(array(''));
         $this->palabrasClave = new ArrayCollection(array('','',''));
-        $this->capitulos = new ArrayCollection(array('Capitulo-1' => new documento(), new documento()));
-        
+        $this->capitulos = new ArrayCollection(array(new documento(),new documento()));
+        $this->published = true;
     }
 
 
@@ -226,7 +244,7 @@ class teg
     /**
      * Set palabrasClave
      *
-     * @param string $palabrasClave
+     * @param array $palabrasClave
      * @return teg
      */
     public function setPalabrasClave($palabrasClave)
@@ -239,7 +257,7 @@ class teg
     /**
      * Get palabrasClave
      *
-     * @return string 
+     * @return array 
      */
     public function getPalabrasClave()
     {
@@ -319,9 +337,7 @@ class teg
     public function __toString() {
         return sprintf('%d at %s (%s)', $this->getId(), $this->getCota(), $this->getTitulo());
     }
-
-
-    
+  
 
     /**
      * Add capitulos
@@ -349,6 +365,16 @@ class teg
     }
 
     /**
+     * Remove capitulos
+     *
+     */
+    public function removeAllCapitulos()
+    {
+        unset($this->capitulos);
+        $this->capitulos = new ArrayCollection();
+    }
+
+    /**
      * Get capitulos
      *
      * @return \Doctrine\Common\Collections\Collection 
@@ -356,5 +382,51 @@ class teg
     public function getCapitulos()
     {
         return $this->capitulos;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return teg
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return teg
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

@@ -15,7 +15,7 @@ class documentoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', 'choice',
+            /*->add('name', 'choice',
             array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
                     'attr'=> array('class' => 'form-control'),
@@ -28,8 +28,16 @@ class documentoType extends AbstractType
                         '5' => 'Capitulo 5',),
                     'required' => true,
                 )
+            )*/
+            ->add('file', 'file',
+            array(
+                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'label' => null,
+                    'attr'=> array('class' => 'file'),
+                    'required' => true,
+
+                )
             )
-            ->add('file')
         ;
     }
     

@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Biblioteca\TegBundle\Form\documentoType;
+use Biblioteca\TegBundle\Entity\teg;
 use Biblioteca\UserBundle\Form\Type\RegistrationType;
 class tegType extends AbstractType
 {
@@ -17,39 +18,43 @@ class tegType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('published', 'checkbox',
+                array(
+                    'label'    => '¿Mostrar públicamente?',
+                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'attr'=> array('class' => 'checkbox-inline','data-on-text'=> 'Sí','data-off-text'=> 'No'),
+                    'required' => false,
+                )
+            )
             ->add('escuela', 'choice',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
                     'attr'=> array('class' => 'form-control'),
-                    'empty_value' => 'Seleccionar escuela',
-                    'choices'  => array(
-                        'Computacion' => 'Computación',
-                        'Quimica' => 'Química',
-                        'Matematica' => 'Matemática',
-                        'Biologia' => 'Biología',
-                        'Fisica' => 'Física'),
+                    'empty_value' => 'Seleccionar',
+                    'choices'  => teg::getSchools(),
                     'required' => true,
                 )
             )
-            ->add('cota', 'integer', 
+            ->add('cota', 'text', 
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
                     'attr'=> array('class' => 'form-control',
-                                    'min' => '1',
-                                    'max' => '99'),
+                                    'readonly' => 'true',
+                                    'placeholder' => 'D[Escuela]-[indice]-[Año de Publicación]'),
                 )
 
             )
             ->add('publicacion', 'birthday',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'attr' => array('class' => 'col-xs-9'),
                     'widget' => 'choice',
                     'format' => 'dd-MM-yyyy',
                     'years' => range(1998, date('Y')),
                     'months' => range(1, date('m')),
                     'days' => range(1, date('d')),
                     'empty_value' => 
-                        array('year' => 'Año', 'month' => 'Mes', 'day' => 'Dia'),
+                        array('day' => 'Dia', 'month' => 'Mes', 'year' => 'Año'),
 //                    'attr'      => array('class' => 'form-control'),
                 )
             )
@@ -62,14 +67,9 @@ class tegType extends AbstractType
             ->add('palabrasClave', 'collection',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
-                    // cada elemento en el arreglo debe ser un campo "email"
-                    //'type'   => 'email',
-                    // estas opciones se pasan a cada tipo "email"
                     'allow_add' => true,
                     'allow_delete' => true,
-                    
                     'prototype' => true,
-                    //'prototype_name' => 'tag__name__',
                     'options'  => array(
                         'required'  => true,
                         'attr'      => array('class' => 'form-control')
@@ -88,8 +88,6 @@ class tegType extends AbstractType
         $builder
             ->add('autores', 'collection', array(
                 'label_attr' => array('class' => 'control-label col-xs-3'),
-                // cada elemento en el arreglo debe ser un campo "email"
-                //'type'   => 'text',
                 'allow_add' => true,
                 'prototype' => true,
          
@@ -100,17 +98,10 @@ class tegType extends AbstractType
                 )
             )
         ;
-        //$builder->add('capitulos');
-/*        $builder->add('capitulos', 'collection', array(
-            'type' => new documentoType(),
-            'empty_data'  => null
-            )
-        );
-*/
+
         $builder
             ->add('capitulos', 'collection', array(
                 'label_attr' => array('class' => 'control-label col-xs-3'),
-                // cada elemento en el arreglo debe ser un campo "email"
                 'type' => new documentoType(),
                 'allow_add' => true,
                 'prototype' => true,
@@ -120,14 +111,7 @@ class tegType extends AbstractType
                     ),
                 )
             )
-        ;/*
-        $builder
-            ->add('capitulos', 'entity', array(
-                'class' => 'BibliotecaTegBundle:documento',
-                'choice_label' => 'id',
-                )
-            )
-        ;*/
+        ;
     }
     
     /**

@@ -11,11 +11,25 @@ use Biblioteca\TegBundle\Entity\documento;
 /**
  * teg
  *
+ * @author Armando Garcia <1211agarcia@gmail.com>
+ * @author Currently Working: Armando Garcia <1211agarcia@gmail.com>
+ * @version 17/09/2015
+ *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Biblioteca\TegBundle\Entity\tegRepository")
  */
 class teg
 {
+    const ESCUELAS = array(
+                'Biología'=>'Biología',
+                'Computación'=>'Computación', 
+                'Física'=>'Física',
+                'Matemaática'=>'Matemaática',
+                'Química'=>'Química');
+
+    public static function getSchools() {
+        return self::ESCUELAS;
+    }
     /**
      * @var integer
      *
@@ -112,15 +126,20 @@ class teg
      */
     private $updated;
 
+    /**
+     * @var boolean $published
+     *
+     * @ORM\Column(type="boolean")
+     */
+    private $published;
+
     public function __construct()
     {
         $this->autores = new ArrayCollection(array(''));
         $this->tutores = new ArrayCollection(array(''));
         $this->palabrasClave = new ArrayCollection(array('','',''));
-        //$this->capitulos = new ArrayCollection(array('Capitulo-1' => new documento(), new documento()));
-        $this->created = new \DateTime();
-        $this->updated = new \DateTime();
-        
+        $this->capitulos = new ArrayCollection(array(new documento(),new documento()));
+        $this->published = true;
     }
 
 
@@ -413,5 +432,28 @@ class teg
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set published
+     *
+     * @param boolean $published
+     * @return teg
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean 
+     */
+    public function getPublished()
+    {
+        return $this->published;
     }
 }
