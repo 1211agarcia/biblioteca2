@@ -20,15 +20,15 @@ use Biblioteca\TegBundle\Entity\documento;
  */
 class teg
 {
-    const ESCUELAS = array(
-                'Biología'=>'Biología',
-                'Computación'=>'Computación', 
-                'Física'=>'Física',
-                'Matemaática'=>'Matemaática',
-                'Química'=>'Química');
+    private static $escuelas = array(
+                "Biología"=>"Biología",
+                "Computación"=>"Computación", 
+                "Física"=>"Física",
+                "Matemática"=>"Matemática",
+                "Química"=>"Química");
 
     public static function getSchools() {
-        return self::ESCUELAS;
+        return self::$escuelas;
     }
     /**
      * @var integer
@@ -138,7 +138,7 @@ class teg
         $this->autores = new ArrayCollection(array(''));
         $this->tutores = new ArrayCollection(array(''));
         $this->palabrasClave = new ArrayCollection(array('','',''));
-        $this->capitulos = new ArrayCollection(array(new documento(),new documento()));
+        $this->capitulos = new ArrayCollection(array(new documento()));
         $this->published = true;
     }
 

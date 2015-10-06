@@ -3,7 +3,128 @@
 {% block body -%}
     <h1>teg edit</h1>
 
-    {{ form(edit_form) }}
+    {# { form(edit_form) } #}
+
+    {{ form_start(edit_form) }}
+
+    	{{ form_errors(edit_form) }}
+ 
+	    <div class="form-group">
+	        {{ form_label(edit_form.publicacion) }}
+	        {{ form_errors(edit_form.publicacion) }}
+            {% for Field in edit_form.publicacion %}
+                <div class="col-xs-3">
+                    {{ form_errors(Field) }}
+                    {{ form_widget(Field, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+            {% endfor %}
+	    </div>
+
+	    <div class="form-group">
+            {{ form_label(edit_form.escuela) }}
+            {{ form_errors(edit_form.escuela) }}
+            <div class="col-xs-9">
+                {{ form_widget(edit_form.escuela) }}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(edit_form.cota) }}
+            {{ form_errors(edit_form.cota) }}
+            <div class="col-xs-9">
+  				<div class="input-group">
+                	<span id="cota_escuela" class="input-group-addon">D[Escuela]</span>
+                 	<input type="number" placeholder="Indice" id="biblioteca_tegbundle_teg_cota_index" required="required" class="form-control" min="1" max="99">
+                	<span id="cota_year" class="input-group-addon">[Año de Publicación]</span>
+            	</div>
+            </div>
+            <div class="col-xs-6">
+                {{ form_widget(edit_form.cota, { 'attr': {'style': 'display:none'} }) }}
+            </div>
+        </div>
+
+	    <div class="form-group">
+            {{ form_label(edit_form.titulo) }}
+            {{ form_errors(edit_form.titulo) }}
+            <div class="col-xs-9">
+                {{ form_widget(edit_form.titulo) }}
+            </div>
+        </div>
+	    
+	    <div class="form-group">
+            {{ form_label(edit_form.autores) }}
+            {{ form_errors(edit_form.autores) }}
+            <div id="form-autor" class="col-xs-9">
+
+    		    <ul id="autor-fields-list" class="list-unstyled" data-prototype="{{ form_widget(edit_form.autores.vars.prototype) | e }}">
+    			    {% for autorField in edit_form.autores %}
+    			        <li>
+    			            {{ form_errors(autorField) }}
+    			            {{ form_widget(autorField) }}
+    			        </li>
+    			    {% endfor %}
+    		    </ul>
+                <a class="btn btn-success btn-sm" href="#" id="other-autor"><span class="glyphicon glyphicon-plus-sign"></span> Agregar Autor</a>
+            </div>
+		</div>
+
+        <div class="form-group">
+            {{ form_label(edit_form.resumen) }}
+            {{ form_errors(edit_form.resumen) }}
+            <div class="col-xs-9">
+                {{ form_widget(edit_form.resumen) }}
+            </div>
+        </div>
+	    
+	    <div class="form-group">
+            {{ form_label(edit_form.palabrasClave) }}
+            {{ form_errors(edit_form.palabrasClave) }}
+            
+		    <div class="col-xs-9">
+                <ul id="word-fields-list" class="list-unstyled" data-prototype="{{ form_widget(edit_form.palabrasClave.vars.prototype) | e }}">
+    			    {% for palabraField in edit_form.palabrasClave %}
+    			        <li>
+    			            {{ form_errors(palabraField) }}
+    			            {{ form_widget(palabraField) }}
+    			        </li>
+    			    {% endfor %}
+                </ul>
+                <a class="btn btn-success btn-sm" href="#" id="add-another-word"><span class="glyphicon glyphicon-plus-sign"></span> Agregar otra palabra clave</a>
+
+            </div>
+		</div>
+        <div class="form-group">
+            {{ form_label(edit_form.capitulos) }}
+            {{ form_errors(edit_form.capitulos) }}
+            
+            <div class="col-xs-9">
+                <ul id="cap-fields-list" class="list-unstyled" data-prototype="{ { form_widget(edit_form.capitulos.vars.prototype) | e } }">
+                    {% for capField in edit_form.capitulos %}
+                        <li>
+                            {{ form_errors(capField) }}
+                            {{ form_widget(capField) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a class="btn btn-success btn-sm" href="#" id="add-another-cap"><span class="glyphicon glyphicon-plus-sign"></span> Agregar otro archivo</a>
+            </div>
+        </div>
+
+        <div class="form-group">
+            
+            {{ form_errors(edit_form.published) }}
+            <div class="col-xs-offset-3 col-xs-9">
+                {{ form_widget(edit_form.published) }}{{ form_label(edit_form.published) }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-9">
+                
+            </div>
+        </div>
+ 
+	{{ form_end(edit_form) }}
+
 
         <ul class="record_actions">
     <li>
