@@ -12,13 +12,18 @@
         
         
     </head>
-    <body class="container">
+    <body>
+    {% block menubackend %}
+    
+    {% endblock %}
     <h1>Bienvenido a la Biblioteca de Trabajos Especial de Grado</h1>
-        {% block body %}
-
-        {% endblock %}
+        <div id="body" class="container">
+            {% block body %}
+            {% endblock %}
+        </div>
         {% block javascripts %}
             <script src="{{ asset('js/jquery/2.1.1/jquery.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
         {% endblock %}        
     </body>
 </html>
