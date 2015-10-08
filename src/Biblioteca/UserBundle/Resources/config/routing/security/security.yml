@@ -1,0 +1,12 @@
+#Conjunto de rutas donde se verifican las sesiones del usuario
+biblioteca_user_security_login:
+    path: /login
+    defaults: { _controller: BibliotecaUserBundle:Security\Security:login }
+
+biblioteca_user_security_check:
+    path: /login_check
+    defaults: { _controller: BibliotecaUserBundle:Security\Security:check }
+
+biblioteca_user_security_logout:
+    path: /logout
+    defaults: { _controller: BibliotecaUserBundle:Security\Security:logout }
