@@ -13,10 +13,10 @@
         
     </head>
     <body>
-    {% block menubackend %}
-    {% endblock %}
-    <h1>Bienvenido a la Biblioteca de Trabajos Especial de Grado</h1>
         <div id="body" class="container">
+            {% block menubackend %}
+                {% include 'BibliotecaUserBundle::menu_backend.html.twig' %}
+            {% endblock menubackend%}
             {% block body %}
             {% endblock %}
         </div>

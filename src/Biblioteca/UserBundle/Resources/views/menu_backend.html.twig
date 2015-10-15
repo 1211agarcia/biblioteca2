@@ -1,6 +1,6 @@
-{% extends '::base.html.twig' %}
-{% block menubackend %}
-   <h1>hola</h1> 
+
+
+
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
@@ -65,5 +65,3 @@
     {% else %}
         <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
     {% endif %}
-
-{% endblock %}
