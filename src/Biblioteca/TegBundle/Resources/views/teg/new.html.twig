@@ -10,7 +10,7 @@
 {% endblock %} 
 
 {% block body %}
-    <div ng-app="todoAp">
+    <div ng-app="tegApp" ng-controller="inputTegController as ctrl">
         <h1>Nuevo Trabajo Especial de Grado</h1>
         {{ form_start(form) }}
 
@@ -25,10 +25,8 @@
                         {{ form_widget(Field, { 'attr': {'class': 'form-control', 'ng-model':(Field.vars.id)} }) }}
                     </div>
                 {% endfor %}
-                <h1>[[biblioteca_tegbundle_teg_publicacion_year]]</h1>
-                <h1>[[biblioteca_tegbundle_teg_escuela]]</h1>
+                
     	    </div>
-
     	    <div class="form-group">
                 {{ form_label(form.escuela) }}
                 {{ form_errors(form.escuela) }}
@@ -37,24 +35,20 @@
                 </div>
             </div>
             
-            <div class="form-group" ng-controller="ControladorTareas as ctrl">
+            <div class="form-group" >
+                <input type="number" placeholder="Indice" id="biblioteca_tegbundle_teg_cota_index" required="required" class="form-control" min="1" max="99" ng-model="prueba">
+                
                 {{ form_label(form.cota) }}
                 {{ form_errors(form.cota) }}
-                <ul>
-                <li ng-repeat="tarea in ctrl.tareas">
-                  <input type="checkbox" ng-model="tarea.hecho">
-                  <span >[[tarea.texto]]</span>
-                </li></ul>
+                
                 <div class="col-xs-9">
       				<div class="input-group">
-                    	<span id="cota_escuela" class="input-group-addon">D[Escuela]</span>
-                     	<input type="number" placeholder="Indice" id="biblioteca_tegbundle_teg_cota_index" required="required" class="form-control" min="1" max="99">
-                    	<span id="cota_year" class="input-group-addon">[Año de Publicación]</span>
+                    	<span class="input-group-addon">[[cota_school]]</span>
+                     	<input type="number" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" min="1" max="99">
+                    	<span id="cota_year" class="input-group-addon">[[cota_year]]</span>
                 	</div>
                 </div>
-                <div class="col-xs-6">
-                    {{ form_widget(form.cota, { 'attr': {'style': 'display:none'} }) }}
-                </div>
+                {{ form_widget(form.cota, { 'attr': {'style': 'display:none', 'ng-model':'cota'} }) }}
             </div>
 
     	    <div class="form-group">
@@ -157,7 +151,8 @@
     <script src="{{ asset('js/fileinput.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/fileinput_locale_es.js') }}" type="text/javascript"></script>
 
-    <script src="{{ asset('js/controladorTeg.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/teg.js') }}" type="text/javascript"></script>
     
+    <script src="{{ asset('js/tegController.js') }}" type="text/javascript"></script>
     
 {% endblock %}
