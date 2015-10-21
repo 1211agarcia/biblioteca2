@@ -83,7 +83,7 @@ printf("<pre>");
                 //printf("</pre>");
             //$capitulo->setFile($entity->getCapitulos()[0]);
             //$capitulo->setTeg($entity);
-            
+            /*
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->persist($capitulo);
@@ -91,7 +91,7 @@ printf("<pre>");
             $em->flush();
 
 
-            return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));*/
         }
 
         return array(

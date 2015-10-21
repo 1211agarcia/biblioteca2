@@ -7,6 +7,14 @@ tegApp.config(function($interpolateProvider){
 angular.isUndefinedOrNull = function(val) {
     return angular.isUndefined(val) || val === null 
 }
+angular.isInvalide = function(type,val) {
+    switch(type){
+    	case "school":
+    	
+    		return ["Biología","Computación","Física","Matemática","Química"].indexOf(val) != -1;
+    	break;
+    }
+}
 tegApp.directive('ngEnter', function() {
         return function(scope, element, attrs) {
             element.bind("keydown keypress", function(event) {
@@ -26,11 +34,13 @@ tegApp.directive('ngEnter', function() {
 tegApp.controller('inputTegController', function ($scope) {
 
 	$scope.generar = function(){
+		alert($scope.biblioteca_tegbundle_teg_publicacion_year);
 		$scope.cota_year = angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_publicacion_year)? "'Año de Publicion'" : ("0" + (parseInt($scope.biblioteca_tegbundle_teg_publicacion_year) % 100) ).slice (-2);
-		
-		$scope.cota_school = angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_escuela)? "'Escuela'" : "D"+$scope.biblioteca_tegbundle_teg_escuela.charAt(0);
+		alert($scope.biblioteca_tegbundle_teg_publicacion_year);
+		$scope.cota_school = angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_escuela) || !angular.isInvalide("school",$scope.biblioteca_tegbundle_teg_escuela)? "'Escuela'" : "D"+$scope.biblioteca_tegbundle_teg_escuela.charAt(0);
 
-		$scope.cota = $scope.cota_school +"-"+ $scope.cota_index +"-"+ $scope.cota_year;
+		$scope.cota = $scope.cota_school +"-"+ (angular.isUndefinedOrNull($scope.cota_index)? "'Indice'" : $scope.cota_index ) +"-"+ $scope.cota_year;
+		//alert($scope.cota_index);
 	}
  
 	$scope.$watch($scope.generar);
