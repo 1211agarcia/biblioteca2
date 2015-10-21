@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 
 {% block stylesheets %}
-	{{ parent() }}
+    {{ parent() }}
     <link href="{{ asset('css/bootstrap-switch.min.css') }}" type="text/css" rel="stylesheet" />
     
     <link href="{{ asset('css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
@@ -14,11 +14,11 @@
         <h1>Nuevo Trabajo Especial de Grado</h1>
         {{ form_start(form) }}
 
-        	{{ form_errors(form) }}
+            {{ form_errors(form) }}
      
-    	    <div class="form-group">
-    	        {{ form_label(form.publicacion) }}
-    	        {{ form_errors(form.publicacion) }}
+            <div class="form-group">
+                {{ form_label(form.publicacion) }}
+                {{ form_errors(form.publicacion) }}
                 {% for Field in form.publicacion %}
                     <div class="col-xs-3">
                         {{ form_errors(Field) }}
@@ -26,8 +26,8 @@
                     </div>
                 {% endfor %}
                 
-    	    </div>
-    	    <div class="form-group">
+            </div>
+            <div class="form-group">
                 {{ form_label(form.escuela) }}
                 {{ form_errors(form.escuela) }}
                 <div class="col-xs-9">
@@ -40,39 +40,39 @@
                 {{ form_errors(form.cota) }}
                 
                 <div class="col-xs-9">
-      				<div class="input-group">
-                    	<span class="input-group-addon">[[cota_school]]</span>
-                     	<input type="number" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" min="1" max="99">
-                    	<span id="cota_year" class="input-group-addon">[[cota_year]]</span>
-                	</div>
+                    <div class="input-group">
+                        <span class="input-group-addon">[[cota_school]]</span>
+                        <input type="number" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" min="1" max="99">
+                        <span id="cota_year" class="input-group-addon">[[cota_year]]</span>
+                    </div>
                 </div>
                 {{ form_widget(form.cota, { 'attr': {'style': 'display:none', 'ng-model':'cota'} }) }}
             </div>
 
-    	    <div class="form-group">
+            <div class="form-group">
                 {{ form_label(form.titulo) }}
                 {{ form_errors(form.titulo) }}
                 <div class="col-xs-9">
                     {{ form_widget(form.titulo) }}
                 </div>
             </div>
-    	    
-    	    <div class="form-group">
+            
+            <div class="form-group">
                 {{ form_label(form.autores) }}
                 {{ form_errors(form.autores) }}
                 <div id="form-autor" class="col-xs-9">
 
-        		    <ul id="autor-fields-list" class="list-unstyled" data-prototype="{{ form_widget(form.autores.vars.prototype) | e }}">
-        			    {% for autorField in form.autores %}
-        			        <li>
-        			            {{ form_errors(autorField) }}
-        			            {{ form_widget(autorField) }}
-        			        </li>
-        			    {% endfor %}
-        		    </ul>
+                    <ul id="autor-fields-list" class="list-unstyled" data-prototype="{{ form_widget(form.autores.vars.prototype) | e }}">
+                        {% for autorField in form.autores %}
+                            <li>
+                                {{ form_errors(autorField) }}
+                                {{ form_widget(autorField) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
                     <a class="btn btn-success btn-sm" href="#" id="other-autor"><span class="glyphicon glyphicon-plus-sign"></span> Agregar Autor</a>
                 </div>
-    		</div>
+            </div>
 
             <div class="form-group">
                 {{ form_label(form.resumen) }}
@@ -81,26 +81,16 @@
                     {{ form_widget(form.resumen) }}
                 </div>
             </div>
-    	    
-    	    <div class="form-group" >
+            
+            <div class="form-group" >
                 {{ form_label(form.palabrasClave) }}
                 {{ form_errors(form.palabrasClave) }}
-                {# { form.palabrasClave | join('|') } #}
-
-    		    <div class="col-xs-9">
-                   
-                    <ul id="word-fields-list" class="list-unstyled" data-prototype="{{ form_widget(form.palabrasClave.vars.prototype) | e }}">
-        			    {% for palabraField in form.palabrasClave %}
-        			        <li>
-        			            {{ form_errors(palabraField) }}
-        			            {{ form_widget(palabraField) }}
-                                <div ng-init="add('{{ palabraField.vars.value }}');" >
-                                </div>
-        			        </li>
-        			    {% endfor %}
-                    </ul>                    
-
-                    <div ng-repeat="item in wordkeys track by $index" class="alert alert-warning alert-dismissible" style="display: block;float: left;margin-right: 5px;" role="alert">
+                
+                <div class="col-xs-9" ng-init="
+                {% for i in form.palabrasClave %}
+                    add('{{ i.vars.value}}');
+                {% endfor %}">
+                <div ng-repeat="item in wordkeys track by $index" class="alert alert-warning alert-dismissible" style="display: block;float: left;margin-right: 5px;">
   <button type="button" class="close" ng-click="remove($index)"><span aria-hidden="true">&times;</span></button>
   <input type="text" value="[[item]]:[[$index]]"/>
 </div>
@@ -109,7 +99,7 @@
     </div>
 
                 </div>
-    		</div>
+            </div>
             <div class="form-group">
                 {{ form_label(form.capitulos) }}
                 {{ form_errors(form.capitulos) }}
@@ -140,7 +130,7 @@
                 </div>
             </div>
      
-    	{{ form_end(form) }}
+        {{ form_end(form) }}
 
         <ul class="record_actions">
             <li>

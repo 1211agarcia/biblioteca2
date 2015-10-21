@@ -1,4 +1,5 @@
 var tegApp = angular.module('tegApp', []);
+
 tegApp.config(function($interpolateProvider){
 		            $interpolateProvider.startSymbol('[[').endSymbol(']]');
         });
@@ -36,6 +37,9 @@ tegApp.controller('inputTegController', function ($scope) {
 
 	
 	$scope.wordkeys = [];
+	$scope.authors = [];
+	$scope.tutors = [];
+
     $scope.remove = function(item) {
         $scope.wordkeys.splice(item,1);
     };
@@ -44,5 +48,16 @@ tegApp.controller('inputTegController', function ($scope) {
             $scope.wordkeys.push(item);
         }
         $scope.newWordkey = "";
+    };
+
+    $scope.removeA = function() {
+        $scope.authors.splice(1,1);
+    };
+    $scope.addA = function(item) {
+        if(item != "" && $scope.authors.leag == 1)
+        {
+            $scope.authors.push(item);
+        }
+        //$scope.newWordkey = "";
     };
 });
