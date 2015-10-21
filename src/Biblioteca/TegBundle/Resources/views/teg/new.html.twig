@@ -20,7 +20,7 @@
                 {{ form_label(form.publicacion) }}
                 {{ form_errors(form.publicacion) }}
                 {% for Field in form.publicacion %}
-                    <div class="col-xs-3">
+                    <div class="col-xs-3" ng-init="{{Field.vars.id}}='{{Field.vars.value}}';">
                         {{ form_errors(Field) }}
                         {{ form_widget(Field, { 'attr': {'class': 'form-control', 'ng-model':(Field.vars.id)} }) }}
                     </div>
@@ -30,7 +30,7 @@
             <div class="form-group">
                 {{ form_label(form.escuela) }}
                 {{ form_errors(form.escuela) }}
-                <div class="col-xs-9">
+                <div class="col-xs-9" ng-init="{{form.escuela.vars.id}}='{{form.escuela.vars.value}}';">
                     {{ form_widget(form.escuela, { 'attr': {'ng-model':(form.escuela.vars.id)} }) }}
                 </div>
             </div>
@@ -85,7 +85,7 @@
             <div class="form-group" >
                 {{ form_label(form.palabrasClave) }}
                 {{ form_errors(form.palabrasClave) }}
-                
+
                 <div class="col-xs-9" ng-init="
                 {% for i in form.palabrasClave %}
                     add('{{ i.vars.value}}');
