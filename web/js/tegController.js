@@ -47,7 +47,8 @@ tegApp.controller('inputTegController', function ($scope) {
 
 	
 	$scope.wordkeys = [];
-	$scope.authors = [];
+	$scope.authors = [''];
+	$scope.label_author = "Agregar";
 	$scope.tutors = [];
 
     $scope.remove = function(item) {
@@ -60,14 +61,23 @@ tegApp.controller('inputTegController', function ($scope) {
         $scope.newWordkey = "";
     };
 
-    $scope.removeA = function() {
-        $scope.authors.splice(1,1);
-    };
-    $scope.addA = function(item) {
-        if(item != "" && $scope.authors.leag == 1)
+    $scope.addA = function() {
+        if($scope.authors.length == 1)
         {
-            $scope.authors.push(item);
+            $scope.authors.push('');
+            $scope.label_author ="Quitar";
         }
-        //$scope.newWordkey = "";
+        else
+        {
+        	if($scope.authors.length == 2)
+	        {
+	            $scope.authors.splice(1,1);
+	            $scope.label_author ="Agregar";
+	        }
+	        else
+	        {
+	        	javascript:location.reload();
+	        }
+        }
     };
 });

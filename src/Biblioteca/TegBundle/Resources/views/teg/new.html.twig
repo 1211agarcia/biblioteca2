@@ -62,15 +62,14 @@
                 {{ form_errors(form.autores) }}
                 <div id="form-autor" class="col-xs-9">
 
-                    <ul id="autor-fields-list" class="list-unstyled" data-prototype="{{ form_widget(form.autores.vars.prototype) | e }}">
-                        {% for autorField in form.autores %}
-                            <li>
-                                {{ form_errors(autorField) }}
-                                {{ form_widget(autorField) }}
-                            </li>
-                        {% endfor %}
+                    <ul id="autor-fields-list" class="list-unstyled" ng-init="{% for i in form.autores %}add('{{ i.vars.value}}');{% endfor %}">
+                        <li ng-repeat="item in authors track by $index">
+                                <input class="form-control" type="text" name="[['biblioteca_tegbundle_teg[autores]['+$index+']']]" value="[[item]]:[[$index]]"/>
+                                {# { form_errors(form.autores[]) } #}
+                                {# { form_widget(autorField) } #}
+                        </li>
                     </ul>
-                    <a class="btn btn-success btn-sm" href="#" id="other-autor"><span class="glyphicon glyphicon-plus-sign"></span> Agregar Autor</a>
+                    <a ng-click="addA()" class="btn btn-success btn-sm" href="#" id="add-another-author"><span class="glyphicon glyphicon-plus-sign"></span> [[label_author]] Autor</a>
                 </div>
             </div>
 
