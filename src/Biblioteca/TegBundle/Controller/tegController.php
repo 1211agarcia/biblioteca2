@@ -49,7 +49,7 @@ class tegController extends Controller
         // Se cre el formulario
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-printf("<pre>");
+        printf("<pre>");
                 print_r($entity);
                 printf("</pre>");
         if ($form->isValid()) {

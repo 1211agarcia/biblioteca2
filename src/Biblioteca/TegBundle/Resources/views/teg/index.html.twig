@@ -1,5 +1,9 @@
 {% extends '::base.html.twig' %}
 {% block body -%}
+{% if form is defined %}
+{{ form(form) }}
+{% endif %} 
+
     <h1>teg list</h1>
 
     <table class="records_list">
