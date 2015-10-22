@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Biblioteca\TegBundle\Entity\teg;
 
 class DefaultController extends Controller
 {
@@ -53,13 +54,15 @@ class DefaultController extends Controller
         $form->handleRequest($request);
         
         if ($form->isValid()) {
+            $data = $form->getData();
             
             $em = $this->getDoctrine()->getManager();
 
-	        $entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
+	        $entities = $em->getRepository('BibliotecaTegBundle:teg')->findByEscuela($data['escuela']);
 
 	        return array(
 	            'entities' => $entities,
+	            'form'   => $form->createView(),
 	        );
         }
 
@@ -81,9 +84,39 @@ class DefaultController extends Controller
             ->setAction($this->generateUrl('teg_search'))
             ->setMethod('POST')
             ->add('message', 'text')
-            ->add('desde', 'date')
-            ->add('hasta', 'date')
-            ->add('escuela', 'text')
+            ->add('desde', 'birthday',
+                array(
+                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'attr' => array('class' => 'col-xs-9'),
+                    'widget' => 'choice',
+                    'format' => 'dd-MM-yyyy',
+                    'years' => range(1998, date('Y')),
+                    'empty_value' => 
+                        array('day' => 'Dia', 'month' => 'Mes', 'year' => 'Año'),
+                    'required' => false,
+                )
+            )
+            ->add('hasta', 'birthday',
+                array(
+                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'attr' => array('class' => 'col-xs-9'),
+                    'widget' => 'choice',
+                    'format' => 'dd-MM-yyyy',
+                    'years' => range(1998, date('Y')),
+                    'empty_value' => 
+                        array('day' => 'Dia', 'month' => 'Mes', 'year' => 'Año'),
+					'required' => false,
+                )
+            )
+            ->add('escuela', 'choice',
+                array(
+                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'attr'=> array('class' => 'form-control'),
+                    'empty_value' => 'Seleccionar',
+                    'choices'  => teg::getSchools(),
+                    'required' => false,
+                )
+            )
             ->add('submit', 'submit', array('label' => 'Buscar',
                                              'attr' => array('class' => 'btn btn-primary' )
                                              )
