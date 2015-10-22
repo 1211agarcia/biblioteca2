@@ -34,9 +34,9 @@ tegApp.directive('ngEnter', function() {
 tegApp.controller('inputTegController', function ($scope) {
 
 	$scope.generar = function(){
-		alert($scope.biblioteca_tegbundle_teg_publicacion_year);
+//		alert($scope.biblioteca_tegbundle_teg_publicacion_year);
 		$scope.cota_year = angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_publicacion_year)? "'Año de Publicion'" : ("0" + (parseInt($scope.biblioteca_tegbundle_teg_publicacion_year) % 100) ).slice (-2);
-		alert($scope.biblioteca_tegbundle_teg_publicacion_year);
+		//alert($scope.biblioteca_tegbundle_teg_publicacion_year);
 		$scope.cota_school = angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_escuela) || !angular.isInvalide("school",$scope.biblioteca_tegbundle_teg_escuela)? "'Escuela'" : "D"+$scope.biblioteca_tegbundle_teg_escuela.charAt(0);
 
 		$scope.cota = $scope.cota_school +"-"+ (angular.isUndefinedOrNull($scope.cota_index)? "'Indice'" : $scope.cota_index ) +"-"+ $scope.cota_year;

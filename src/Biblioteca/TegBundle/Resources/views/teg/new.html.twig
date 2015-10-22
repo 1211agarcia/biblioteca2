@@ -15,7 +15,13 @@
         {{ form_start(form) }}
 
             {{ form_errors(form) }}
-     
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#paso1">Paso 1</a></li>
+        <li><a data-toggle="tab" href="#paso2">Paso 2</a></li>
+        <li><a data-toggle="tab" href="#paso3">Paso 3</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="paso1" class="tab-pane fade in active">
             <div class="form-group">
                 {{ form_label(form.publicacion) }}
                 {{ form_errors(form.publicacion) }}
@@ -25,8 +31,8 @@
                         {{ form_widget(Field, { 'attr': {'class': 'form-control', 'ng-model':(Field.vars.id)} }) }}
                     </div>
                 {% endfor %}
-                
             </div>
+
             <div class="form-group">
                 {{ form_label(form.escuela) }}
                 {{ form_errors(form.escuela) }}
@@ -85,37 +91,31 @@
                 {{ form_label(form.palabrasClave) }}
                 {{ form_errors(form.palabrasClave) }}
 
-                <div class="col-xs-9" ng-init="
-                {% for i in form.palabrasClave %}
-                    add('{{ i.vars.value}}');
-                {% endfor %}">
-                <div ng-repeat="item in wordkeys track by $index" class="alert alert-warning alert-dismissible" style="display: block;float: left;margin-right: 5px;">
-  <button type="button" class="close" ng-click="remove($index)"><span aria-hidden="true">&times;</span></button>
-  <input type="text" name="[['biblioteca_tegbundle_teg[palabrasClave]['+$index+']']]" value="[[item]]:[[$index]]"/>
-</div>
-    <div >
- <input ng-model="newWordkey" type="text" ng-enter="add(newWordkey)" value=""></input><a ng-click="add(newWordkey)" class="btn btn-success btn-sm" href="#" id="add-another-word"><span class="glyphicon glyphicon-plus-sign"></span> Agregar palabra clave</a>
-    </div>
-
+                <div class="col-xs-9" ng-init="{% for i in form.palabrasClave %}add('{{ i.vars.value}}');{% endfor %}">
+                    <div ng-repeat="item in wordkeys track by $index" class="alert alert-warning alert-dismissible" style="display: block;float: left;margin-right: 5px;">
+                        <button type="button" class="close" ng-click="remove($index)"><span aria-hidden="true">&times;</span></button>
+                        <input type="text" name="[['biblioteca_tegbundle_teg[palabrasClave]['+$index+']']]" value="[[item]]:[[$index]]"/>
+                    </div>
+                    <div>
+                        <input ng-model="newWordkey" type="text" ng-enter="add(newWordkey)" value=""></input><a ng-click="add(newWordkey)" class="btn btn-success btn-sm" href="#" id="add-another-word"><span class="glyphicon glyphicon-plus-sign"></span> Agregar palabra clave</a>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div id="paso2" class="tab-pane fade">
             <div class="form-group">
                 {{ form_label(form.capitulos) }}
                 {{ form_errors(form.capitulos) }}
                 
-                <div class="col-xs-9">
-                    <ul id="cap-fields-list" class="list-unstyled" data-prototype="{ { form_widget(form.capitulos.vars.prototype) | e } }">
+                <div class="row">
                         {% for capField in form.capitulos %}
-                            <li>
                                 {{ form_errors(capField) }}
-                                {{ form_widget(capField) }}
-                            </li>
+                                {{ form_widget(capField, { 'attr': {'class': 'col-lg-3 col-md-3 col-xs-6', 'ng-model':(capField.vars.id)} }) }}
                         {% endfor %}
-                    </ul>
-                    <a class="btn btn-success btn-sm" href="#" id="add-another-cap"><span class="glyphicon glyphicon-plus-sign"></span> Agregar otro archivo</a>
                 </div>
             </div>
-
+        </div>
+        <div id="paso3" class="tab-pane fade">
             <div class="form-group">
                 
                 {{ form_errors(form.published) }}
@@ -130,6 +130,9 @@
                     {{ form_widget(form.reset) }}
                 </div>
             </div>
+        </div>
+    </div>
+
      
         {{ form_end(form, {'render_rest': false} ) }}
 
@@ -154,5 +157,7 @@
     <script src="{{ asset('js/teg.js') }}" type="text/javascript"></script>
     
     <script src="{{ asset('js/tegController.js') }}" type="text/javascript"></script>
+    
+
     
 {% endblock %}

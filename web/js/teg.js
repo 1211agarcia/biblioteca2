@@ -1,6 +1,6 @@
 $("[name='biblioteca_tegbundle_teg[published]']").bootstrapSwitch();
 	 
-$('#biblioteca_tegbundle_teg_capitulos_0_file').fileinput({
+$('#biblioteca_tegbundle_teg_capitulos_0_file,#biblioteca_tegbundle_teg_capitulos_1_file,#biblioteca_tegbundle_teg_capitulos_2_file,#biblioteca_tegbundle_teg_capitulos_3_file,#biblioteca_tegbundle_teg_capitulos_4_file').fileinput({
     language: 'es',
     uploadUrl: '#',
     allowedFileExtensions : ['pdf'],
