@@ -49,14 +49,16 @@ class tegController extends Controller
         // Se cre el formulario
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
+printf("<pre>");
+                print_r($entity);
+                printf("</pre>");
         if ($form->isValid()) {
             
             //foreach ($entity->getCapitulos() as $key => $value) {
                 # code...
             //}
-printf("<pre>");
-                print_r( $entity);
+            printf("<pre>");
+                print_r($entity);
                 printf("</pre>");
             foreach ($entity->getCapitulos() as $actualCapitulo) {  
                 
@@ -83,7 +85,7 @@ printf("<pre>");
                 //printf("</pre>");
             //$capitulo->setFile($entity->getCapitulos()[0]);
             //$capitulo->setTeg($entity);
-            /*
+            
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->persist($capitulo);
@@ -91,7 +93,7 @@ printf("<pre>");
             $em->flush();
 
 
-            return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));*/
+            return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));
         }
 
         return array(

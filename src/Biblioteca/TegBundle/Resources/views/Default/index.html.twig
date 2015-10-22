@@ -1,1 +1,75 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% block body %}
+{{ form(form) }}
+<table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Cota</th>
+                <th>Publicacion</th>
+                <th>Titulo</th>
+                <th>Palabrasclaves</th>
+                <th>Autores</th>
+                <th>Tutores</th>
+                <th>Resumen</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.cota }}</td>
+                <td>{% if entity.publicacion %}{{ entity.publicacion|date('m-Y') }}{% endif %}</td>
+                <td>{{ entity.titulo }}</td>
+                <td>
+                    <ul>
+                    {% for palabraField in entity.palabrasClave %}
+                        <li>
+                            {{ palabraField }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                    {% for Field in entity.autores %}
+                        <li>
+                            {{ Field }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                    {% for Field in entity.tutores %}
+                        <li>
+                            {{ Field }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>{{ entity.resumen }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('teg_show', { 'id': entity.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('teg_edit', { 'id': entity.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+<img src="{# { asset('img/logo.jpg') } #}">
+
+
+
+
+
+{% endblock %}

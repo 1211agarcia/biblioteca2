@@ -98,6 +98,19 @@ class tegType extends AbstractType
                 )
             )
         ;
+        $builder
+            ->add('tutores', 'collection', array(
+                'label_attr' => array('class' => 'control-label col-xs-3'),
+                'allow_add' => true,
+                'prototype' => true,
+         
+                'options'  => array(
+                    'required'  => false,
+                    'attr'      => array('class' => 'form-control')
+                    ),
+                )
+            )
+        ;
 
         $builder
             ->add('capitulos', 'collection', array(

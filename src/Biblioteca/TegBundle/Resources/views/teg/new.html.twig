@@ -77,6 +77,21 @@
                     <a ng-click="addA()" class="btn btn-success btn-sm" href="#" id="add-another-author"><span class="glyphicon glyphicon-plus-sign"></span> [[label_author]] Autor</a>
                 </div>
             </div>
+            <div class="form-group">
+                {{ form_label(form.tutores) }}
+                {{ form_errors(form.tutores) }}
+                <div id="form-autor" class="col-xs-9">
+
+                    <ul id="autor-fields-list" class="list-unstyled" ng-init="{% for i in form.tutores %}add('{{ i.vars.value}}');{% endfor %}">
+                        <li ng-repeat="item in tuthors track by $index">
+                                <input class="form-control" type="text" name="[['biblioteca_tegbundle_teg[tutores]['+$index+']']]" value="[[item]]:[[$index]]"/>
+                                {# { form_errors(form.tutores[]) } #}
+                                {# { form_widget(autorField) } #}
+                        </li>
+                    </ul>
+                    <a ng-click="addT()" class="btn btn-success btn-sm" href="#" id="add-another-author"><span class="glyphicon glyphicon-plus-sign"></span> [[label_tuthor]] Tutor</a>
+                </div>
+            </div>
 
             <div class="form-group">
                 {{ form_label(form.resumen) }}
@@ -132,7 +147,7 @@
         </div>
     </div>
 
-     
+        {{form_rest(form)}}
         {{ form_end(form, {'render_rest': false} ) }}
 
         <ul class="record_actions">
