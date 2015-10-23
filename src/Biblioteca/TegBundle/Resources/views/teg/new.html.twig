@@ -146,9 +146,9 @@
             </div>
         </div>
     </div>
-
-        {{form_rest(form)}}
-        {{ form_end(form, {'render_rest': false} ) }}
+      
+    {{ form_widget(form._token) }}
+    {{ form_end(form, {'render_rest': false} ) }}
 
         <ul class="record_actions">
             <li>
