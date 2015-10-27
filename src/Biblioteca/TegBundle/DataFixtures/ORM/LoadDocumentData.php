@@ -28,7 +28,7 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
         $TEGS = $manager->getRepository('BibliotecaTegBundle:teg')->findAll();
         foreach ($TEGS as $teg) {           
             
-            for ($i=1; $i <= 5 ; $i++) { 
+            for ($i=1; $i <= 3 ; $i++) { 
             
                 $document = new Document();
                 $document->setName('name_capitulo'.$i.'_'.$teg->getCota());

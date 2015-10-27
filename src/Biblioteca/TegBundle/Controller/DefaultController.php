@@ -56,20 +56,34 @@ class DefaultController extends Controller
         if ($form->isValid()) {
             $data = $form->getData();
             
-            $em = $this->getDoctrine()->getManager();
+            /*$em = $this->getDoctrine()->getManager();
 
 	        $entities = $em->getRepository('BibliotecaTegBundle:teg')->findByEscuela($data['escuela']);
+*/          
+            $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
 
-	        return array(
-	            'entities' => $entities,
-	            'form'   => $form->createView(),
-	        );
+            $query = $repository->createQueryBuilder('t')
+            ->where('t.published = 1')
+            ->andWhere('t.escuela = ?1 AND t.publicacion < ?2')
+            ->orderBy('t.publicacion', 'DESC')
+            //->setMaxResults(3)
+            ->setParameter(1, $data['escuela'])
+            ->setParameter(2, $data['hasta'])
+            ->getQuery();
+    
+            $entities = $query->getResult();
+
+            $form = $this->searchCreateForm();
+
+            return array(
+                'form' => $form->createView(),
+                'entities' => $entities);
+        
         }
 
         return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+            'form' => $form->createView(),
+            'entities' => $entities);
     }
 
     /**
@@ -79,11 +93,15 @@ class DefaultController extends Controller
      */
     private function searchCreateForm()
     {
-		$defaultSearch = array('message' => 'Type your message here');
+		$defaultSearch = array('busqueda' => 'Type your message here');
     	return $this->createFormBuilder($defaultSearch)
             ->setAction($this->generateUrl('teg_search'))
             ->setMethod('POST')
-            ->add('message', 'text')
+            ->add('busqueda', 'text')
+            ->add('tipo', 'checkbox', array('label' => '¿Fresa Exacta?',
+                                             'attr' => array('class' => 'btn btn-primary' )
+                                             )
+            )
             ->add('desde', 'birthday',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
@@ -108,6 +126,7 @@ class DefaultController extends Controller
 					'required' => false,
                 )
             )
+
             ->add('escuela', 'choice',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
@@ -116,6 +135,10 @@ class DefaultController extends Controller
                     'choices'  => teg::getSchools(),
                     'required' => false,
                 )
+            )
+            ->add('operador', 'checkbox', array('label' => '¿Que Cumpla con todo?',
+                                             'attr' => array('class' => 'btn btn-primary' )
+                                             )
             )
             ->add('submit', 'submit', array('label' => 'Buscar',
                                              'attr' => array('class' => 'btn btn-primary' )
