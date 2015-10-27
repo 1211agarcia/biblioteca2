@@ -138,7 +138,7 @@ class teg
         $this->autores = new ArrayCollection(array(''));
         $this->tutores = new ArrayCollection(array(''));
         $this->palabrasClave = new ArrayCollection(array('','',''));
-        $this->capitulos = new ArrayCollection(array(new documento()));
+        $this->capitulos = new ArrayCollection();
         $this->published = true;
     }
 

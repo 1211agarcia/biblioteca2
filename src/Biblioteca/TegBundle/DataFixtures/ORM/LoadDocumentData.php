@@ -35,7 +35,9 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
                 $document->setPath($teg->getEscuela().'/'.$teg->getCota().'/capitulo'.$i.".pdf");
                 
                 $document->setTeg($teg);
+                $teg->addCapitulo($document);
 
+                $manager->persist($teg);
                 $manager->persist($document);
                 $manager->flush();
             }
@@ -48,6 +50,6 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
     */
     public function getOrder()
     {
-        return 1;
+        return 10;
     }
 }
