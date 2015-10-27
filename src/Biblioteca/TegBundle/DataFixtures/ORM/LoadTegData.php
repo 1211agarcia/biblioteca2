@@ -5,6 +5,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Biblioteca\TegBundle\Entity\teg as Teg;
+use Biblioteca\TegBundle\Entity\documento as Document;
 
 /**
  * Clase LoadTegData "DataFixtures".
@@ -35,19 +36,18 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
                 $teg->setPublicacion(new \DateTime());
                 $teg->setEscuela($escuela);
 
-                $teg->setCota("D".$escuela[0]."-".($i+1)."-00");
+                $teg->setCota("D".$escuela[0].($i+1)."/00");
                 $teg->setTitulo("Titulo-".$i);
-                //$teg->setCreated(new \DateTime());
-                //$teg->setUpdated(new \DateTime());
-                
+
                 $teg->setResumen("Resumen-".$i);
                 $teg->setPalabrasClave(array('Palabra-$i-1', 'Palabra-$i-2','Palabra-$i-3'));
                 $teg->setAutores(array('Autor-$i-1', 'Autor-$i-2'));
                 $teg->setTutores(array('Tutor-$i-1', 'Tutor-$i-2'));
-                //$teg->removeAllCapitulos();
                 
                 $manager->persist($teg);
+
                 $manager->flush();
+            
             }
         }
     }

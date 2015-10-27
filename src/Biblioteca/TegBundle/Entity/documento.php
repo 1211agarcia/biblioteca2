@@ -41,7 +41,7 @@ class documento
      * @ORM\Column(type="string", length=50)
      * @Assert\NotBlank(message="Por favor, ingrese el nombre del Documento.")
      */
-    private $name="Todo el Tomo";
+    private $name;
 
     /**
      * @var UploadedFile

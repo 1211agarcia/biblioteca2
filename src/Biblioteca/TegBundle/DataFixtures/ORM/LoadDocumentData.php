@@ -25,20 +25,20 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
     */
     public function load(ObjectManager $manager)
     {
-        
-        for ($i=1; $i < 18 ; $i++) { 
+        $TEGS = $manager->getRepository('BibliotecaTegBundle:teg')->findAll();
+        foreach ($TEGS as $teg) {           
             
-            $document = new Document();
-            $teg = $manager->getRepository('BibliotecaTegBundle:teg')->find($i);
+            for ($i=1; $i <= 5 ; $i++) { 
             
-            $document->setTeg($teg);
+                $document = new Document();
+                $document->setName('name_capitulo'.$i.'_'.$teg->getCota());
+                $document->setPath($teg->getEscuela().'/'.$teg->getCota().'/capitulo'.$i.".pdf");
+                
+                $document->setTeg($teg);
 
-            $document->setName('Todo el tomo'.$i);
-            $document->setPath($i.".pdf");
-
-            $manager->persist($document);
-            $manager->flush();
-            
+                $manager->persist($document);
+                $manager->flush();
+            }
         }
     }
     
@@ -48,6 +48,6 @@ class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterfac
     */
     public function getOrder()
     {
-        return 3;
+        return 1;
     }
 }
