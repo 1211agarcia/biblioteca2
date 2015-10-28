@@ -43,7 +43,7 @@ class DefaultController extends Controller
      * Creates a new teg entity.
      *
      * @Route("/search", name="teg_search")
-     * @Method("POST")
+     * @Method("GET")
      * @Template("BibliotecaTegBundle:teg:index.html.twig")
      */
     public function searchAction(Request $request)
@@ -56,34 +56,75 @@ class DefaultController extends Controller
         if ($form->isValid()) {
             $data = $form->getData();
             
-            /*$em = $this->getDoctrine()->getManager();
-
-	        $entities = $em->getRepository('BibliotecaTegBundle:teg')->findByEscuela($data['escuela']);
-*/          
             $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
 
-            $query = $repository->createQueryBuilder('t')
-            ->where('t.published = 1')
-            ->andWhere('t.escuela = ?1 AND t.publicacion < ?2')
-            ->orderBy('t.publicacion', 'DESC')
-            //->setMaxResults(3)
-            ->setParameter(1, $data['escuela'])
-            ->setParameter(2, $data['hasta'])
-            ->getQuery();
-    
-            $entities = $query->getResult();
+            $qb = $repository->createQueryBuilder('t');
+            
+            if (isset($data['q'])) {
+                $exprQ = $qb->expr()->orX(
+                    //$qb->expr()->like('t.cota', "'%".$data['q']."%'"),
+                    //$qb->expr()->like('t.escuela', "'%".$data['q']."%'"),
+                    //$qb->expr()->like('t.titulo', "'%".$data['q']."%'"),
+                    //$qb->expr()->like('t.resumen', "'%".$data['q']."%'")
+                    //$qb->expr()->like('t.palabrasClave', "'%".$data['q']."%'"),
+                    //$qb->expr()->like('t.autores', "'%".$data['q']."%'"),
+                    //$qb->expr()->like('t.tutores', "'%".$data['q']."%'")
+                );
+            }
+            else
+            {
+                //$exprEscuela = $qb->expr()->isNotNull('t.escuela');
+            }
 
-            $form = $this->searchCreateForm();
+            //Si se filtra por Escuela se 
+            if (isset($data['escuela'])){
+                $exprEscuela = $qb->expr()->eq('t.escuela', "'".$data['escuela']."'");}
+            else{$exprEscuela = $qb->expr()->isNotNull('t.escuela');}
+
+            if (isset($data['desde'])) {
+                $desde = $data['desde']->format('Y-m-d');
+            }else{$desde = 't.publicacion';}
+            if (isset($data['hasta'])) {
+                $hasta = $data['hasta']->format('Y-m-d');
+            }else{$hasta = 't.publicacion';}
+
+            $exprInteval = $qb->expr()->between('t.publicacion', "'".$desde."'", "'".$hasta."'");
+
+            if($data['operador'])
+            {
+                $condiciones = $qb->expr()->andX(
+                        $exprEscuela,
+                        $exprInteval//, $exprQ
+                );
+            }
+            else
+            {
+                $condiciones = $qb->expr()->orX(
+                        $exprEscuela,
+                        $exprInteval//, $exprQ
+                );
+            }
+            
+            $qb->where($qb->expr()->andX(
+                $qb->expr()->eq('t.published', '1'),
+                $condiciones
+                )
+            )
+            ->orderBy('t.publicacion', 'DESC');
+
+            $query = $qb->getQuery();
+            $entities = $query->getResult();
 
             return array(
                 'form' => $form->createView(),
                 'entities' => $entities);
         
         }
+        else
+            return $this->redirectToRoute('home', array(), 301);
 
         return array(
-            'form' => $form->createView(),
-            'entities' => $entities);
+            'form' => $form->createView());
     }
 
     /**
@@ -93,14 +134,18 @@ class DefaultController extends Controller
      */
     private function searchCreateForm()
     {
-		$defaultSearch = array('busqueda' => 'Type your message here');
+		$defaultSearch = array();
     	return $this->createFormBuilder($defaultSearch)
             ->setAction($this->generateUrl('teg_search'))
-            ->setMethod('POST')
-            ->add('busqueda', 'text')
-            ->add('tipo', 'checkbox', array('label' => '¿Fresa Exacta?',
-                                             'attr' => array('class' => 'btn btn-primary' )
-                                             )
+            ->setMethod('GET')
+            ->add('q', 'text')
+            ->add('tipo', 'checkbox',
+                array(
+                    'label' => '¿Fresa Exacta?',
+                    'attr' => array('class' => 'btn btn-primary' ),
+                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'required' => false,
+                )
             )
             ->add('desde', 'birthday',
                 array(
@@ -131,14 +176,18 @@ class DefaultController extends Controller
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
                     'attr'=> array('class' => 'form-control'),
-                    'empty_value' => 'Seleccionar',
+                    'empty_value' => 'Todas',
                     'choices'  => teg::getSchools(),
                     'required' => false,
                 )
             )
-            ->add('operador', 'checkbox', array('label' => '¿Que Cumpla con todo?',
-                                             'attr' => array('class' => 'btn btn-primary' )
-                                             )
+            ->add('operador', 'checkbox',
+                array(
+                    'label' => '¿Que Cumpla con todo?',
+                    'attr' => array('class' => 'btn btn-primary' ),
+                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'required' => false,
+                )
             )
             ->add('submit', 'submit', array('label' => 'Buscar',
                                              'attr' => array('class' => 'btn btn-primary' )
