@@ -62,13 +62,12 @@ class DefaultController extends Controller
             
             if (isset($data['q'])) {
                 $exprQ = $qb->expr()->orX(
-                    //$qb->expr()->like('t.cota', "'%".$data['q']."%'"),
-                    //$qb->expr()->like('t.escuela', "'%".$data['q']."%'"),
-                    //$qb->expr()->like('t.titulo', "'%".$data['q']."%'"),
-                    //$qb->expr()->like('t.resumen', "'%".$data['q']."%'")
-                    //$qb->expr()->like('t.palabrasClave', "'%".$data['q']."%'"),
-                    //$qb->expr()->like('t.autores', "'%".$data['q']."%'"),
-                    //$qb->expr()->like('t.tutores', "'%".$data['q']."%'")
+                    $qb->expr()->like('t.cota', "'%".$data['q']."%'"),
+                    $qb->expr()->like('t.titulo', "'%".$data['q']."%'"),
+                    $qb->expr()->like('t.resumen', "'%".$data['q']."%'"),
+                    $qb->expr()->like('t.palabrasClave', "'%".$data['q']."%'"),
+                    $qb->expr()->like('t.autores', "'%".$data['q']."%'"),
+                    $qb->expr()->like('t.tutores', "'%".$data['q']."%'")
                 );
             }
             else
@@ -81,29 +80,26 @@ class DefaultController extends Controller
                 $exprEscuela = $qb->expr()->eq('t.escuela', "'".$data['escuela']."'");}
             else{$exprEscuela = $qb->expr()->isNotNull('t.escuela');}
 
-            if (isset($data['desde'])) {
-                $desde = $data['desde']->format('Y-m-d');
-            }else{$desde = 't.publicacion';}
-            if (isset($data['hasta'])) {
-                $hasta = $data['hasta']->format('Y-m-d');
-            }else{$hasta = 't.publicacion';}
-
-            $exprInteval = $qb->expr()->between('t.publicacion', "'".$desde."'", "'".$hasta."'");
-
-            if($data['operador'])
-            {
-                $condiciones = $qb->expr()->andX(
-                        $exprEscuela,
-                        $exprInteval//, $exprQ
-                );
+            
+            //Si rangos de fechas es ignorado
+            if (!isset($data['desde']) && !isset($data['hasta'])){
+                $exprInteval= $qb->expr()->isNotNull('t.publicacion');}
+            else{
+                //Si ingreso rango inferior
+                if (isset($data['desde'])) {
+                    $desde = "'".$data['desde']."-1-1'";
+                }else{$desde = 't.publicacion';}
+                //Si ingreso rango superior
+                if (isset($data['hasta'])) {
+                    $hasta = "'".$data['hasta']."-12-31'";
+                }else{$hasta = 't.publicacion';}
+                $exprInteval = $qb->expr()->between('t.publicacion', $desde, $hasta);
             }
-            else
-            {
-                $condiciones = $qb->expr()->orX(
+
+            $condiciones = $qb->expr()->andX(
                         $exprEscuela,
-                        $exprInteval//, $exprQ
-                );
-            }
+                        $exprInteval, $exprQ
+            );
             
             $qb->where($qb->expr()->andX(
                 $qb->expr()->eq('t.published', '1'),
@@ -139,56 +135,33 @@ class DefaultController extends Controller
             ->setAction($this->generateUrl('teg_search'))
             ->setMethod('GET')
             ->add('q', 'text')
-            ->add('tipo', 'checkbox',
+            ->add('desde', 'choice',
                 array(
-                    'label' => '¿Fresa Exacta?',
-                    'attr' => array('class' => 'btn btn-primary' ),
-                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'label_attr' => array('class' => 'control-label col-xs-2'),
+                    'attr' => array('class' => 'col-xs-2'),
+                    'choices' => range(1998, date('Y')),
                     'required' => false,
                 )
             )
-            ->add('desde', 'birthday',
+            ->add('hasta', 'choice',
                 array(
-                    'label_attr' => array('class' => 'control-label col-xs-3'),
-                    'attr' => array('class' => 'col-xs-9'),
-                    'widget' => 'choice',
-                    'format' => 'dd-MM-yyyy',
-                    'years' => range(1998, date('Y')),
-                    'empty_value' => 
-                        array('day' => 'Dia', 'month' => 'Mes', 'year' => 'Año'),
+                    'label_attr' => array('class' => 'control-label col-xs-2'),
+                    'attr' => array('class' => 'col-xs-2'),
+                    'choices' => range(1998, date('Y')),
                     'required' => false,
-                )
-            )
-            ->add('hasta', 'birthday',
-                array(
-                    'label_attr' => array('class' => 'control-label col-xs-3'),
-                    'attr' => array('class' => 'col-xs-9'),
-                    'widget' => 'choice',
-                    'format' => 'dd-MM-yyyy',
-                    'years' => range(1998, date('Y')),
-                    'empty_value' => 
-                        array('day' => 'Dia', 'month' => 'Mes', 'year' => 'Año'),
-					'required' => false,
                 )
             )
 
             ->add('escuela', 'choice',
                 array(
-                    'label_attr' => array('class' => 'control-label col-xs-3'),
-                    'attr'=> array('class' => 'form-control'),
+                    'label_attr' => array('class' => 'control-label col-xs-2'),
+                    'attr'=> array('class' => 'col-xs-2'),
                     'empty_value' => 'Todas',
                     'choices'  => teg::getSchools(),
                     'required' => false,
                 )
             )
-            ->add('operador', 'checkbox',
-                array(
-                    'label' => '¿Que Cumpla con todo?',
-                    'attr' => array('class' => 'btn btn-primary' ),
-                    'label_attr' => array('class' => 'control-label col-xs-3'),
-                    'required' => false,
-                )
-            )
+
             ->add('submit', 'submit', array('label' => 'Buscar',
                                              'attr' => array('class' => 'btn btn-primary' )
                                              )
