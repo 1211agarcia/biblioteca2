@@ -46,50 +46,29 @@ class tegController extends Controller
     public function createAction(Request $request)
     {
         $entity = new teg();
-        // Se cre el formulario
+        // Se crea el formulario
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-        printf("<pre>");
-                print_r($entity);
-                printf("</pre>");
+
         if ($form->isValid()) {
-            
-            //foreach ($entity->getCapitulos() as $key => $value) {
-                # code...
-            //}
-            printf("<pre>");
-                print_r($entity);
-                printf("</pre>");
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entity);
+
             foreach ($entity->getCapitulos() as $actualCapitulo) {  
                 
                 $capitulo = new documento();
 
                 $capitulo = $actualCapitulo;
 
-                //$capitulo->setFile($actualCapitulo);
-
                 $capitulo->setTeg($entity);
 
                 $entity->addCapitulo($capitulo);
 
-                $em = $this->getDoctrine()->getManager();
-
-                $em->persist($entity);
+//                $em->persist($entity);
 
                 $em->persist($capitulo);
             }
-
-            //$capitulo = new documento();
-                //printf("<pre>");
-                //print_r( $entity->getCapitulos()[0] );
-                //printf("</pre>");
-            //$capitulo->setFile($entity->getCapitulos()[0]);
-            //$capitulo->setTeg($entity);
             
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->persist($capitulo);
-
             $em->flush();
 
 
