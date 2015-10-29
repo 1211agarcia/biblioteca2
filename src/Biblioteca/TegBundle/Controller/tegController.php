@@ -145,11 +145,11 @@ class tegController extends Controller
             throw $this->createNotFoundException('Unable to find teg entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $publishForm = $this->createPublishForm($id);
 
         return array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
+            'publish_form' => $publishForm->createView(),
         );
     }
 
@@ -162,7 +162,7 @@ class tegController extends Controller
      */
     public function editAction($id)
     {
-        echo '<script type="text/javascript">alert(3);</script>';
+        echo '<script type="text/javascript">alert("editAction");</script>';
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
@@ -172,12 +172,12 @@ class tegController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
+        $publishForm = $this->createPublishForm($id);
 
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'publish_form' => $publishForm->createView(),
         );
     }
 
@@ -190,7 +190,7 @@ class tegController extends Controller
     */
     private function createEditForm(teg $entity)
     {
-        echo '<script type="text/javascript">alert(44444444444444);</script>';
+        echo '<script type="text/javascript">alert("createEditForm");</script>';
   
         $form = $this->createForm(new tegType(), $entity, array(
             'action' => $this->generateUrl('teg_update', array('id' => $entity->getId())),
@@ -216,7 +216,7 @@ class tegController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        echo '<script type="text/javascript">alert(123456789);</script>';
+        echo '<script type="text/javascript">alert("updateAction");</script>';
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
@@ -225,7 +225,7 @@ class tegController extends Controller
             throw $this->createNotFoundException('Unable to find teg entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
+        $publishForm = $this->createPublishForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
@@ -238,38 +238,43 @@ class tegController extends Controller
         return array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'publish_form' => $publishForm->createView(),
         );
     }
     /**
      * Deletes a teg entity.
      *
-     * @Route("/{id}", name="teg_delete")
-     * @Method("PUT")
+     * @Route("/{id}", name="teg_publish")
+     * @Method("POST")
      * @Template("BibliotecaTegBundle:teg:show.html.twig")
      */
-    public function deleteAction(Request $request, $id)
+    public function publishAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
+        $form = $this->createPublishForm($id);
         $form->handleRequest($request);
 
-        if ($form->isValid() && $entity->getPublished() && !$form->getData()['published']) {
+        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find teg entity.');
             }
-            $entity->setPublished($form->getData()['published']);
+            //Si el valor existente es diferente al entrante se hace la accion
+            if ($entity->getPublished() && !$form->getData()['published']) {
+                $entity->setPublished($form->getData()['published']);
+                $em->persist($entity);
+                $em->flush();
+                //Se actualiza el formulario
+                $form = $this->createPublishForm($id);
+            }
             
-            $em->persist($entity);
-            $em->flush();
         }
-        echo '<script type="text/javascript">alert(2);</script>';
+        echo '<script type="text/javascript">alert("publishAction");</script>';
 
         return array(
             'entity'      => $entity,
-            'delete_form' => $form->createView(),
+            'publish_form' => $form->createView(),
         );
     }
 
@@ -280,20 +285,13 @@ class tegController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createDeleteForm($id)
+    private function createPublishForm($id)
     {
-        /*return $this->createFormBuilder()
-            ->setAction($this->generateUrl('teg_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;*/
-        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
         $form = $this->createFormBuilder()
-            ->setAction($this->generateUrl('teg_delete', array('id' => $id)))
-            ->setMethod('PUT')
+            ->setAction($this->generateUrl('teg_publish', array('id' => $id)))
+            ->setMethod('POST')
             ->add('published', 'checkbox',
                 array(
                     'label'    => '¿Publicado?',
@@ -305,10 +303,10 @@ class tegController extends Controller
             ->add('submit', 'submit', array('label' => 'Guardar Cambios'))
             ->getForm()
         ;
-        printf("<pre>");
+        //printf("<pre>");
         //print_r($form);
-        printf("</pre>");
-        echo '<script type="text/javascript">alert(1);</script>';
+        //printf("</pre>");
+        echo '<script type="text/javascript">alert("createPublishForm");</script>';
         return $form;
     }
 }
