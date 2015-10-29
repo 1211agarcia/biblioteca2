@@ -1,55 +1,61 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>teg</h1>
+{% block body %}
+    
+    <div class="form-horizontal col-md-9 col-xs-12">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <div>
+                <a class="btn btn-warning" href="{{ path('teg_edit', { 'id': entity.id }) }}">
+                Edit
+                </a>
+                {{ form(delete_form) }} 
+            </div>
+        {% endif %}
+        <h4>{{ entity.titulo }}</h4>
+        <div>
+            <a href="{{ path('teg') }}">
+            Back to the list</a>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">cota</label> 
+            <div class="col-xs-9">
+                <p class="form-control-static">    {{ entity.cota}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">Palabras Clave</label> 
+            <div class="col-xs-9">
+                <p class="form-control-static">    {% for iField in entity.palabrasclave %} {{ iField }}, {% endfor %}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">Fechas de Publicación</label> 
+            <div class="col-xs-9">
+                <p class="form-control-static">    {{ entity.publicacion|date('d-m-Y') }}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">Resumen</label> 
+            <div class="col-xs-9">
+                <p class="form-control-static">    {{ entity.resumen}}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">Autor(es)</label> 
+            <div class="col-xs-9">
+                <p class="form-control-static">    {% for iField in entity.autores %} {{ iField }}, {% endfor %}</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">Tutor(es)</label> 
+            <div class="col-xs-9">
+                <p class="form-control-static">    {% for iField in entity.tutores %} {{ iField }}, {% endfor %}</p>
+            </div>
+        </div>
+    </div>
+    
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Cota</th>
-                <td>{{ entity.cota }}</td>
-            </tr>
-            <tr>
-                <th>Publicacion</th>
-                <td>{{ entity.publicacion|date('d-m-Y') }}</td>
-            </tr>
-            <tr>
-                <th>Titulo</th>
-                <td>{{ entity.titulo }}</td>
-            </tr>
-            <tr>
-                <th>Palabrasclaves</th>
-                <td>
-                    <ul id="palabras-fields-list">
-                        {% for iField in entity.palabrasClave %}
-                        <li>
-                            {{ iField }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <th>Resumen</th>
-                <td>{{ entity.resumen }}</td>
-            </tr>
-            <tr>
-                <th>Autor(es)</th>
-                <td>
-                    <ul id="autor-fields-list" >
-                        {% for iField in entity.autores %}
-                            <li>
-                                {{ iField }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-            <tr>
+            
                 <th>Capitulos</th>
                 
                 <td>{# 
@@ -62,23 +68,4 @@
                         {% endfor %}
                     </ul> #}
                 </td>
-            </tr>
-
-            
-        </tbody>
-    </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('teg') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('teg_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
 {% endblock %}

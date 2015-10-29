@@ -21,38 +21,6 @@
     </ul>
     <div class="tab-content">
         <div id="paso1" class="tab-pane fade in active">
-            <div class="form-group">
-                {{ form_label(form.publicacion) }}
-                {{ form_errors(form.publicacion) }}
-                {% for Field in form.publicacion %}
-                    <div class="col-xs-3" ng-init="{{Field.vars.id}}=parseInt('{{Field.vars.value}}');">
-                        {{ form_errors(Field) }}
-                        {{ form_widget(Field, { 'attr': {'class': 'form-control', 'ng-model':(Field.vars.id)} }) }}
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div class="form-group">
-                {{ form_label(form.escuela) }}
-                {{ form_errors(form.escuela) }}
-                <div class="col-xs-9" ng-init="{{form.escuela.vars.id}}='{{form.escuela.vars.value}}';">
-                    {{ form_widget(form.escuela, { 'attr': {'ng-model':(form.escuela.vars.id)} }) }}
-                </div>
-            </div>
-            
-            <div class="form-group" >
-                {{ form_label(form.cota) }}
-                {{ form_errors(form.cota) }}
-                
-                <div class="col-xs-9">
-                    <div class="input-group">
-                        <span class="input-group-addon">[[cota_school]]</span>
-                        <input type="number" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" min="1" max="99">
-                        <span id="cota_year" class="input-group-addon">[[cota_year]]</span>
-                    </div>
-                </div>
-                {{ form_widget(form.cota, { 'attr': {'style': 'display:none', 'ng-model':'cota'} }) }}
-            </div>
 
             <div class="form-group">
                 {{ form_label(form.titulo) }}
@@ -61,7 +29,7 @@
                     {{ form_widget(form.titulo) }}
                 </div>
             </div>
-            
+
             <div class="form-group">
                 {{ form_label(form.autores) }}
                 {{ form_errors(form.autores) }}
@@ -114,6 +82,38 @@
                         <input ng-model="newWordkey" type="text" ng-enter="add(newWordkey)" value=""></input><a ng-click="add(newWordkey)" class="btn btn-success btn-sm" href="#" id="add-another-word"><span class="glyphicon glyphicon-plus-sign"></span> Agregar palabra clave</a>
                     </div>
                 </div>
+            </div>
+            <div class="form-group">
+                {{ form_label(form.publicacion) }}
+                {{ form_errors(form.publicacion) }}
+                {% for Field in form.publicacion %}
+                    <div class="col-xs-3" ng-init="{{Field.vars.id}}=parseInt('{{Field.vars.value}}');">
+                        {{ form_errors(Field) }}
+                        {{ form_widget(Field, { 'attr': {'class': 'form-control', 'ng-model':(Field.vars.id)} }) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.escuela) }}
+                {{ form_errors(form.escuela) }}
+                <div class="col-xs-9" ng-init="{{form.escuela.vars.id}}='{{form.escuela.vars.value}}';">
+                    {{ form_widget(form.escuela, { 'attr': {'ng-model':(form.escuela.vars.id)} }) }}
+                </div>
+            </div>
+            
+            <div class="form-group" >
+                {{ form_label(form.cota) }}
+                {{ form_errors(form.cota) }}
+                
+                <div class="col-xs-9">
+                    <div class="input-group">
+                        <span class="input-group-addon">[[cota_school]]</span>
+                        <input type="number" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" min="1" max="99">
+                        <span id="cota_year" class="input-group-addon">[[cota_year]]</span>
+                    </div>
+                </div>
+                {{ form_widget(form.cota, { 'attr': {'style': 'display:none', 'ng-model':'cota'} }) }}
             </div>
         </div>
         <div id="paso2" class="tab-pane fade">
