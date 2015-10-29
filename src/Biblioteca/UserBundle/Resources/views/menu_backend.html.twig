@@ -1,4 +1,4 @@
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -11,8 +11,9 @@
                 <a class="navbar-brand" href="{{ path('home') }}">LOGO</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <ul class="nav navbar-nav">
-                    {% if app.user.roles[0]=="ROLE_ADMIN" %}
+                    {% if app.user.roles[0]=="ROLE_SUPER_ADMIN" %}
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
                             <ul class="dropdown-menu">
@@ -23,6 +24,7 @@
                             </ul>
                         </li>
                     {% endif %}
+                    {% if app.user.roles[0]=="ROLE_ADMIN" %}
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teg <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -31,6 +33,7 @@
                             <li><a href="#">Listar TEGs</a></li>
                         </ul>
                     </li>
+                    {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -56,9 +59,14 @@
                         </ul>
                     </li>
                 </ul>
+            {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="{{ path('fos_user_security_login') }}" class="dropdown-toggle" >
+                        {{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                </ul>
+            {% endif %}
             </div>
         </div>
     </nav>
-{% else %}
-    <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-{% endif %}
