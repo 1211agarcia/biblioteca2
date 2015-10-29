@@ -64,7 +64,7 @@ class tegController extends Controller
 
                 $entity->addCapitulo($capitulo);
 
-//                $em->persist($entity);
+              //  $em->persist($entity);
 
                 $em->persist($capitulo);
             }
@@ -162,6 +162,7 @@ class tegController extends Controller
      */
     public function editAction($id)
     {
+        echo '<script type="text/javascript">alert(3);</script>';
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
@@ -189,6 +190,7 @@ class tegController extends Controller
     */
     private function createEditForm(teg $entity)
     {
+        echo '<script type="text/javascript">alert(44444444444444);</script>';
   
         $form = $this->createForm(new tegType(), $entity, array(
             'action' => $this->generateUrl('teg_update', array('id' => $entity->getId())),
@@ -214,6 +216,7 @@ class tegController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        echo '<script type="text/javascript">alert(123456789);</script>';
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
@@ -242,30 +245,36 @@ class tegController extends Controller
      * Deletes a teg entity.
      *
      * @Route("/{id}", name="teg_delete")
-     * @Method("DELETE")
+     * @Method("PUT")
+     * @Template("BibliotecaTegBundle:teg:show.html.twig")
      */
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isValid() && $entity->getPublished() && !$form->getData()['published']) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find teg entity.');
             }
-
-            $em->remove($entity);
+            $entity->setPublished($form->getData()['published']);
+            
+            $em->persist($entity);
             $em->flush();
         }
+        echo '<script type="text/javascript">alert(2);</script>';
 
-        return $this->redirect($this->generateUrl('teg'));
+        return array(
+            'entity'      => $entity,
+            'delete_form' => $form->createView(),
+        );
     }
 
     /**
-     * Creates a form to delete a teg entity by id.
+     * Creates a form to "publicar" a teg entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -273,11 +282,33 @@ class tegController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder()
+        /*return $this->createFormBuilder()
             ->setAction($this->generateUrl('teg_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
+        ;*/
+        
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('teg_delete', array('id' => $id)))
+            ->setMethod('PUT')
+            ->add('published', 'checkbox',
+                array(
+                    'label'    => '¿Publicado?',
+                    'label_attr' => array('class' => 'control-label col-xs-3') ,
+                    'attr'=> array('class' => 'checkbox-inline','data-on-text'=> 'Sí','data-off-text'=> 'No', 'checked'=>$entity->getPublished()),
+                    'required' => false,
+                )
+            )
+            ->add('submit', 'submit', array('label' => 'Guardar Cambios'))
+            ->getForm()
         ;
+        printf("<pre>");
+        //print_r($form);
+        printf("</pre>");
+        echo '<script type="text/javascript">alert(1);</script>';
+        return $form;
     }
 }
