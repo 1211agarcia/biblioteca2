@@ -116,8 +116,10 @@ class DefaultController extends Controller
                 'entities' => $entities);
         
         }
-        else
+        else{
+            //esto no se que hace es para ir a una pagina si hay error en el form
             return $this->redirectToRoute('home', array(), 301);
+        }
 
         return array(
             'form' => $form->createView());
@@ -128,25 +130,34 @@ class DefaultController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function searchCreateForm()
+    public function searchCreateForm()
     {
 		$defaultSearch = array();
     	return $this->createFormBuilder($defaultSearch)
             ->setAction($this->generateUrl('teg_search'))
             ->setMethod('GET')
-            ->add('q', 'text')
+            ->setAttributes(array('id' => 'searchform'))
+            ->add('q', 'text', 
+                array(
+                    'attr'=> array('maxlength' => '500',
+                                   'placeholder' => 'Palabra o frase...'),
+                )
+            )
+            ->add('submit', 'submit', 
+                array('label'=> 'Buscar')
+            )
             ->add('desde', 'choice',
                 array(
-                    'label_attr' => array('class' => 'control-label col-xs-2'),
-                    'attr' => array('class' => 'col-xs-2'),
+                    //'label_attr' => array('class' => 'control-label col-xs-2'),
+                    //'attr' => array('class' => 'col-xs-2'),
                     'choices' => range(1998, date('Y')),
                     'required' => false,
                 )
             )
             ->add('hasta', 'choice',
                 array(
-                    'label_attr' => array('class' => 'control-label col-xs-2'),
-                    'attr' => array('class' => 'col-xs-2'),
+                    //'label_attr' => array('class' => 'control-label col-xs-2'),
+                    //'attr' => array('class' => 'col-xs-2'),
                     'choices' => range(1998, date('Y')),
                     'required' => false,
                 )
@@ -154,22 +165,13 @@ class DefaultController extends Controller
 
             ->add('escuela', 'choice',
                 array(
-                    'label_attr' => array('class' => 'control-label col-xs-2'),
-                    'attr'=> array('class' => 'col-xs-2'),
+                    //'label_attr' => array('class' => 'control-label col-xs-2'),
+                    //'attr'=> array('class' => 'col-xs-2'),
                     'empty_value' => 'Todas',
                     'choices'  => teg::getSchools(),
                     'required' => false,
                 )
-            )
-
-            ->add('submit', 'submit', array('label' => 'Buscar',
-                                             'attr' => array('class' => 'btn btn-primary' )
-                                             )
-            )
-            ->add('reset', 'reset', array('label' => 'Limpiar',
-                                             'attr' => array('class' => 'btn btn-default' )
-                                             )
-            )
+            )            
             ->getForm()
         ;
 

@@ -1,56 +1,48 @@
-#searchform {
-    width: 280px;
-	height:30px;
+/*.searchform {
+    /*width: 280px;*/
+	/*height:30px;
     padding: 8px;
-	margin:50px auto;
-    background: #ccc;
+	/*margin:50px auto;*/
+    /*background: #ccc;
     border-radius: 4px;
     box-shadow: 0 1px 1px rgba(0,0,0,.4) inset, 0 2px 0 rgba(255,255,255,.5);
-}
+    box-sizing: initial;
+    -webkit-box-sizing: initial;
+}*/
 
-#searchform input {
-    width: 190px;
-	height:20px;
+.searchform input{
+    width: 85%;
+	/*height:20px;*/
     padding: 5px;
     float: left;
     border: 0;
     background: #eee;
     border-radius: 3px 0 0 3px;
 	box-shadow: 0 1px 1px rgba(0,0,0,.4) inset;
+    box-sizing: initial;
+    -webkit-box-sizing: initial;
 }
 
-#searchform input:focus {
+.searchform input:focus {
     outline: 0;
 	height:21px;
     background: #fff;
     box-shadow: 0 0 2px rgba(0,0,0,.8) inset;
 }
 
-#searchform input:-webkit-input-placeholder {
-   color: #999;
-   font-weight: normal;
-   font-style: italic;
-}
-
-#searchform input:-moz-placeholder {
-    color: #999;
-    font-weight: normal;
-    font-style: italic;
-}
-
-#searchform input:-ms-input-placeholder {
+.searchform input:-webkit-input-placeholder, input:-moz-placeholder,input:-ms-input-placeholder {
     color: #999;
     font-weight: normal;
     font-style: italic;
 }    
 
-#searchform button {
+.searchform button, select {
     position: relative;
-    float: right;
+    /*float: right;*/
     border: 0;
     cursor: pointer;
     height: 30px;
-    width: 80px;
+    /*width: 80px;*/
     font-size:15px;
     color: #fff;
     background: #438cdb;
@@ -58,16 +50,16 @@
     text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);
 }   
 
-#searchform button:hover{
+.searchform button:hover, select:hover{
     background: #2672e0;
 }	
 
-#searchform button:active,
-#searchform button:focus{
+.searchform button:active,
+.searchform button:focus{
     background: #2672e0;
 }
 
-#searchform button:before { /* flecha */
+.searchform button:before { /* flecha */
     content: '';
     position: absolute;
     border-width: 8px 8px 8px 0;
@@ -77,10 +69,10 @@
     left: -5px;
 }
 
-#searchform button:hover:before{
+.searchform button:hover:before{
     border-right-color: #2672e0;
 }
 
-#searchform button:focus:before{
+.searchform button:focus:before{
     border-right-color: #2672e0;
 }    

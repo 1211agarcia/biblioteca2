@@ -1,7 +1,26 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-{{ form(form) }}
+{{ form_start(form,{'attr': {'class': 'searchform'}}) }}
+    {{ form_errors(form) }}
+    <div class="row">
+        <div class="col-md-6 col-xs-12">
+            {{ form_widget(form.q) }}
+            {{ form_widget(form.submit) }}
+        </div>
+        <div class="col-md-6 col-xs-12">
+            {{ form_label(form.desde)}}
+            {{ form_widget(form.desde) }}
+            {{ form_label(form.hasta)}}
+            {{ form_widget(form.hasta) }}
+            {{ form_label(form.escuela)}}
+            {{ form_widget(form.escuela) }}
+        </div>
+        {{ form_widget(form._token) }}
+    </div>
+
+{{ form_end(form, {'render_rest': false}) }}
+
 <table class="records_list">
         <h3>Recientes:</h3>
         <div class="row">

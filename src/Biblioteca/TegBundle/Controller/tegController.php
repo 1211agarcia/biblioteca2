@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Biblioteca\TegBundle\Entity\teg;
 use Biblioteca\TegBundle\Entity\documento;
 use Biblioteca\TegBundle\Form\tegType;
-
+use Biblioteca\TegBundle\Controller\DefaultController as search;
 /**
  * teg controller.
  *
@@ -31,8 +31,10 @@ class tegController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
-
+        /*Se crea formulario de busqueda a presentar en el listado de TEG*/
+        $form = search::searchCreateForm();
         return array(
+            'form' => $form->createView(),
             'entities' => $entities,
         );
     }
@@ -158,7 +160,7 @@ class tegController extends Controller
      *
      * @Route("/{id}/edit", name="teg_edit")
      * @Method("GET")
-     * @Template()
+     * @Template("BibliotecaTegBundle:teg:new.html.twig")
      */
     public function editAction($id)
     {
@@ -176,7 +178,7 @@ class tegController extends Controller
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
             'publish_form' => $publishForm->createView(),
         );
     }
@@ -201,6 +203,10 @@ class tegController extends Controller
         $form
             ->add('submit', 'submit', array('label' => 'Actualizar',
                                              'attr' => array('class' => 'btn btn-primary' )
+                                             )
+            )
+            ->add('reset', 'reset', array('label' => 'Cancelar',
+                                             'attr' => array('class' => 'btn btn-default' )
                                              )
             )
         ;
