@@ -20,19 +20,20 @@
     </div>
 
 {{ form_end(form, {'render_rest': false}) }}
+<style type="text/css">
 
+</style>
 <table class="records_list">
+        <div class="row" style="width:600px; margin: 0 auto 25px;">
         <h3>Recientes:</h3>
-        <div class="row">
         {% for entity in entities %}
-            <div class="col-md-4">
+            <article class="col-md-4 reciente">
                 
-                <p><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></p>
-                
+                <p>{{ entity.titulo }}</p>
                 ({{ entity.publicacion|date('d-m-Y') }})
-                {{ entity.escuela }}
-                
-            </div>
+                {{ entity.escuela }}<br>
+                <a href="{{ path('teg_show', { 'id': entity.id }) }}">leer más</a>
+            </article>
         {% endfor %}
         </div>
     </table>

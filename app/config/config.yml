@@ -105,3 +105,6 @@ fos_user:
     registration:
         form:
             type: biblioteca_user_registration
+    from_email:
+        address:        the_big_persia@hotmail.com
+        sender_name:    Demo App
