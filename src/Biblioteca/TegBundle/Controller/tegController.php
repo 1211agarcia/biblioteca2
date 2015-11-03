@@ -32,8 +32,10 @@ class tegController extends Controller
         
         $entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
             
-        $form = $this->createForm(new searchType()/*, array(
-            'action' => $this->generateUrl('teg_search'))*/);
+        $form = $this->createForm(new searchType(), null, array(
+            'action' => $this->generateUrl('teg_search'),
+            'attr'   => array('class' => 'searchform')));
+        
         return array(
             'form' => $form->createView(),
             'entities' => $entities,

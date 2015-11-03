@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Biblioteca\TegBundle\Entity\teg;
+use Biblioteca\TegBundle\Form\searchType;
 
 class DefaultController extends Controller
 {
@@ -132,48 +133,10 @@ class DefaultController extends Controller
      */
     public function searchCreateForm()
     {
-		$defaultSearch = array();
-    	return $this->createFormBuilder($defaultSearch)
-            ->setAction($this->generateUrl('teg_search'))
-            ->setMethod('GET')
-            ->setAttributes(array('id' => 'searchform'))
-            ->add('q', 'text', 
-                array(
-                    'attr'=> array('maxlength' => '500',
-                                   'placeholder' => 'Palabra o frase...'),
-                )
-            )
-            ->add('submit', 'submit', 
-                array('label'=> 'Buscar')
-            )
-            ->add('desde', 'choice',
-                array(
-                    //'label_attr' => array('class' => 'control-label col-xs-2'),
-                    //'attr' => array('class' => 'col-xs-2'),
-                    'choices' => range(1998, date('Y')),
-                    'required' => false,
-                )
-            )
-            ->add('hasta', 'choice',
-                array(
-                    //'label_attr' => array('class' => 'control-label col-xs-2'),
-                    //'attr' => array('class' => 'col-xs-2'),
-                    'choices' => range(1998, date('Y')),
-                    'required' => false,
-                )
-            )
-
-            ->add('escuela', 'choice',
-                array(
-                    //'label_attr' => array('class' => 'control-label col-xs-2'),
-                    //'attr'=> array('class' => 'col-xs-2'),
-                    'empty_value' => 'Todas',
-                    'choices'  => teg::getSchools(),
-                    'required' => false,
-                )
-            )            
-            ->getForm()
-        ;
+		$form = $this->createForm(new searchType(), null, array(
+            'action' => $this->generateUrl('teg_search'),
+            'attr'   => array('class' => 'searchform col-md-7 col-xs-12',
+                'style' => 'margin: 0 auto 25px;float: initial;')));
 
         return $form;
     }

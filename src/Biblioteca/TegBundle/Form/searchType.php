@@ -16,12 +16,11 @@ class searchType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $options['method'] = 'GET';
-        //$options['attr'] = array('class' => 'searchform');
         $builder
+        ->setMethod('GET')
             ->add('q', 'text', 
                 array(
-                    'attr'=> array('maxlength' => '500',
+                    'attr'=> array('maxlength' => '200',
                                    'placeholder' => 'Palabra o frase...'),
                 )
             )
@@ -40,7 +39,6 @@ class searchType extends AbstractType
                     'required' => false,
                 )
             )
-
             ->add('escuela', 'choice',
                 array(
                     'empty_value' => 'Todas',
