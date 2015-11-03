@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block body -%}
 {% if form is defined %}
-{{ form_start(form,{'attr': {'class': 'searchform'}}) }}
+{{ form_start(form,{'attr': {'class': 'searchform'}, 'action': path('teg_search')}) }}
     {{ form_errors(form) }}
     <div class="row">
         <div class="col-md-6 col-xs-12">

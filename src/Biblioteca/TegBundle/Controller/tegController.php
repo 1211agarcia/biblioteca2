@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Biblioteca\TegBundle\Entity\teg;
 use Biblioteca\TegBundle\Entity\documento;
 use Biblioteca\TegBundle\Form\tegType;
-use Biblioteca\TegBundle\Controller\DefaultController as search;
+use Biblioteca\TegBundle\Form\searchType;
 /**
  * teg controller.
  *
@@ -29,10 +29,11 @@ class tegController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
+        
         $entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
-        /*Se crea formulario de busqueda a presentar en el listado de TEG*/
-        $form = search::searchCreateForm();
+            
+        $form = $this->createForm(new searchType()/*, array(
+            'action' => $this->generateUrl('teg_search'))*/);
         return array(
             'form' => $form->createView(),
             'entities' => $entities,
