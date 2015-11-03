@@ -56,16 +56,14 @@
     
 
             
-                <th>Capitulos</th>
-                
-                <td>{# 
-                    <ul id="cap-fields-list" >
-                        {% for iField in entity.capitulos %}
-                            <li>
-                                {{ iField }}
-                                <a href="{ { asset('uploads/capitulos/' ~ iField) } }">View capitulo (PDF)</a>
-                            </li>
-                        {% endfor %}
-                    </ul> #}
-                </td>
+    <th>Capitulos</th>
+<ul id="cap-fields-list" >
+            {% for iField in entity.capitulos %}
+                <li>
+                    {{ iField }}
+                    <a href="{{ asset('uploads/capitulos/' ~ iField) }}">View capitulo (PDF)</a>
+                </li>
+            {% endfor %}
+        </ul>
+    
 {% endblock %}
