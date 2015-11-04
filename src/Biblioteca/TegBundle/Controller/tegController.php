@@ -167,7 +167,6 @@ class tegController extends Controller
      */
     public function editAction($id)
     {
-        echo '<script type="text/javascript">alert("editAction");</script>';
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
@@ -195,7 +194,6 @@ class tegController extends Controller
     */
     private function createEditForm(teg $entity)
     {
-        echo '<script type="text/javascript">alert("createEditForm");</script>';
   
         $form = $this->createForm(new tegType(), $entity, array(
             'action' => $this->generateUrl('teg_update', array('id' => $entity->getId())),
@@ -225,7 +223,6 @@ class tegController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        echo '<script type="text/javascript">alert("updateAction");</script>';
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
@@ -279,7 +276,6 @@ class tegController extends Controller
             }
             
         }
-        echo '<script type="text/javascript">alert("publishAction");</script>';
 
         return array(
             'entity'      => $entity,
@@ -312,10 +308,6 @@ class tegController extends Controller
             ->add('submit', 'submit', array('label' => 'Guardar Cambios'))
             ->getForm()
         ;
-        //printf("<pre>");
-        //print_r($form);
-        //printf("</pre>");
-        echo '<script type="text/javascript">alert("createPublishForm");</script>';
         return $form;
     }
 }

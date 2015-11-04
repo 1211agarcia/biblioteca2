@@ -2,68 +2,70 @@
 
 {% block body %}
     
+    <div class="form-horizontal col-md-3 col-xs-12">
+        <th>Capitulos</th>
+<ul id="cap-fields-list" >
+            {% for iField in entity.capitulos %}
+                <li>
+                    {{ iField }}
+                    <a href="{{ asset('uploads/capitulos/' ~ iField) }}">View capitulo (PDF)</a>
+             
+ <!--<iframe id="viewer" src="{{ asset('bundles/bibliotecateg/js/viewer.js/index.html') }}#{{ asset('uploads/capitulos/' ~ iField) }}"
+ width='100%' height='400px'
+></iframe>-->   </li>
+            {% endfor %}
+        </ul>    
+    </div>
     <div class="form-horizontal col-md-9 col-xs-12">
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            <div>
+        <div>
+            <a href="{{ path('teg') }}">
+            Back to the list</a>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <a class="btn btn-warning" href="{{ path('teg_edit', { 'id': entity.id }) }}">
                 Edit
                 </a>
                 {{ form(publish_form) }} 
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
         <h4>{{ entity.titulo }}</h4>
-        <div>
-            <a href="{{ path('teg') }}">
-            Back to the list</a>
-        </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">cota</label> 
+            <label class="col-xs-6 col-md-2 control-label">Publicación</label> 
             <div class="col-xs-9">
-                <p class="form-control-static">    {{ entity.cota}}</p>
+                <p class="form-control-static">{{ entity.publicacion|date('d-m-Y') }}</p>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">Palabras Clave</label> 
+            <label class="col-xs-6 col-md-2 control-label">Resumen</label> 
             <div class="col-xs-9">
-                <p class="form-control-static">    {% for iField in entity.palabrasclave %} {{ iField }}, {% endfor %}</p>
+                <p class="form-control-static" style="font-size: 15px;font-size: 1.5rem;-webkit-column-count:3;/* Chrome, Safari, Opera */-moz-column-count: 3;/* Firefox */column-count: 3;">{{ entity.resumen}}</p>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">Fechas de Publicación</label> 
+            <label class="col-xs-6 col-md-2 control-label">Palabras Clave</label> 
             <div class="col-xs-9">
-                <p class="form-control-static">    {{ entity.publicacion|date('d-m-Y') }}</p>
+                <p class="form-control-static">{% for iField in entity.palabrasclave %} {{ iField }}, {% endfor %}</p>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">Resumen</label> 
-            <div class="col-xs-9">
-                <p class="form-control-static">    {{ entity.resumen}}</p>
+            <label class="col-xs-6 col-md-2 control-label">Autor(es)</label> 
+            <div class="col-xs-9 col-md-4">
+                <p class="form-control-static">{% for iField in entity.autores %} {{ iField }}, {% endfor %}</p>
+            </div>
+            <label class="col-xs-6 col-md-2 control-label">Tutor(es)</label> 
+            <div class="col-xs-9 col-md-4">
+                <p class="form-control-static">{% for iField in entity.tutores %} {{ iField }}, {% endfor %}</p>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-xs-3 control-label">Autor(es)</label> 
+            <label class="col-xs-6 col-md-2 control-label">cota</label> 
             <div class="col-xs-9">
-                <p class="form-control-static">    {% for iField in entity.autores %} {{ iField }}, {% endfor %}</p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-xs-3 control-label">Tutor(es)</label> 
-            <div class="col-xs-9">
-                <p class="form-control-static">    {% for iField in entity.tutores %} {{ iField }}, {% endfor %}</p>
+                <p class="form-control-static">{{ entity.cota}}</p>
             </div>
         </div>
     </div>
     
 
             
-    <th>Capitulos</th>
-<ul id="cap-fields-list" >
-            {% for iField in entity.capitulos %}
-                <li>
-                    {{ iField }}
-                    <a href="{{ asset('uploads/capitulos/' ~ iField) }}">View capitulo (PDF)</a>
-                </li>
-            {% endfor %}
-        </ul>
+    
     
 {% endblock %}
