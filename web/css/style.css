@@ -1,0 +1,44 @@
+@media (min-width:992px){
+#home {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    margin: auto;
+}
+}
+
+.searchform input{width: 86%;height:20px;padding: 5px;float: left;border: 0;background: #eee;border-radius: 3px 0 0 3px;box-shadow: 0 1px 1px rgba(0,0,0,.4) inset;box-sizing: initial;-webkit-box-sizing: initial;font: 16px arial,sans-serif;}
+.searchform input:focus {
+    outline: 0;
+    background: #fff;
+    box-shadow: 0 0 2px rgba(0,0,0,.8) inset;}
+.searchform input:-webkit-input-placeholder, input:-moz-placeholder,input:-ms-input-placeholder {
+    color: #999;
+    font-weight: normal;
+    font-style: italic;}    
+.searchform button {
+    width: 12%;
+    color: #fff;
+    background: #438cdb;
+    height: 30px;
+    }
+.searchform select {
+    height: 25px;
+    }
+.searchform button, select {
+    position: relative;
+    border: 0;
+    cursor: pointer;    
+    font-size:15px;    
+    border-radius: 0 3px 3px 0;
+    text-shadow: 0 -1px 0 rgba(0, 0 ,0, .3);}
+.searchform button:hover, .searchform select:hover{color: #fff;background: #2672e0;}	
+.searchform button:active,.searchform button:focus{background: #2672e0;}
+.searchform button:before { /* flecha */content: '';position: absolute;border-width: 8px 8px 8px 0;border-style: solid solid solid none;border-color: transparent #438cdb transparent;top: 8px;left: -5px;}
+.searchform button:hover:before{border-right-color: #2672e0;}
+.searchform button:focus:before{border-right-color: #2672e0;}    
+
+.reciente p {max-height: 6rem;overflow: hidden;}.reciente p:after {content:'...';position: absolute;top: 6.5rem;right: 15px;}.reciente {border-width: medium; border: 1px solid rgba(150,150,150,0.3137254901960784); padding: 20px 25px 30px; border-radius: 2px; box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);}
