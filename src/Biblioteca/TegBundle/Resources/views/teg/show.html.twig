@@ -22,17 +22,17 @@
     </div>
     <div class="tab-content">
         <div id="detalles" class="tab-pane fade in active form-horizontal col-md-9 col-xs-12">
-            <h4>{{ entity.titulo }}</h4>
+            <h3>{{ entity.titulo }}</h3>
             <div class="form-group">
                 <label class="col-xs-6 col-md-2 control-label">Publicación</label> 
-                <div class="col-xs-9">
+                <div class="col-xs-6 col-md-9">
                     <p class="form-control-static">{{ entity.publicacion|date('d-m-Y') }}</p>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-xs-6 col-md-2 control-label">Resumen</label> 
-                <div class="col-xs-9">
-                    <p class="form-control-static" style="font-size: 15px;font-size: 1.5rem;-webkit-column-count:3;/* Chrome, Safari, Opera */-moz-column-count: 3;/* Firefox */column-count: 3;">{{ entity.resumen}}</p>
+                <div id="resumen" class="col-xs-12 col-md-9">
+                    <p>{{ entity.resumen}}</p>
                 </div>
             </div>
             <div class="form-group">
@@ -65,7 +65,7 @@
         </div>
     </div>
     
-
+<a href="{{ asset('bundles/bibliotecateg/js/viewer.js/index.html') }}#{{ asset('uploads/capitulos/capitulo1.pdf') }}"> AQUI </a>
             
     
     
