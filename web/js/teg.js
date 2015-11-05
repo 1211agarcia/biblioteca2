@@ -5,6 +5,9 @@ $('#biblioteca_tegbundle_teg_capitulos_0_file,#biblioteca_tegbundle_teg_capitulo
     uploadUrl: '#',
     allowedFileExtensions : ['pdf'],
     showUpload: false,
+    initialPreview: [
+            '<img src="/biblioteca2/web/img/logo.jpg" class="file-preview-image" alt="The Moon" title="The Moon">'
+        ],
 
 });
 

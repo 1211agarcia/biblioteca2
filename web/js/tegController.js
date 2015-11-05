@@ -15,6 +15,7 @@ angular.isInvalide = function(type,val) {
     	break;
     }
 }
+/**/
 tegApp.directive('ngEnter', function() {
         return function(scope, element, attrs) {
             element.bind("keydown keypress", function(event) {
@@ -79,7 +80,7 @@ tegApp.controller('inputTegController', function ($scope) {
 	        }
 	        else
 	        {
-	        	javascript:location.reload();
+	        	//javascript:location.reload();
 	        }
         }
     };

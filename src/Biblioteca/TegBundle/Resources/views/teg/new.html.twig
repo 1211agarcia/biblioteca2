@@ -129,6 +129,7 @@
                         {% for capField in form.capitulos %}
                                 {{ form_errors(capField) }}
                                 {{ form_widget(capField, { 'attr': {'class': 'col-lg-3 col-md-3 col-xs-6', 'ng-model':(capField.vars.id)} }) }}
+                                <h1>{# { capField.vars.value } #}</h1>
                         {% endfor %}
                 </div>
             </div>
