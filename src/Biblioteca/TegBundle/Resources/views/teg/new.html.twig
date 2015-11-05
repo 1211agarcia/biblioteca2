@@ -35,7 +35,7 @@
                 {{ form_errors(form.autores) }}
                 <div id="form-autor" class="col-xs-9">
 
-                    <ul id="autor-fields-list" class="list-unstyled" ng-init="{% for i in form.autores %}add('{{ i.vars.value}}');{% endfor %}">
+                    <ul id="autor-fields-list" class="list-unstyled" ng-init="{% for i in form.autores %}addA('{{ i.vars.value}}');{% endfor %}">
                         <li ng-repeat="item in authors track by $index">
                                 <input class="form-control" type="text" name="[['biblioteca_tegbundle_teg[autores]['+$index+']']]" value="[[item]]:[[$index]]"/>
                                 {# { form_errors(form.autores[]) } #}
@@ -74,12 +74,16 @@
                 {{ form_errors(form.palabrasClave) }}
 
                 <div class="col-xs-9" ng-init="{% for i in form.palabrasClave %}add('{{ i.vars.value}}');{% endfor %}">
-                    <div ng-repeat="item in wordkeys track by $index" class="alert alert-warning alert-dismissible" style="display: block;float: left;margin-right: 5px;">
-                        <button type="button" class="close" ng-click="remove($index)"><span aria-hidden="true">&times;</span></button>
-                        <input type="text" name="[['biblioteca_tegbundle_teg[palabrasClave]['+$index+']']]" value="[[item]]:[[$index]]"/>
+                    <div ng-repeat="item in wordkeys track by $index" class="input-group col-md-2 col-xs-12" style="float: left;margin-right: 5px;">
+                        
+                        <input type="text" name="[['biblioteca_tegbundle_teg[palabrasClave]['+$index+']']]" value="[[item]]:[[$index]]" required="required" class="form-control"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="close" ng-click="remove($index)"><span aria-hidden="true">&times;</span></button>
+                          </span>
                     </div>
                     <div>
-                        <input ng-model="newWordkey" type="text" ng-enter="add(newWordkey)" value=""></input><a ng-click="add(newWordkey)" class="btn btn-success btn-sm" href="#" id="add-another-word"><span class="glyphicon glyphicon-plus-sign"></span> Agregar palabra clave</a>
+                        <input class="form-control" ng-model="newWordkey" type="text" ng-enter="add(newWordkey)" value=""></input>
+                        <a ng-click="add(newWordkey)" class="btn btn-success btn-sm" href="#" id="add-another-word"><span class="glyphicon glyphicon-plus-sign"></span> Agregar palabra clave</a>
                     </div>
                 </div>
             </div>
@@ -87,7 +91,7 @@
                 {{ form_label(form.publicacion) }}
                 {{ form_errors(form.publicacion) }}
                 {% for Field in form.publicacion %}
-                    <div class="col-xs-3" ng-init="{{Field.vars.id}}=parseInt('{{Field.vars.value}}');">
+                    <div class="col-xs-3" ng-init="{{Field.vars.id}}='{{Field.vars.value}}';">
                         {{ form_errors(Field) }}
                         {{ form_widget(Field, { 'attr': {'class': 'form-control', 'ng-model':(Field.vars.id)} }) }}
                     </div>
