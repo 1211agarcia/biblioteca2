@@ -66,9 +66,9 @@ class DefaultController extends Controller
                     $qb->expr()->like('t.cota', "'%".$data['q']."%'"),
                     $qb->expr()->like('t.titulo', "'%".$data['q']."%'"),
                     $qb->expr()->like('t.resumen', "'%".$data['q']."%'"),
-                    $qb->expr()->like('t.palabrasClave', "'%".$data['q']."%'"),
-                    $qb->expr()->like('t.autores', "'%".$data['q']."%'"),
-                    $qb->expr()->like('t.tutores', "'%".$data['q']."%'")
+                    $qb->expr()->like('t.palabrasClave', "'%".$data['q']."%'")//,
+                    //$qb->expr()->like('t.autores', "'%".$data['q']."%'"),
+                    //$qb->expr()->like('t.tutores', "'%".$data['q']."%'")
                 );
             }
             else
@@ -96,10 +96,11 @@ class DefaultController extends Controller
                 }else{$hasta = 't.publicacion';}
                 $exprInteval = $qb->expr()->between('t.publicacion', $desde, $hasta);
             }
-
+            //Se unen en AND las codiciones
             $condiciones = $qb->expr()->andX(
                         $exprEscuela,
-                        $exprInteval, $exprQ
+                        $exprInteval,
+                        $exprQ
             );
             
             $qb->where($qb->expr()->andX(
@@ -111,6 +112,15 @@ class DefaultController extends Controller
 
             $query = $qb->getQuery();
             $entities = $query->getResult();
+            printf("<pre>");
+            print_r($entities[0]->getPalabrasClave()->toArray());
+            print_r($entities[0]->getAutores());
+            print_r($entities[0]->getTutores());
+            
+            echo "<br/>";
+            print_r(array_filter($entities[0]->getPalabrasClave()->toArray(),array(new LikeFilter($data['q']),'isLike')));
+            
+            printf("</pre>");
 
             return array(
                 'form' => $form->createView(),
@@ -141,4 +151,57 @@ class DefaultController extends Controller
         return $form;
     }
     
+}
+
+/*
+    Filtro sobre ArrayCollections, verifica si un stringToFind es semejante a los valores de Array
+*/
+class LikeFilter {
+    private $stringToFind;
+
+    function __construct($stringToFind) {
+        /**
+         * Reemplaza todos los acentos por sus equivalentes sin ellos 
+         **/
+        $stringToFind = trim($stringToFind);
+        $stringToFind = str_replace( array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
+            array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $stringToFind );
+        $stringToFind = str_replace( array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
+            array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $stringToFind );
+        $stringToFind = str_replace( array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
+            array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $stringToFind );
+        $stringToFind = str_replace( array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
+            array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'), $stringToFind );
+        $stringToFind = str_replace( array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
+            array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $stringToFind );
+        $stringToFind = str_replace( array('ñ', 'Ñ', 'ç', 'Ç'),
+        array('n', 'N', 'c', 'C',), $stringToFind );
+            $this->stringToFind = $stringToFind;
+    }
+    /**
+     * @param $i cadena donde se buscara la cadena inferior.
+     * @return "true" si la substring se encuantre en $i al menos una vez
+     * @var $i valor original, $ii string limpia
+     */
+    function isLike($i) {
+        $ii = trim($i);
+        $ii = str_replace( array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
+            array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'), $ii );
+        $ii = str_replace( array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
+            array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'), $ii );
+        $ii = str_replace( array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
+            array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'), $ii );
+        $ii = str_replace( array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
+            array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'), $ii );
+        $ii = str_replace( array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
+            array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'), $ii );
+        $ii = str_replace( array('ñ', 'Ñ', 'ç', 'Ç'),
+        array('n', 'N', 'c', 'C',), $ii );
+        
+
+        echo "i = ".$i." ------ stringToFind = ".$this->stringToFind."\n";
+        return (stristr($ii, $this->stringToFind) !== false);
+    }
+     
+   
 }
