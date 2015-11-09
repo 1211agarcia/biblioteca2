@@ -29,7 +29,7 @@ class tegType extends AbstractType
             ->add('escuela', 'choice',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
-                    'attr'=> array('class' => 'form-control'),
+                    'attr'=> array('class' => 'form-control form-compacto'),
                     'empty_value' => 'Seleccionar',
                     'choices'  => teg::getSchools(),
                     'required' => true,
@@ -87,12 +87,9 @@ class tegType extends AbstractType
         ;
         $builder
             ->add('autores', 'collection', array(
-                'label_attr' => array('class' => 'control-label col-xs-3'),
-                'allow_add' => true,
-                'prototype' => true,
-         
+                'label_attr' => array('class' => 'control-label col-xs-3'),        
                 'options'  => array(
-                    'required'  => false,
+                    'required'  => true,
                     'attr'      => array('class' => 'form-control')
                     ),
                 )
@@ -100,12 +97,9 @@ class tegType extends AbstractType
         ;
         $builder
             ->add('tutores', 'collection', array(
-                'label_attr' => array('class' => 'control-label col-xs-3'),
-                'allow_add' => true,
-                'prototype' => true,
-         
+                'label_attr' => array('class' => 'control-label col-xs-3'),        
                 'options'  => array(
-                    'required'  => false,
+                    'required'  => true,
                     'attr'      => array('class' => 'form-control')
                     ),
                 )

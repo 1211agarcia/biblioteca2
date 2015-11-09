@@ -5,7 +5,7 @@ tegApp.config(function($interpolateProvider){
         });
 
 angular.isUndefinedOrNull = function(val) {
-    return angular.isUndefined(val) || val === null 
+    return angular.isUndefined(val) || val === null || val === ''
 }
 angular.isInvalide = function(type,val) {
     switch(type){
@@ -23,28 +23,40 @@ tegApp.directive('ngEnter', function() {
                         scope.$apply(function(){
                                 scope.$eval(attrs.ngEnter);
                         });
-                        
-                        event.preventDefault();
+                    event.preventDefault();
                 }
             });
         };
 });
 
-
+tegApp.directive('stringToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(value) {
+        return '' + value;
+      });
+      ngModel.$formatters.push(function(value) {
+        return parseFloat(value, 10);
+      });
+    }
+  };
+});
 
 tegApp.controller('inputTegController', function ($scope) {
 
 	$scope.generar = function(){
-//		alert($scope.biblioteca_tegbundle_teg_publicacion_year);
-		$scope.cota_year = angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_publicacion_year)? "'Año de Publicion'" : ("0" + (parseInt($scope.biblioteca_tegbundle_teg_publicacion_year) % 100) ).slice (-2);
+
+		$scope.cota_year = angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_publicacion_year) || isNaN($scope.biblioteca_tegbundle_teg_publicacion_year)? "'Año'" : ("0" + (parseInt($scope.biblioteca_tegbundle_teg_publicacion_year) % 100) ).slice (-2);
 		//alert($scope.biblioteca_tegbundle_teg_publicacion_year);
 		$scope.cota_school =
         angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_escuela) || !angular.isInvalide("school",$scope.biblioteca_tegbundle_teg_escuela)?
         "'Escuela'" :
         "D"+$scope.biblioteca_tegbundle_teg_escuela.charAt(0);
 
-		$scope.cota = $scope.cota_school +"-"+ (angular.isUndefinedOrNull($scope.cota_index)? "'Indice'" : $scope.cota_index ) +"-"+ $scope.cota_year;
-		//alert($scope.cota_index);
+        $scope.cota_index = angular.isUndefinedOrNull($scope.cota_index) ? "00" : ("0" + $scope.cota_index).slice (-2);
+
+		$scope.cota = $scope.cota_school+$scope.cota_index+"/"+$scope.cota_year;
 	}
  
 	$scope.$watch($scope.generar);
@@ -73,15 +85,18 @@ tegApp.controller('inputTegController', function ($scope) {
         }
         else
         {
-        	if($scope.authors.length == 2)
-	        {
-	            $scope.authors.splice(1,1);
-	            $scope.label_author ="Agregar";
-	        }
-	        else
-	        {
-	        	//javascript:location.reload();
-	        }
+            if($scope.authors.length == 2)
+            {
+                $scope.authors.splice(1,1);
+                $scope.label_author ="Agregar";
+            }
+            else
+            {
+                //javascript:location.reload();
+            }
         }
+    };
+    $scope.initCota = function(val) {
+        $scope.cota_index = val.substring(2, 4);
     };
 });

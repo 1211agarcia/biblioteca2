@@ -110,7 +110,7 @@ jQuery(document).ready(function() {
     );
 
     // Generar Cota
-    $('#biblioteca_tegbundle_teg_publicacion_year,#biblioteca_tegbundle_teg_escuela,#biblioteca_tegbundle_teg_cota_index').change(function(){
+    /*$('#biblioteca_tegbundle_teg_publicacion_year,#biblioteca_tegbundle_teg_escuela,#biblioteca_tegbundle_teg_cota_index').change(function(){
     
         if($('#biblioteca_tegbundle_teg_publicacion_year').val() == 0)
         {
@@ -143,6 +143,6 @@ jQuery(document).ready(function() {
         $('#cota_year').text(prev_cota_year);
 
         $('#biblioteca_tegbundle_teg_cota').val("D"+prev_cota_escuela+"-"+prev_cota_index+"-"+prev_cota_year);
-    });
+    });*/
 
 });

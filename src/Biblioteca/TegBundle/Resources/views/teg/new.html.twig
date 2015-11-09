@@ -9,6 +9,7 @@
 {% endblock %} 
 
 {% block body %}
+
     <div ng-app="tegApp" ng-controller="inputTegController as ctrl">
         <h1>Nuevo Trabajo Especial de Grado</h1>
         {{ form_start(form) }}
@@ -36,28 +37,40 @@
                 <div id="form-autor" class="col-xs-9">
 
                     <ul id="autor-fields-list" class="list-unstyled" ng-init="{% for i in form.autores %}addA('{{ i.vars.value}}');{% endfor %}">
-                        <li ng-repeat="item in authors track by $index">
-                                <input class="form-control" type="text" name="[['biblioteca_tegbundle_teg[autores]['+$index+']']]" value="[[item]]:[[$index]]"/>
-                                {# { form_errors(form.autores[]) } #}
-                                {# { form_widget(autorField) } #}
+                        <li>
+                                {{ form_widget(form.autores[0]) }}
                         </li>
+                        <li>
+                            {% if form.autores[1] is defined %}
+                                {{ form_widget(form.autores[1], { 'attr': {'placeholder': 'Opcional', 'required':'false'} }) }}
+                            {% else %}
+                                <input type="text" id="biblioteca_tegbundle_teg_autores_1" name="biblioteca_tegbundle_teg[autores][1]" class="form-control" placeholder="Opcional" required="false">
+                            {% endif %}
+                                
+                        </li>
+                        
                     </ul>
-                    <a ng-click="addA()" class="btn btn-success btn-sm" href="#" id="add-another-author"><span class="glyphicon glyphicon-plus-sign"></span> [[label_author]] Autor</a>
                 </div>
             </div>
             <div class="form-group">
                 {{ form_label(form.tutores) }}
                 {{ form_errors(form.tutores) }}
-                <div id="form-autor" class="col-xs-9">
+                <div id="form-tutor" class="col-xs-9">
 
-                    <ul id="autor-fields-list" class="list-unstyled" ng-init="{% for i in form.tutores %}add('{{ i.vars.value}}');{% endfor %}">
-                        <li ng-repeat="item in tuthors track by $index">
-                                <input class="form-control" type="text" name="[['biblioteca_tegbundle_teg[tutores]['+$index+']']]" value="[[item]]:[[$index]]"/>
-                                {# { form_errors(form.tutores[]) } #}
-                                {# { form_widget(autorField) } #}
+                    <ul id="tutor-fields-list" class="list-unstyled" ng-init="{% for i in form.tutores %}addA('{{ i.vars.value}}');{% endfor %}">
+                        <li>
+                                {{ form_widget(form.tutores[0]) }}
                         </li>
+                        <li>
+                            {% if form.tutores[1] is defined %}
+                                {{ form_widget(form.tutores[1], { 'attr': {'placeholder': 'Opcional', 'required':'false'} }) }}
+                            {% else %}
+                                <input type="text" id="biblioteca_tegbundle_teg_tutores_1" name="biblioteca_tegbundle_teg[tutores][1]" class="form-control" placeholder="Opcional" required="false">
+                            {% endif %}
+                                
+                        </li>
+                        
                     </ul>
-                    <a ng-click="addT()" class="btn btn-success btn-sm" href="#" id="add-another-author"><span class="glyphicon glyphicon-plus-sign"></span> [[label_tuthor]] Tutor</a>
                 </div>
             </div>
 
@@ -75,25 +88,27 @@
 
                 <div class="col-xs-9" ng-init="{% for i in form.palabrasClave %}add('{{ i.vars.value}}');{% endfor %}">
                     <div ng-repeat="item in wordkeys track by $index" class="input-group col-md-2 col-xs-12" style="float: left;margin-right: 5px;">
-                        
                         <input type="text" name="[['biblioteca_tegbundle_teg[palabrasClave]['+$index+']']]" value="[[item]]:[[$index]]" required="required" class="form-control"/>
                         <span class="input-group-btn">
                             <button type="button" class="close" ng-click="remove($index)"><span aria-hidden="true">&times;</span></button>
                           </span>
                     </div>
-                    <div>
-                        <input class="form-control" ng-model="newWordkey" type="text" ng-enter="add(newWordkey)" value=""></input>
-                        <a ng-click="add(newWordkey)" class="btn btn-success btn-sm" href="#" id="add-another-word"><span class="glyphicon glyphicon-plus-sign"></span> Agregar palabra clave</a>
+                    <div class="fomr-compacto input-group col-md-2 col-xs-12">
+                        <input placeholder="Nueva palabra..." class="form-control" ng-model="newWordkey" type="text" ng-enter="add(newWordkey)" value=""></input>
+                        <span class="input-group-btn">
+                            <button ng-click="add(newWordkey)" class="btn btn-success" type="button"><span class="glyphicon glyphicon-plus-sign"></span></button>
+                        </span>
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 {{ form_label(form.publicacion) }}
                 {{ form_errors(form.publicacion) }}
+                
                 {% for Field in form.publicacion %}
-                    <div class="col-xs-3" ng-init="{{Field.vars.id}}='{{Field.vars.value}}';">
+                    <div class="col-md-1" ng-init="{{Field.vars.id}}='{{Field.vars.value}}';">
                         {{ form_errors(Field) }}
-                        {{ form_widget(Field, { 'attr': {'class': 'form-control', 'ng-model':(Field.vars.id)} }) }}
+                        {{ form_widget(Field, { 'attr': {'class': 'form-control form-compacto', 'ng-model':(Field.vars.id)} }) }}
                     </div>
                 {% endfor %}
             </div>
@@ -110,14 +125,14 @@
                 {{ form_label(form.cota) }}
                 {{ form_errors(form.cota) }}
                 
-                <div class="col-xs-9">
+                <div class="col-lg-2 col-md-3 col-xs-12" ng-init="initCota('{{form.cota.vars.value}}');">
                     <div class="input-group">
                         <span class="input-group-addon">[[cota_school]]</span>
-                        <input type="number" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" min="1" max="99">
-                        <span id="cota_year" class="input-group-addon">[[cota_year]]</span>
+                        <input type="number" string-to-number min="1" max="99" placeholder="Indice" ng-model="cota_index" required="required" class="form-control form-compacto">
+                        <span id="cota_year" class="input-group-addon">/[[cota_year]]</span>
                     </div>
                 </div>
-                {{ form_widget(form.cota, { 'attr': {'style': 'display:none', 'ng-model':'cota'} }) }}
+                {{ form_widget(form.cota, { 'attr': { 'ng-model':'cota','display':'none'} }) }}
             </div>
         </div>
         <div id="paso2" class="tab-pane fade">
@@ -173,8 +188,6 @@
     <script src="{{ asset('js/fileinput.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/fileinput_locale_es.js') }}" type="text/javascript"></script>
 
-    <script src="{{ asset('js/teg.js') }}" type="text/javascript"></script>
-    
     <script src="{{ asset('js/tegController.js') }}" type="text/javascript"></script>
     
 

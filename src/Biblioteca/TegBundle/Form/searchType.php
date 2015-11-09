@@ -18,7 +18,7 @@ class searchType extends AbstractType
     {
         $builder
         ->setMethod('GET')
-            ->add('q', 'text', 
+            ->add('q', 'search', 
                 array(
                     'attr'=> array('maxlength' => '200',
                                    'placeholder' => 'Palabra o frase...'),
