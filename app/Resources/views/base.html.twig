@@ -4,17 +4,16 @@
 		<meta charset="UTF-8" />
 		<title>{% block title %}Bienvenido!{% endblock %}</title>
 		{% block stylesheets %}
-			<link href="{{ asset('css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" />
 
+			<link href="{{ asset('css/bootstrap.min.css') }}" type="text/css" rel="stylesheet" />
 			<link href="{{ asset('css/style.css') }}" type="text/css" rel="stylesheet" />
-			
+			<link href="{{ asset('angular-plugins/loading-bar.min.css') }}" type="text/css" rel="stylesheet" />
 			<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-		   
 	  {% endblock %}  
 		
 		
 	</head>
-	<body>
+	<body ng-app="tegApp" ng-controller="LoadCtrl">
 		<div id="body" class="container">
 			{% block menubackend %}
 				{% include 'BibliotecaUserBundle::menu_backend.html.twig' %}
@@ -23,10 +22,13 @@
 			{% endblock %}
 		</div>
 		{% block javascripts %}
-
-			<script src="{{ asset('js/jquery/2.1.1/jquery.min.js') }}"></script>
 			<script src="{{ asset('js/angular.min.js') }}"></script>
+			<script src="{{ asset('angular-plugins/loading-bar.min.js') }}"></script>
+			<script src="{{ asset('js/app.js') }}"></script>
+			<script src="{{ asset('js/jquery/2.1.1/jquery.min.js') }}"></script>
+			
 			<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+			
 			
 		{% endblock %}        
 	</body>

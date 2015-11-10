@@ -132,7 +132,7 @@
                         <span id="cota_year" class="input-group-addon">/[[cota_year]]</span>
                     </div>
                 </div>
-                {{ form_widget(form.cota, { 'attr': { 'ng-model':'cota','display':'none'} }) }}
+                {{ form_widget(form.cota, { 'attr': { 'ng-model':'cota','style':'display:none'} }) }}
             </div>
         </div>
         <div id="paso2" class="tab-pane fade">
@@ -184,12 +184,11 @@
     {{ parent() }}
     
     <script src="{{ asset('js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">$("[name='biblioteca_tegbundle_teg[published]']").bootstrapSwitch();</script>
    
     <script src="{{ asset('js/fileinput.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/fileinput_locale_es.js') }}" type="text/javascript"></script>
 
     <script src="{{ asset('js/tegController.js') }}" type="text/javascript"></script>
-    
-
-    
+        
 {% endblock %}

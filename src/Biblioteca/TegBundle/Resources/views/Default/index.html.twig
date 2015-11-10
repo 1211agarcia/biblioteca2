@@ -29,7 +29,7 @@
                 <p>{{ entity.titulo }}</p>
                 ({{ entity.publicacion|date('d-m-Y') }})
                 {{ entity.escuela }}<br>
-                <a href="{{ path('teg_show', { 'id': entity.id }) }}">leer más</a>
+                <a ng-click="start()" href="{{ path('teg_show', { 'id': entity.id }) }}">leer más</a>
             </article>
         {% endfor %}
     </div>
