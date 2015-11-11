@@ -1,72 +1,81 @@
+{# Verificacion de Usuario #}
+{% set isAdmin = false %}
+{% set isSAdmin = false %}
+{% set isUser = false %}
+{% set isLogged = is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+{% if isLogged %}
+    {% set isAdmin = app.user.roles[0]=="ROLE_ADMIN" %}
+    {% set isSAdmin = app.user.roles[0]=="ROLE_SUPER_ADMIN" %}
+    {% set isUser = app.user.roles[0]=="ROLE_USER" %}
+{% endif %}
+{# Fin de Verificacion #}
 
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="{{ path('home') }}">LOGO</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                <ul class="nav navbar-nav">
-                    {% if app.user.roles[0]=="ROLE_SUPER_ADMIN" %}
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Nuevo Usuario</a></li>
-                                <li><a href="#">Listar Usuarios</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a href="#">Historial</a></li>
-                            </ul>
-                        </li>
-                    {% endif %}
-                    {% if app.user.roles[0]=="ROLE_ADMIN" %}
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teg <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Nuevo Teg</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Listar TEGs</a></li>
-                        </ul>
-                    </li>
-                    {% endif %}
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="{{ path('fos_user_profile_show') }}">
-                                    Perfil
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ path('fos_user_profile_edit') }}">
-                                    Editar Perfil
-                                </a>
-                            </li>
-                            <li role="separator" class="divider"></li>
-                            <li>
-                                <a href="{{ path('fos_user_security_logout') }}">
-                                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            {% else %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                        <a href="{{ path('fos_user_security_login') }}" class="dropdown-toggle" >
-                        {{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-                    </li>
-                </ul>
-            {% endif %}
-            </div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path('home') }}"><i class="fa fa-home fa-lg"></i>&nbsp;Inicio</a>
         </div>
-    </nav>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {% if isSAdmin %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#"><i class="fa fa-user-plus fa-fw"></i><span>&nbsp;Nuevo Usuario</a></li>
+                            <li><a href="#"><i class="fa fa-users fa-fw"></i><span>&nbsp;Listar Usuarios</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Historial</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-book fa-lg"></i>&nbsp;TEGs<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="{{ path('teg') }}"><i class="fa fa-list fa-fw"></i><span>&nbsp;Listar</a>
+                        </li>
+                        {% if isAdmin %}
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="{{ path('teg_new') }}"><i class="fa fa-plus fa-fw"></i>&nbsp;Agregar</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if isLogged %}
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-lg"></i>&nbsp;
+                        {{app.user.username}}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="{{ path('fos_user_profile_show') }}"><i class="fa fa-user fa-fw"></i>&nbsp;Perfil</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-pencil fa-fw"></i>&nbsp;Editar Perfil</a>
+                            </li>
+                            <li role="separator" class="divider"></li>
+                            <li>
+                                <a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i>&nbsp;Salir</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                {% else %}
+                    <li class="dropdown">
+                        <a href="{{ path('fos_user_security_login') }}" class="dropdown-toggle" ><i class="fa fa-sign-in fa-lg"></i>&nbsp;Entrar</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
