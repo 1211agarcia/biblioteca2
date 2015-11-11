@@ -276,7 +276,6 @@ class tegController extends Controller
             }
             
         }
-
         return array(
             'entity'      => $entity,
             'publish_form' => $form->createView(),
@@ -294,18 +293,19 @@ class tegController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
-        $form = $this->createFormBuilder()
+        $form = $this->createFormBuilder(null, array('attr' => array('class' => 'form-inline')))
             ->setAction($this->generateUrl('teg_publish', array('id' => $id)))
             ->setMethod('POST')
+            ->setAttribute('class', 'form-group')
             ->add('published', 'checkbox',
                 array(
                     'label'    => '¿Publicado?',
-                    'label_attr' => array('class' => 'control-label col-xs-3') ,
+                    //'label_attr' => array('class' => 'control-label col-xs-3') ,
                     'attr'=> array('class' => 'checkbox-inline','data-on-text'=> 'Sí','data-off-text'=> 'No', 'checked'=>$entity->getPublished()),
                     'required' => false,
                 )
             )
-            ->add('submit', 'submit', array('label' => 'Guardar Cambios'))
+            ->add('submit', 'submit', array('label' => 'Aplicar', 'attr'=> array('class' => 'button save btn-info')))
             ->getForm()
         ;
         return $form;

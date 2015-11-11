@@ -1,15 +1,3 @@
-$("[name='biblioteca_tegbundle_teg[published]']").bootstrapSwitch();
-     
-$('#biblioteca_tegbundle_teg_capitulos_0_file,#biblioteca_tegbundle_teg_capitulos_1_file,#biblioteca_tegbundle_teg_capitulos_2_file,#biblioteca_tegbundle_teg_capitulos_3_file,#biblioteca_tegbundle_teg_capitulos_4_file').fileinput({
-    language: 'es',
-    uploadUrl: '#',
-    allowedFileExtensions : ['pdf'],
-    showUpload: false,
-    initialPreview: [
-            '<img src="/biblioteca2/web/img/logo.jpg" class="file-preview-image" alt="The Moon" title="The Moon">'
-        ],
-
-});
 
 angular.isUndefinedOrNull = function(val) {
     return angular.isUndefined(val) || val === null || val === ''
