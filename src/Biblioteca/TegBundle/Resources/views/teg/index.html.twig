@@ -22,71 +22,24 @@
 {{ form_end(form, {'render_rest': false}) }}
 {% endif %} 
 
-    <h1>teg list</h1>
-
-    <table class="records_list">
-        <thead>
-            <tr>
-                <th>Titulo</th>
-                <th>Publicación</th>
-                <th>Palabras Clave</th>
-                <th>Autores</th>
-                <th>Tutores</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <h4>{{ entities | length }} disponibles</h4>
         {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></td>
-                <td>{% if entity.publicacion %}{{ entity.publicacion|date('m-Y') }}{% endif %}</td>
-                <td>
-                    <ul>
-                    {% for palabraField in entity.palabrasClave %}
-                        <li>
-                            {{ palabraField }}
-                        </li>
-                    {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <ul>
+            <div id="vista-previa">
+                <h3><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></h3>
+                <div>
                     {% for Field in entity.autores %}
-                        <li>
-                            {{ Field }}
-                        </li>
+                        {{ Field}},
                     {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                    {% for Field in entity.tutores %}
-                        <li>
-                            {{ Field }}
-                        </li>
+                    {% for Field in entity.tutores %}{{ Field }},
                     {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('teg_show', { 'id': entity.id }) }}">Mostrar</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('teg_edit', { 'id': entity.id }) }}">Editar</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
+                    {{ entity.publicacion|date('m-Y') }}
+                    {% for palabraField in entity.palabrasClave %}{{ palabraField }}
+                    {% endfor %}
+                </div>
+                <div>
+                    <a href="{{ path('teg_edit', { 'id': entity.id }) }}">Editar</a>
+                </div>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('teg_new') }}">
-                Nuevo TEG
-            </a>
-        </li>
-    </ul>
     {% endblock %}

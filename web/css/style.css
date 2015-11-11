@@ -1,3 +1,5 @@
+body { padding-top: 70px; }
+
 @media (min-width:992px){
 #home {
     position: absolute;
@@ -144,4 +146,20 @@ width: initial;
 
 .play:before {
     content: "\25B6";
+}
+#vista-previa {
+max-width: 712px;}
+#vista-previa h3{
+    position: relative;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 19px;
+
+}
+
+#vista-previa h3 a:visited {
+    color: #660099;
+    text-decoration: none;
+}#vista-previa h3 a:link {
+    color: #1a0dab;
 }
