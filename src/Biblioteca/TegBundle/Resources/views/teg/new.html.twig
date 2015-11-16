@@ -12,7 +12,7 @@
 
     <div ng-app="tegApp" ng-controller="inputTegController as ctrl">
         <h1>Nuevo Trabajo Especial de Grado</h1>
-        {{ form_start(form) }}
+        {{ form_start(form, { 'name': 'formInputTeg' }) }}
 
             {{ form_errors(form) }}
     <ul class="nav nav-tabs">
@@ -106,7 +106,7 @@
                 {{ form_errors(form.publicacion) }}
                 
                 {% for Field in form.publicacion %}
-                    <div class="col-md-1" ng-init="{{Field.vars.id}}='{{Field.vars.value}}';">
+                    <div class="col-md-2" ng-init="{{Field.vars.id}}='{{Field.vars.value}}';">
                         {{ form_errors(Field) }}
                         {{ form_widget(Field, { 'attr': {'class': 'form-control form-compacto', 'ng-model':(Field.vars.id)} }) }}
                     </div>

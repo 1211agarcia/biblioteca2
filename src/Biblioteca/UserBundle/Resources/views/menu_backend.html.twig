@@ -10,7 +10,7 @@
 {% endif %}
 {# Fin de Verificacion #}
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav id="#page-header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -19,7 +19,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ path('home') }}"><i class="fa fa-home fa-lg"></i>&nbsp;Inicio</a>
+            <a class="navbar-brand" href="{{ path('home') }}"> <!-- style="padding-top:5px;padding-bottom:5px;"><i class="fa fa-home fa-lg"></i>&nbsp;Inicio<img src=" asset(img/logo.svg) " width="auto" height="30px" alt="Inicio" title="Inicio" />--><span itemprop="name"><span>Biblioteca TEG</span> <span class="focus">FACYT</span></span></a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
