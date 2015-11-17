@@ -7,24 +7,29 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Biblioteca\TegBundle\Entity\documento;
+use Biblioteca\UserBundle\Entity\usuario;
 
 /**
  * teg
+ *
+ * @author Armando Garcia <1211agarcia@gmail.com>
+ * @author Currently Working: Armando Garcia <1211agarcia@gmail.com>
+ * @version 17/09/2015
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Biblioteca\TegBundle\Entity\tegRepository")
  */
 class teg
 {
-    const ESCUELAS = array(
-                'Biología'=>'Biología',
-                'Computación'=>'Computación', 
-                'Física'=>'Física',
-                'Matemaática'=>'Matemaática',
-                'Química'=>'Química');
+    private static $escuelas = array(
+                "Biología"=>"Biología",
+                "Computación"=>"Computación", 
+                "Física"=>"Física",
+                "Matemática"=>"Matemática",
+                "Química"=>"Química");
 
     public static function getSchools() {
-        return self::ESCUELAS;
+        return self::$escuelas;
     }
     /**
      * @var integer
@@ -115,6 +120,15 @@ class teg
     private $created;
 
     /**
+     * @var \Biblioteca\UserBundle\Entity\usuario $user
+     *
+     * @ORM\ManyToOne(targetEntity="usuario", inversedBy="creations")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
+     * 
+     */
+    private $creator;
+
+    /**
      * @var datetime $updated
      *
      * @Gedmo\Timestampable(on="update")
@@ -131,10 +145,10 @@ class teg
 
     public function __construct()
     {
-        $this->autores = new ArrayCollection(array(''));
-        $this->tutores = new ArrayCollection(array(''));
+        $this->autores = new ArrayCollection(array('',''));
+        $this->tutores = new ArrayCollection(array('',''));
         $this->palabrasClave = new ArrayCollection(array('','',''));
-        $this->capitulos = new ArrayCollection(array(new documento(),new documento()));
+        $this->capitulos = new ArrayCollection();
         $this->published = true;
     }
 
@@ -428,5 +442,51 @@ class teg
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Set published
+     *
+     * @param boolean $published
+     * @return teg
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return boolean 
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * Set creator
+     *
+     * @param \Biblioteca\TegBundle\Entity\usuario $creator
+     * @return teg
+     */
+    public function setCreator(\Biblioteca\TegBundle\Entity\usuario $creator = null)
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * Get creator
+     *
+     * @return \Biblioteca\TegBundle\Entity\usuario 
+     */
+    public function getCreator()
+    {
+        return $this->creator;
     }
 }

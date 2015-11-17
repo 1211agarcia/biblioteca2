@@ -5,6 +5,8 @@ namespace Biblioteca\UserBundle\Entity;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Biblioteca\TegBundle\Validator\Constraints as TegAssert;
+use Biblioteca\TegBundle\Entity\teg;
 
 /**
  * usuario
@@ -24,25 +26,55 @@ class usuario extends BaseUser
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=155, nullable=false)
+     * @ORM\Column(type="string", length=50, nullable=false)
      *
      * @Assert\NotBlank(message="Please enter your name.", groups={"Registration", "Profile"})
      * @Assert\Length(
-     *     min=3,
-     *     max=100,
-     *     minMessage="The name is too short.",
-     *     maxMessage="The name is too long.",
-     *     groups={"Registration", "Profile"}
+     *     min=5,
+     *     max=50,
+     *     minMessage="El nombre es muy corto. (min 5)",
+     *     maxMessage="El nombre es muy largo. (max 50)"
      * )
+     * @TegAssert\ContainsAlphanumeric
      */
     protected $name;
     
+    /**
+     * @var array
+     *
+     * @ORM\OneToMany(targetEntity="teg", mappedBy="creator") 
+     */
+    protected $creations;
+
+
     public function __construct()
     {
         parent::__construct();
         // tu propia lógica
+        $this->creations = new ArrayCollection();
+    }
+
+    /**
+     * Implementación de una lista de roles para los usuarios 
+     * 
+     * @throws Exception
+     * @param Rol $rol 
+     */
+    public function addRole($rol)
+    {
+        switch($rol){
+            case 1:
+                array_push($this->roles, 'ROLE_USER');
+                break;
+            case 2:
+                array_push($this->roles, 'ROLE_ADMIN');
+                break;
+            default:
+                array_push($this->roles, 'ROLE_USER');
+                break;
+        }
     }      
-    
+
     /**
      * Get id
      *
@@ -51,9 +83,7 @@ class usuario extends BaseUser
     public function getId()
     {
         return $this->id;
-    }
-
-    
+    } 
 
     /**
      * Set nombre
@@ -99,5 +129,38 @@ class usuario extends BaseUser
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Add creations
+     *
+     * @param \Biblioteca\UserBundle\Entity\teg $creations
+     * @return usuario
+     */
+    public function addCreation(\Biblioteca\UserBundle\Entity\teg $creations)
+    {
+        $this->creations[] = $creations;
+
+        return $this;
+    }
+
+    /**
+     * Remove creations
+     *
+     * @param \Biblioteca\UserBundle\Entity\teg $creations
+     */
+    public function removeCreation(\Biblioteca\UserBundle\Entity\teg $creations)
+    {
+        $this->creations->removeElement($creations);
+    }
+
+    /**
+     * Get creations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCreations()
+    {
+        return $this->creations;
     }
 }

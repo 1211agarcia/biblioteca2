@@ -11,6 +11,7 @@ use Biblioteca\TegBundle\Entity\teg;
 use Biblioteca\TegBundle\Entity\documento;
 use Biblioteca\TegBundle\Form\tegType;
 use Biblioteca\TegBundle\Form\searchType;
+use Biblioteca\UserBundle\Entity\usuario as User;
 /**
  * teg controller.
  *
@@ -56,7 +57,16 @@ class tegController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            // Se Agrega User creador
+            $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+            //$idUserLogged = $userLogged->getId();
+            //$userManager = $this->get('fos_user.user_manager');
+            //$userLogged =  $userManager->findUserBy(array('id'=>$idUserLogged));
+            $creator = $userLogged;
+            $entity->setCreator($creator);
+
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($entity);
 
             foreach ($entity->getCapitulos() as $actualCapitulo) {  
@@ -74,6 +84,7 @@ class tegController extends Controller
                 $em->persist($capitulo);
             }
             
+
             $em->flush();
 
 

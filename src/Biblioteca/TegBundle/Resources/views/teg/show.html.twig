@@ -8,7 +8,7 @@
     <div class="form-inline">
             <a href="{{ path('teg') }}">
             Back to the list</a>
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") and app.user.roles[0]=="ROLE_SUPER_ADMIN" %}
+            {% if isSAdmin or isAdmin %}
                 <a class="button edit btn-warning" href="{{ path('teg_edit', { 'id': entity.id }) }}">
                 Editar
                 </a>
@@ -23,6 +23,7 @@
                     {{ form_widget(publish_form._token) }}
                 {{ form_rest(publish_form) }}
                 {{ form_end(publish_form, {'render_rest': false}) }}
+                creado por <a href="{{ path('teg') }}">{{entity.creator}}</a>
             {% endif %}
         </div>
     <div class="col-md-2 col-xs-12">

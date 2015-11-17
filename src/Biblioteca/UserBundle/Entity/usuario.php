@@ -4,6 +4,7 @@ namespace Biblioteca\UserBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Biblioteca\TegBundle\Validator\Constraints as TegAssert;
 
@@ -38,10 +39,19 @@ class usuario extends BaseUser
      */
     protected $name;
     
+
+    /**
+     * @ORM\OneToMany(targetEntity="Biblioteca\TegBundle\Entity\teg", mappedBy="creator")
+     * @Assert\Valid()
+     */
+    protected $creations;
+
+
     public function __construct()
     {
         parent::__construct();
         // tu propia lógica
+        $this->creations = new ArrayCollection();
     }
 
     /**
@@ -59,12 +69,15 @@ class usuario extends BaseUser
             case 2:
                 array_push($this->roles, 'ROLE_ADMIN');
                 break;
+            case 3:
+                array_push($this->roles, 'ROLE_SUPER_ADMIN');
+                break;
             default:
                 array_push($this->roles, 'ROLE_USER');
                 break;
         }
     }      
-    
+
     /**
      * Get id
      *
@@ -119,5 +132,38 @@ class usuario extends BaseUser
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Add creations
+     *
+     * @param \Biblioteca\UserBundle\Entity\teg $creations
+     * @return usuario
+     */
+    public function addCreation(\Biblioteca\UserBundle\Entity\teg $creations)
+    {
+        $this->creations[] = $creations;
+
+        return $this;
+    }
+
+    /**
+     * Remove creations
+     *
+     * @param \Biblioteca\UserBundle\Entity\teg $creations
+     */
+    public function removeCreation(\Biblioteca\UserBundle\Entity\teg $creations)
+    {
+        $this->creations->removeElement($creations);
+    }
+
+    /**
+     * Get creations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCreations()
+    {
+        return $this->creations;
     }
 }

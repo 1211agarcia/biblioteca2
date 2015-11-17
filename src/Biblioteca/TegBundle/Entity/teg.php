@@ -119,6 +119,12 @@ class teg
     private $created;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Biblioteca\UserBundle\Entity\usuario", inversedBy="creations")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $creator;
+
+    /**
      * @var datetime $updated
      *
      * @Gedmo\Timestampable(on="update")
@@ -455,5 +461,28 @@ class teg
     public function getPublished()
     {
         return $this->published;
+    }
+
+    /**
+     * Set creator
+     *
+     * @param \Biblioteca\UserBundle\Entity\usuario $creator
+     * @return teg
+     */
+    public function setCreator(\Biblioteca\UserBundle\Entity\usuario $creator = null)
+    {
+        $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * Get creator
+     *
+     * @return \Biblioteca\UserBundle\Entity\usuario 
+     */
+    public function getCreator()
+    {
+        return $this->creator;
     }
 }

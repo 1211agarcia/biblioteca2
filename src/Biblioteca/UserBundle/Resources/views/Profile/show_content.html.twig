@@ -18,6 +18,13 @@
             <p class="form-control-static">{{ user.roles[0] }}</p>
         </div>
     </div>
+    <div class="form-group">
+        <label class="col-sm-3 col-xs-6 col-md-2 control-label">Creations</label> 
+        <div class="col-xs-9">
+            {% for iField in user.creations %} 
+            <p class="form-control-static">{{ iField }}</p>{% endfor %}
+        </div>
+    </div>
 </form>
 <a class="btn btn-warning" href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-pencil-square-o fa-lg"></i> Editar</a>
 
