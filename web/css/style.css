@@ -1,27 +1,35 @@
 body { padding-top: 70px; }
-.navbar-brand {
+#menu .navbar-brand {
   background-image: url("../img/logo.svg");
   background-repeat: no-repeat;
   background-position: 4px center;
   background-size: auto 90%;
-  padding: 8px 0 8px 36px;
+  padding: 8px 0 8px 40px;
   height: 50px;
   color: #eee;
 }
-.navbar-brand>span {
+#menu .navbar-brand>span {
   text-align: center;
   text-transform: uppercase;
   line-height: 34px;
 }
-.navbar-brand>span>span {
+#menu .navbar-brand>span>span {
   display: block;
   line-height: 10px;
   font-size: 10px;
 }
-.navbar-brand>span>.focus {
+#menu .navbar-brand>span>.focus {
   line-height: 24px;
   font-family: serif;
   font-size: 24px;
+}
+#home .navbar-brand {
+  background-image: url("../img/logo2.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto 90%;
+  padding: 8px 0 8px 40px;
+  height: 200px;
 }
 @media (min-width:992px){
 #home {
@@ -40,7 +48,7 @@ body { padding-top: 70px; }
 #resumen p {
     font-size: 15px;font-size: 1.5rem;
 }
-.searchform input{width: 86%;height:20px;padding: 5px;float: left;border: 0;background: #eee;border-radius: 3px 0 0 3px;box-shadow: 0 1px 1px rgba(0,0,0,.4) inset;box-sizing: initial;-webkit-box-sizing: initial;font: 16px arial,sans-serif;}
+.searchform input{width: 86%;height:30px;padding: 5px;float: left;border: 0;background: #eee;border-radius: 3px 0 0 3px;box-shadow: 0 1px 1px rgba(0,0,0,.4) inset;box-sizing: initial;-webkit-box-sizing: initial;font: 16px arial,sans-serif;}
 .searchform input:focus {
     outline: 0;
     background: #fff;
