@@ -2,6 +2,10 @@ biblioteca_teg:
     resource: "@BibliotecaTegBundle/Controller/"
     type:     annotation
     prefix:   /
+biblioteca_user:
+    resource: "@BibliotecaUserBundle/Controller/"
+    type:     annotation
+    prefix:   /
 
 fos_user_security:
     resource: "@FOSUserBundle/Resources/config/routing/security.xml"
