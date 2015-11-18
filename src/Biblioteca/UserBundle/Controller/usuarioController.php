@@ -19,7 +19,7 @@ class usuarioController extends Controller
     /**
      * Lists all users.
      *
-     * @Route("/", name="user")
+     * @Route("/", name="users")
      * @Method("GET")
      * @Template()
      */
@@ -33,7 +33,7 @@ class usuarioController extends Controller
             'action' => $this->generateUrl('teg_search'),
             'attr'   => array('class' => 'searchform')));
         */
-        return $this->render('BibliotecaUserBundle:index.html.twig', array(
+        return (array(
             'users' => $users
         ));
     }
