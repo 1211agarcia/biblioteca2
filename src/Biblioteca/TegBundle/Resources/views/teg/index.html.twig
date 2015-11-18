@@ -24,22 +24,23 @@
 
     <h4>{{ entities | length }} disponibles</h4>
         {% for entity in entities %}
-            <div id="vista-previa">
-                <h3><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></h3>
-                <div>
-                    {% for Field in entity.autores %}
-                        {{ Field}},
-                    {% endfor %}
-                    {% for Field in entity.tutores %}{{ Field }},
-                    {% endfor %}
-                    {{ entity.publicacion|date('m-Y') }}
-                    {% for palabraField in entity.palabrasClave %}{{ palabraField }}
-                    {% endfor %}
-                </div>
-                <div>
-                    <a href="{{ path('teg_edit', { 'id': entity.id }) }}">Editar</a>
-                </div>
+            
+            <div class="col-md-9 col-xs-12">
+            <div class="well well-sm">
+                    <div class="section-box">
+                        <h3><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></h3>
+
+                        <p><b>{% for Field in entity.autores %}{{ Field}},{% endfor %}{% for Field in entity.tutores %}{{ Field }},{% endfor %}</b></br><i>{% for palabraField in entity.palabrasClave %}{{palabraField }},{% endfor %}</i></p>
+                        <hr />
+                        <div class="row rating-desc">
+                            <div class="col-md-12">
+                                </span><span class="glyphicon glyphicon-schools"></span>{{entity.escuela}}<span class="separator">|</span>
+                                <i class="fa fa-calendar"></i>&nbsp;{{ entity.publicacion|date('m-Y') }}
+                            </div>
+                        </div>
+                    </div>
             </div>
+        </div>
         {% endfor %}
 
     {% endblock %}

@@ -181,7 +181,7 @@ textarea.form-control{
 .play:before {
     content: "\25B6";
 }
-#vista-previa {
+/*#vista-previa {
 max-width: 712px;}
 #vista-previa h3{
     position: relative;
@@ -191,9 +191,17 @@ max-width: 712px;}
 
 }
 
-#vista-previa h3 a:visited {
+.section-box h3 a:visited {
     color: #660099;
     text-decoration: none;
-}#vista-previa h3 a:link {
+}.section-box h3 a:link {
     color: #1a0dab;
 }
+*/
+.section-box h3 { margin-top:0px;}
+.section-box h3 a { font-size:20px; }
+
+
+.separator { padding-right:5px;padding-left:5px; }
+.section-box hr {margin-top: 0;margin-bottom: 5px;border: 0;border-top: 1px solid rgb(199, 199, 199);}
+
