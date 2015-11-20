@@ -23,21 +23,21 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
+        //$repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
 
-        $query = $repository->createQueryBuilder('t')
+        /*$query = $repository->createQueryBuilder('t')
 		    ->where('t.published = 1')
 		    ->orderBy('t.publicacion', 'DESC')
 		    ->setMaxResults(3)
 		    ->getQuery();
 
         $entities = $query->getResult();
-		
+		*/
 	    $form = $this->searchCreateForm();
 	 
   		return array(
             'form' => $form->createView(),
-            'entities' => $entities);
+            /*'entities' => $entities*/);
 
     }
     /**
@@ -47,7 +47,7 @@ class DefaultController extends Controller
      * @Method("GET")
      * @Template("BibliotecaTegBundle:teg:index.html.twig")
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request, $page = 5)
     {
         
         // Se cre el formulario
@@ -58,7 +58,7 @@ class DefaultController extends Controller
             $data = $form->getData();
             
             $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
-
+/*
             $qb = $repository->createQueryBuilder('t');
             
             if (isset($data['q'])) {
@@ -111,20 +111,37 @@ class DefaultController extends Controller
             ->orderBy('t.publicacion', 'DESC');
 
             $query = $qb->getQuery();
-            $entities = $query->getResult();
-            printf("<pre>");
+*/
+            
+            // Controller Action
+            //$currentPage = $page;
+            $entities = $repository->search($data, $currentPage); // Returns 5 posts out of 20
+
+            // You can also call the count methods (check PHPDoc for `paginate()`)
+            $totalTegReturned = $entities->getIterator()->count(); # Total fetched (ie: `5` Teg)
+            $totalTeg = $entities->count(); # Count of ALL Teg (ie: `20` Teg)
+            $iterator = $entities->getIterator(); # ArrayIterator
+
+            //$entities = $query->getResult();
+            /*printf("<pre>");
             print_r($entities[0]->getPalabrasClave()->toArray());
             print_r($entities[0]->getAutores());
             print_r($entities[0]->getTutores());
             
             echo "<br/>";
             print_r(array_filter($entities[0]->getPalabrasClave()->toArray(),array(new LikeFilter($data['q']),'isLike')));
-            
-            printf("</pre>");
+            printf("</pre>");*/
+            $limit = 5;
+            $maxPages = ceil($entities->count() / $limit);
+            $thisPage = $page;
 
+//return $this->render('BiblitecaTeg:views:teg:index.twig.html', compact('entities', 'maxPages', 'thisPage'));
             return array(
                 'form' => $form->createView(),
-                'entities' => $entities);
+                'entities' => $entities,
+                'maxPages' => $maxPages,
+                'thisPage' => $thisPage
+            );
         
         }
         else{
@@ -150,7 +167,6 @@ class DefaultController extends Controller
 
         return $form;
     }
-    
 }
 
 /*

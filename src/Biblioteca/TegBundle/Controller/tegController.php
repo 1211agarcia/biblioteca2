@@ -27,20 +27,35 @@ class tegController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($page = 1)
     {
         $em = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
+        //$entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
+        //$entities = $em->getRepository('BibliotecaTegBundle:teg')->search(null, $page);
+        $entities = $repository->search(null, $page);
+        // You can also call the count methods (check PHPDoc for `paginate()`)
+        $totalPostsReturned = $entities->getIterator()->count(); # Total fetched (ie: `5` posts)
+        $totalPosts = $entities->count(); # Count of ALL posts (ie: `20` posts)
+        $iterator = $entities->getIterator(); # ArrayIterator    
         
-        $entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
-            
+        
+        $limit = 5;
+        $maxPages = ceil($entities->count() / $limit);
+        $thisPage = $page;
+          
+
         $form = $this->createForm(new searchType(), null, array(
             'action' => $this->generateUrl('teg_search'),
-            'attr'   => array('class' => 'searchform')));
+            'attr'   => array('class' => 'searchform')));    
+        //return $this->render('index.twig.html', compact('entities', 'maxPages', 'thisPage'));
         
         return array(
-            'form' => $form->createView(),
-            'entities' => $entities,
-        );
+                'form' => $form->createView(),
+                'entities' => $entities,
+                'maxPages' => $maxPages,
+                'thisPage' => $thisPage
+            );
     }
     /**
      * Creates a new teg entity.
