@@ -121,19 +121,6 @@
                 </div>
             </div>
             
-            <div class="form-group" >
-                {{ form_label(form.cota) }}
-                {{ form_errors(form.cota) }}
-                
-                <div class="col-lg-2 col-md-3 col-xs-12" ng-init="initCota('{{form.cota.vars.value}}');">
-                    <div class="input-group">
-                        <span class="input-group-addon">[[cota_school]]</span>
-                        <input type="number" string-to-number min="1" max="99" placeholder="Indice" ng-model="cota_index" required="required" class="form-control form-compacto">
-                        <span id="cota_year" class="input-group-addon">/[[cota_year]]</span>
-                    </div>
-                </div>
-                {{ form_widget(form.cota, { 'attr': { 'ng-model':'cota','style':'display:none'} }) }}
-            </div>
         </div>
         <div id="paso2" class="tab-pane fade">
             <div class="form-group">
@@ -150,6 +137,20 @@
             </div>
         </div>
         <div id="paso3" class="tab-pane fade">
+            <div class="form-group" >
+                {{ form_label(form.cota) }}
+                {{ form_errors(form.cota) }}
+                
+                <div class="col-lg-2 col-md-3 col-xs-12" ng-init="initCota('{{form.cota.vars.value}}');">
+                    <div class="input-group">
+                        <span class="input-group-addon">[[cota_school]]</span>
+                        <input type="number" string-to-number min="1" max="99" placeholder="Indice" ng-model="cota_index" required="required" class="form-control form-compacto">
+                        <span id="cota_year" class="input-group-addon">/[[cota_year]]</span>
+                    </div>
+                </div>
+                {{ form_widget(form.cota, { 'attr': { 'ng-model':'cota','style':'display:none'} }) }}
+            </div>
+            
             <div class="form-group">
                 
                 {{ form_errors(form.published) }}
