@@ -10,8 +10,7 @@ tegApp.controller('LoadCtrl', function ($scope, $http, $timeout, cfpLoadingBar) 
     $scope.posts = [];
     $scope.section = null;
     $scope.subreddit = null;
-    $scope.subreddits = ['cats', 'pics', 'funny', 'gaming', 'AdviceAnimals', 'aww'];
-
+    
     $scope.start = function() {
       cfpLoadingBar.start();
     };

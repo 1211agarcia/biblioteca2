@@ -95,3 +95,23 @@ tegApp.controller('inputTegController', function ($scope) {
         $scope.cota_index = val.substring(2, 4);
     };
 });
+
+tegApp.controller('showTegController', function ($scope) {
+    
+    $scope.chapters = [];
+    $scope.currentChapterUrl = "";
+    
+    $scope.addChapter = function(item) {
+        if(item != ""){
+            $scope.chapters.push(item);
+        }
+    };
+
+    $scope.setChapter = function (id) {
+        $scope.currentChapterUrl = $scope.chapters[id];
+        /*$scope.currentChapterUrl = $scope.trustAsResourceUrl($scope.currentChapter.url);
+        console.log( $scope.currentChapter );*/
+        console.log( $scope.currentChapterUrl );
+    }
+
+});
