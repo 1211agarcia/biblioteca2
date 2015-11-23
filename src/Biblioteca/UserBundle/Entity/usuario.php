@@ -137,10 +137,10 @@ class usuario extends BaseUser
     /**
      * Add creations
      *
-     * @param \Biblioteca\UserBundle\Entity\teg $creations
+     * @param \Biblioteca\TegBundle\Entity\teg $creations
      * @return usuario
      */
-    public function addCreation(\Biblioteca\UserBundle\Entity\teg $creations)
+    public function addCreation(\Biblioteca\TegBundle\Entity\teg $creations)
     {
         $this->creations[] = $creations;
 
@@ -150,9 +150,9 @@ class usuario extends BaseUser
     /**
      * Remove creations
      *
-     * @param \Biblioteca\UserBundle\Entity\teg $creations
+     * @param \Biblioteca\TegBundle\Entity\teg $creations
      */
-    public function removeCreation(\Biblioteca\UserBundle\Entity\teg $creations)
+    public function removeCreation(\Biblioteca\TegBundle\Entity\teg $creations)
     {
         $this->creations->removeElement($creations);
     }

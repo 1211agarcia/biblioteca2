@@ -67,21 +67,23 @@ class tegController extends Controller
     public function createAction(Request $request)
     {
         $entity = new teg();
+        $creator = new User();
         // Se crea el formulario
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            // Se Agrega User creador
+            // Se obtiene el usuario creador
             $userLogged = $this->get('security.token_storage')->getToken()->getUser();
-            //$idUserLogged = $userLogged->getId();
-            //$userManager = $this->get('fos_user.user_manager');
-            //$userLogged =  $userManager->findUserBy(array('id'=>$idUserLogged));
             $creator = $userLogged;
+            // Se Agrega User creador
             $entity->setCreator($creator);
+            // Se agrega la nueva teg creada al creador
+            $creator->addCreation($entity);
+            
+            $userManager = $this->get('fos_user.user_manager');
 
             $em = $this->getDoctrine()->getManager();
-
             $em->persist($entity);
 
             foreach ($entity->getCapitulos() as $actualCapitulo) {  
@@ -90,18 +92,15 @@ class tegController extends Controller
 
                 $capitulo = $actualCapitulo;
 
-                $capitulo->setTeg($entity);
-
                 $entity->addCapitulo($capitulo);
 
-              //  $em->persist($entity);
+                //  $em->persist($entity);
 
                 $em->persist($capitulo);
             }
-            
 
             $em->flush();
-
+            $userManager->updateUser($creator);
 
             return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));
         }
@@ -158,6 +157,29 @@ class tegController extends Controller
             'form'   => $form->createView(),
         );
     }
+    /**
+     * Displays a form to create a new teg entity.
+     *
+     * @Route("/miteg", name="teg_my")
+     * @Method("GET")
+     * @Template()
+     */
+    public function myTegAction()
+    {
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+
+        if($userLogged->getCreations()->count() === 0){
+            return $this->redirect($this->generateUrl('teg_new'));
+        }
+        else
+        {
+            //se busca y se muestra.
+            $id = $userLogged->getCreations()->get(0)->getId();
+            return $this->redirect($this->generateUrl('teg_show', array('id' => $id)));
+        
+        }
+
+    }
 
     /**
      * Finds and displays a teg entity.
@@ -176,12 +198,20 @@ class tegController extends Controller
             throw $this->createNotFoundException('Unable to find teg entity.');
         }
 
-        $publishForm = $this->createPublishForm($id);
+        $arrayReturn = array('entity' => $entity);
+        // Si el usuario solicitante puede editar
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+        //Si el user es de Rol Admin, puede publicar.
+        if($userLogged->getRoles()[0] === "ROLE_ADMIN")
+        {
+            $publishForm = $this->createPublishForm($id);
+            $arrayReturn['publish_form'] = $publishForm->createView();
+        }
+        //Si el user es de Rol Admin ó Autor puede Editar.
+        $arrayReturn['edit'] = ($userLogged->getCreations()->contains($entity) || $userLogged->getRoles()[0] === "ROLE_ADMIN");
 
-        return array(
-            'entity'      => $entity,
-            'publish_form' => $publishForm->createView(),
-        );
+        return $arrayReturn;
+        
     }
 
     /**
