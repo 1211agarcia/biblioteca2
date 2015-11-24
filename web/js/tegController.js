@@ -95,23 +95,52 @@ tegApp.controller('inputTegController', function ($scope) {
         $scope.cota_index = val.substring(2, 4);
     };
 });
-
-tegApp.controller('showTegController', function ($scope) {
+/*
+tegApp.filter('trustAsResourceUrl', ['$sce', function($sce) {
+    return function(val) {
+        return $sce.trustAsResourceUrl(val);
+    };
+}]);
+*/
+tegApp.controller('showTegController', function($scope, $sce) {
+    $scope.trustSrc = function(src) {
+        return $sce.trustAsResourceUrl(src);
+    }
+/*
+    $scope.searchResults =[{ id: 0, name: 'Omvända ZombieGrodor', url: '//www.youtube.com/embed/PHlIcWOwzQI?list=UUelsYLaipZjghHb8Wu_xm1g' },
+{ id: 1, name: 'Höftlyft', url: '//www.youtube.com/embed/3o39iMaxVk4?list=UUelsYLaipZjghHb8Wu_xm1g' },
+{ id: 2, name: 'Löparen', url: '//www.youtube.com/embed/21cLUxul11A?list=UUelsYLaipZjghHb8Wu_xm1g' }];
+  */  
+    /*
+    $scope.chapters = [{ id: 0, name: 'Omvända ZombieGrodor', url: '//www.youtube.com/embed/PHlIcWOwzQI?list=UUelsYLaipZjghHb8Wu_xm1g' },
+    { id: 1, name: 'Höftlyft', url: '//www.youtube.com/embed/3o39iMaxVk4?list=UUelsYLaipZjghHb8Wu_xm1g' },
+    { id: 2, name: 'Löparen', url: '//www.youtube.com/embed/21cLUxul11A?list=UUelsYLaipZjghHb8Wu_xm1g' }];
     
+    */
     $scope.chapters = [];
-    $scope.currentChapterUrl = "";
-    
     $scope.addChapter = function(item) {
         if(item != ""){
             $scope.chapters.push(item);
         }
     };
-
+/*
     $scope.setChapter = function (id) {
-        $scope.currentChapterUrl = $scope.chapters[id];
-        /*$scope.currentChapterUrl = $scope.trustAsResourceUrl($scope.currentChapter.url);
-        console.log( $scope.currentChapter );*/
+        /*$scope.currentChapterUrl = $scope.chapters[id];*/
+        /*$scope.currentChapterUrl = $scope.trustAsResourceUrl($scope.currentChapter.url);*/
+        /*console.log( $scope.currentChapter );
         console.log( $scope.currentChapterUrl );
-    }
+        $scope.currentChapter = $scope.chapters[id];
+        $scope.currentChapterUrl = $scope.trustAsResourceUrl($scope.currentChapter.url);
+    
+        $scope.currentChapterUrl = $scope.chapters[id].url;
+    };*/
+        
+    $scope.itemDetail = function(link){
+        //$scope.searchResults[link].url
+        console.log(link);
+        $scope.detailFrame = $sce.trustAsResourceUrl(link);
+        
+        console.log($scope.detailFrame);
+    };
 
 });
