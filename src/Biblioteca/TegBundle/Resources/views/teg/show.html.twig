@@ -7,7 +7,7 @@
 <div ng-controller="showTegController as ctrl">
     <div class="form-inline">
             <a href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i><span>&nbsp;Back to the list</a>
-            {% if edit %}
+            {% if edit is defined and edit %}
                 <a class="btn btn-warning" href="{{ path('teg_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Editar</a>
             {% endif %}
             {% if publish_form is defined %}

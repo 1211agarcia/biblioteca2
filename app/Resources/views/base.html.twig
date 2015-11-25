@@ -2,7 +2,7 @@
 {% set isAdmin = false %}
 {% set isSAdmin = false %}
 {% set isUser = false %}
-{% set isLogged = is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+{% set isLogged = is_granted("IS_AUTHENTICATED_FULLY") %}
 {% if isLogged %}
     {% set isAdmin = app.user.roles[0]=="ROLE_ADMIN" %}
     {% set isSAdmin = app.user.roles[0]=="ROLE_SUPER_ADMIN" %}

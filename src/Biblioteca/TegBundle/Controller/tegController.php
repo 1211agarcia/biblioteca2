@@ -201,15 +201,18 @@ class tegController extends Controller
         $arrayReturn = array('entity' => $entity);
         // Si el usuario solicitante puede editar
         $userLogged = $this->get('security.token_storage')->getToken()->getUser();
-        //Si el user es de Rol Admin, puede publicar.
-        if($userLogged->getRoles()[0] === "ROLE_ADMIN")
-        {
-            $publishForm = $this->createPublishForm($id);
-            $arrayReturn['publish_form'] = $publishForm->createView();
-        }
-        //Si el user es de Rol Admin ó Autor puede Editar.
-        $arrayReturn['edit'] = ($userLogged->getCreations()->contains($entity) || $userLogged->getRoles()[0] === "ROLE_ADMIN");
 
+        //Si el user es de Rol Admin, puede publicar.
+        if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
+
+            if($userLogged->getRoles()[0] === "ROLE_ADMIN")
+            {
+                $publishForm = $this->createPublishForm($id);
+                $arrayReturn['publish_form'] = $publishForm->createView();
+            }
+            //Si el user es de Rol Admin ó Autor puede Editar.
+            $arrayReturn['edit'] = ($userLogged->getCreations()->contains($entity) || $userLogged->getRoles()[0] === "ROLE_ADMIN");
+        }
         return $arrayReturn;
         
     }
