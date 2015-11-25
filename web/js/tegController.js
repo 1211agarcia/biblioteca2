@@ -106,41 +106,34 @@ tegApp.controller('showTegController', function($scope, $sce) {
     $scope.trustSrc = function(src) {
         return $sce.trustAsResourceUrl(src);
     }
-/*
-    $scope.searchResults =[{ id: 0, name: 'Omvända ZombieGrodor', url: '//www.youtube.com/embed/PHlIcWOwzQI?list=UUelsYLaipZjghHb8Wu_xm1g' },
-{ id: 1, name: 'Höftlyft', url: '//www.youtube.com/embed/3o39iMaxVk4?list=UUelsYLaipZjghHb8Wu_xm1g' },
-{ id: 2, name: 'Löparen', url: '//www.youtube.com/embed/21cLUxul11A?list=UUelsYLaipZjghHb8Wu_xm1g' }];
-  */  
-    /*
-    $scope.chapters = [{ id: 0, name: 'Omvända ZombieGrodor', url: '//www.youtube.com/embed/PHlIcWOwzQI?list=UUelsYLaipZjghHb8Wu_xm1g' },
-    { id: 1, name: 'Höftlyft', url: '//www.youtube.com/embed/3o39iMaxVk4?list=UUelsYLaipZjghHb8Wu_xm1g' },
-    { id: 2, name: 'Löparen', url: '//www.youtube.com/embed/21cLUxul11A?list=UUelsYLaipZjghHb8Wu_xm1g' }];
-    
-    */
     $scope.chapters = [];
     $scope.addChapter = function(item) {
         if(item != ""){
             $scope.chapters.push(item);
+            
         }
+        console.log(item);
     };
-/*
-    $scope.setChapter = function (id) {
-        /*$scope.currentChapterUrl = $scope.chapters[id];*/
-        /*$scope.currentChapterUrl = $scope.trustAsResourceUrl($scope.currentChapter.url);*/
-        /*console.log( $scope.currentChapter );
-        console.log( $scope.currentChapterUrl );
-        $scope.currentChapter = $scope.chapters[id];
-        $scope.currentChapterUrl = $scope.trustAsResourceUrl($scope.currentChapter.url);
-    
-        $scope.currentChapterUrl = $scope.chapters[id].url;
-    };*/
-        
-    $scope.itemDetail = function(link){
-        //$scope.searchResults[link].url
+    $scope.initViewer = function(link) {
         console.log(link);
+        $scope.viewer = $sce.trustAsResourceUrl(link);
+    };
+    
+    $scope.itemDetail = function(id){
+        //$scope.searchResults[link].url
+        link = $scope.chapters[id];
+        console.log(link);
+        //$scope.detailFrame = $scope.viewer + '#' +$sce.trustAsResourceUrl(link);
         $scope.detailFrame = $sce.trustAsResourceUrl(link);
         
         console.log($scope.detailFrame);
+        //console.log($scope.detailFrame);
+        //console.log("asdasdadasds = ");
+        //console.log($scope.viewer+'#'+$scope.detailFrame);
+        //document.getElementById("viewer").contentDocument.location.reload(true);
+        //window.document.getElementById('viewer').src = window.document.getElementById('viewer').src;
+
     };
+
 
 });
