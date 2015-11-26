@@ -13,13 +13,8 @@
             {% if publish_form is defined %}
                 {{ form_start(publish_form) }}
                 {{ form_errors(publish_form) }}
-                    <div class="checkbox">
-                        <label>
-                            {{ form_label(publish_form.published)}}{{ form_widget(publish_form.published) }}
-                        </label>
-                        {{ form_widget(publish_form.submit) }}
-                    </div>
-                    {{ form_widget(publish_form._token) }}
+                {{ form_widget(publish_form.submit) }}
+                {{ form_widget(publish_form._token) }}
                 {{ form_rest(publish_form) }}
                 {{ form_end(publish_form, {'render_rest': false}) }}
             {% endif %}
@@ -29,8 +24,8 @@
     </div>
     <div class="col-md-2 col-xs-12">
         <ul class="nav nav-pills">
-            <li class="active"><a data-toggle="tab" href="#detalles">Detalles</a></li>
-            <li ><a data-toggle="tab" href="#capitulo">Detalles</a></li>
+            <li class="active"><a data-toggle="tab" href="#detalles"><i class="fa fa-book fa-lg">&nbsp;Detalles</i></a></li>
+            <li ><a data-toggle="tab" href="#capitulo"><i class="fa fa-files-o fa-lg">&nbsp;Archivos</i></a></li>
             
         </ul>
     </div>
@@ -73,31 +68,22 @@
             </div>
         </div>
         <div id="capitulo" class="tab-pane fade" ng-init="initViewer('{{ asset('bundles/bibliotecateg/js/viewer.js/index.html') }}')">
-            <i class="fa fa-files-o fa-lg"></i>
-            <select class="btn btn-default" ng-model="chapterSelected" placeholder="Archivos">
+            <i class="fa">Seleccione un capitulo</i>
+            <select id="chapterSelect"class="btn btn-default" ng-model="chapterSelected" placeholder="Archivos">
                 {% for iField in entity.capitulos %}
                 <option ng-init="addChapter({{ loop.index0 }}, '{{ asset('uploads/capitulos/capitulo' ~ loop.index ~ '.pdf') }}','{{iField.name}}');" value="[[chapters[{{ loop.index0 }}].url]]" {% if loop.index0 == 0 %}selected="selected"{% endif %}>[[chapters[{{ loop.index0 }}].name]]</option>
                 {% endfor %}
             </select>
             <a class="btn btn-default" download ng-href="[[chapterSelected]]">Descargar&nbsp;<i class="fa fa-cloud-download fa-lg"></i></a>
             <a class="btn btn-default" target="_blank" ng-href="[[chapterSelected]]">Abrir en nueva pestaña&nbsp;<i class="fa fa-external-link fa-lg"></i></a>
-            <iframe ng-init="initChapterSelected();" ng-src="[[chapterSelected.url]]" name="viewer" id="viewer" width='100%' height='500px'></iframe>
-            
+            <iframe ng-init="initChapterSelected();" ng-src="[[chapterSelected]]" name="viewer" id="viewer" width='100%' height='500px'></iframe>
         </div>
     </div>
-</span>    
 
-<span>
-[[detailFrame]]
-</span>
-<input type="text" ng-model="detailFrame" />
-
-<span>detail:[[detailFrame]]</span>
-<span>select:|[[chapterSelected]]|</span>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
 
     <script src="{{ asset('js/tegController.js') }}" type="text/javascript"></script>
-        
+
 {% endblock %}

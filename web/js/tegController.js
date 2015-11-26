@@ -124,7 +124,7 @@ tegApp.controller('showTegController', function($scope, $sce) {
         $scope.viewer = $sce.trustAsResourceUrl(link);
     };
     $scope.initChapterSelected = function (){
-       $scope.chapterSelected = $scope.chapters[0];
+       $scope.chapterSelected = $scope.chapters[0].url;       
     }
     
     
