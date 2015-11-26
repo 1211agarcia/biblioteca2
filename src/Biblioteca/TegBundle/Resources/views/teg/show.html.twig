@@ -30,11 +30,8 @@
     <div class="col-md-2 col-xs-12">
         <ul class="nav nav-pills">
             <li class="active"><a data-toggle="tab" href="#detalles">Detalles</a></li>
+            <li ><a data-toggle="tab" href="#capitulo">Detalles</a></li>
             
-            {% for iField in entity.capitulos %}
-                <li ng-init="addChapter('{{ asset('uploads/capitulos/capitulo' ~ loop.index ~ '.pdf') }}');" ><a data-toggle="tab" href="#capitulo" ng-click="itemDetail({{loop.index - 1}});"><i class="fa fa-file-pdf-o fa-fw"></i>&nbsp;{{ iField.name }}</a></li></br>
-
-            {% endfor %}
         </ul>
     </div>
     <div class="tab-content  form-horizontal col-md-9 col-xs-12">
@@ -75,22 +72,27 @@
                 </div>
             </div>
         </div>
-        <div id="capitulo" class="tab-pane fade" ng-init="initViewer('{{ asset('bundles/bibliotecateg/js/viewer.js/index.html') }}');itemDetail(0);">
+        <div id="capitulo" class="tab-pane fade" ng-init="initViewer('{{ asset('bundles/bibliotecateg/js/viewer.js/index.html') }}')">
+            <select class="btn btn-default" ng-model="chapterSelected" placeholder="Archivos">
+                {% for iField in entity.capitulos %}
+                <option ng-init="addChapter({{ loop.index0 }}, '{{ asset('uploads/capitulos/capitulo' ~ loop.index ~ '.pdf') }}','{{iField.name}}');" value="[[chapters[{{ loop.index0 }}].url]]" {% if loop.index0 == 0 %}ng-selected="true"{% endif %}>[[chapters[{{ loop.index0 }}].name]]</option>
+                {% endfor %}
+            </select>
             <a class="btn btn-default" download ng-href="[[detailFrame]]">Descargar&nbsp;<i class="fa fa-cloud-download fa-lg"></i></a>
             <a class="btn btn-default" target="_blank" ng-href="[[detailFrame]]">Abrir en nueva pestaña&nbsp;<i class="fa fa-external-link fa-lg"></i></a>
-            <iframe ng-src="[[detailFrame]]" name="viewer" id="viewer" width='100%' height='500px' allowfullscreen></iframe>
+            <iframe ng-init="initChapterSelected();" ng-src="[[chapterSelected]]" name="viewer" id="viewer" width='100%' height='500px' allowfullscreen></iframe>
             
         </div>
     </div>
 </span>    
 
 <span>
-{{ app.request.headers.get('referer') }}
-</span><span>
+[[detailFrame]]
+</span>
+<input type="text" ng-model="detailFrame" />
 
-</span><span>            
-{{ app.request.requestUri() }}
-    </span>
+<span>detail:[[detailFrame]]</span>
+<span>select:[[chapterSelected]]</span>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
