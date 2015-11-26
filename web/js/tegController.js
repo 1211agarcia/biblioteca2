@@ -117,12 +117,15 @@ tegApp.controller('showTegController', function($scope, $sce) {
                 });
         }
         console.log($scope.chapters);
+
     };
     $scope.initViewer = function(link) {
         console.log(link);
         $scope.viewer = $sce.trustAsResourceUrl(link);
     };
-    $scope.initChapterSelected = function (){$scope.chapterSelected = $scope.chapters[0];}
+    $scope.initChapterSelected = function (){
+       $scope.chapterSelected = $scope.chapters[0];
+    }
     
     
     $scope.itemDetail = function(id){
