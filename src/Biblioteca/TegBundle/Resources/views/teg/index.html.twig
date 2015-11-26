@@ -21,10 +21,14 @@
 {{ form_rest(form) }}
 {{ form_end(form, {'render_rest': false}) }}
 {% endif %} 
+<div class="count">
+    {{ pagination.getTotalItemCount }}
+</div>
+
 
     <h4>{{ entities | length }} disponibles</h4>
         {% for entity in entities %}
-            
+        {% if entity.published or isAdmin or isSAdmin %}
             <div class="col-md-9 col-xs-12">
             <div class="well well-sm">
                     <div class="section-box">
@@ -34,33 +38,27 @@
                         <hr />
                         <div class="row rating-desc">
                             <div class="col-md-12">
-                                </span><span class="glyphicon glyphicon-schools"></span>{{entity.escuela}}<span class="separator">|</span>
-                                <i class="fa fa-calendar"></i>&nbsp;{{ entity.publicacion|date('m-Y') }}
+                                <span class="glyphicon glyphicon-schools">{{entity.escuela}}</span><span class="separator">|</span>
+                                <span><i class="fa fa-calendar"></i>&nbsp;{{ entity.publicacion|date('m-Y') }}
+                                    {% if (isAdmin or isSAdmin) %}
+                                        {% if not entity.published %}
+                                        <span style="float:right;"><i class="fa fa-eye-slash fa-lg"></i>&nbsp;Oculto</span>
+                                        {% else %}
+                                        <span style="float:right;"><i class="fa fa-eye fa-lg"></i>&nbsp;Publico</span>
+                                        {% endif %}
+                                    {% endif %}
+                                    
                             </div>
                         </div>
                     </div>
+                    
             </div>
+        {% endif %}
         </div>
         {% endfor %}
-        {% if maxPages > 1 %}
-        <ul class="pagination pagination-sm">
-            {# `«` arrow  #}
-            <li {{ thisPage == 1 ? 'class="disabled"' }}>
-                <a href="{{ path('teg', {page: thisPage-1 < 1 ? 1 : thisPage-1}) }}">«</a>
-            </li>
-
-            {# Render each page number #}
-            {% for i in 1..maxPages %}
-            <li {{ thisPage == i ? 'class="active"' }}>
-            <a href="{{ path('teg', {page: i}) }}">{{ i }}</a>
-            </li>
-            {% endfor %}
-
-            {# `»` arrow #}
-            <li {{ thisPage == maxPages ? 'class="disabled"' }}>
-                <a href="{{ path('teg', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}">»</a>
-            </li>
-        </ul>
-        {% endif %}
+        {# display navigation #}
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>
 
     {% endblock %}

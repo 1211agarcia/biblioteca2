@@ -27,22 +27,29 @@ class tegController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction($page = 1)
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        //$em = $this->get('doctrine.orm.entity_manager');
+    $dql   = "SELECT a FROM BibliotecaTegBundle:teg a";
+    $query = $em->createQuery($dql);
+
+    $paginator  = $this->get('knp_paginator');
+    $pagination = $paginator->paginate(
+        $query, /* query NOT result */
+        $request->query->getInt('page', 1)/*page number*/,
+        10/*limit per page*/
+    );
         $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
         //$entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
-        //$entities = $em->getRepository('BibliotecaTegBundle:teg')->search(null, $page);
-        $entities = $repository->search(null, $page);
-        // You can also call the count methods (check PHPDoc for `paginate()`)
-        $totalPostsReturned = $entities->getIterator()->count(); # Total fetched (ie: `5` posts)
-        $totalPosts = $entities->count(); # Count of ALL posts (ie: `20` posts)
-        $iterator = $entities->getIterator(); # ArrayIterator    
-        
-        
-        $limit = 5;
-        $maxPages = ceil($entities->count() / $limit);
-        $thisPage = $page;
+        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
+        if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') && ($userLogged->getRoles()[0] === "ROLE_ADMIN" || $userLogged->getRoles()[0] === "ROLE_SUPER_ADMIN" )){
+            $entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
+        }
+        else
+        {
+            $entities = $em->getRepository('BibliotecaTegBundle:teg')->findBy(array('published' => false, 'orderBy' => 'DESC'));
+        }      
           
 
         $form = $this->createForm(new searchType(), null, array(
@@ -52,9 +59,10 @@ class tegController extends Controller
         
         return array(
                 'form' => $form->createView(),
-                'entities' => $entities,
-                'maxPages' => $maxPages,
-                'thisPage' => $thisPage
+                'entities' => $pagination,
+                'pagination' => $pagination
+                //'maxPages' => $maxPages,
+                //'thisPage' => $thisPage
             );
     }
     /**
@@ -194,7 +202,7 @@ class tegController extends Controller
 
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
 
-        if (!$entity) {
+        if (!$entity ) {
             throw $this->createNotFoundException('Unable to find teg entity.');
         }
 
@@ -326,19 +334,13 @@ class tegController extends Controller
                 throw $this->createNotFoundException('Unable to find teg entity.');
             }
             //Si el valor existente es diferente al entrante se hace la accion
-            if ($entity->getPublished() && !$form->getData()['published']) {
-                $entity->setPublished($form->getData()['published']);
-                $em->persist($entity);
-                $em->flush();
-                //Se actualiza el formulario
-                $form = $this->createPublishForm($id);
-            }
+            $entity->setPublished(!$entity->getPublished());
+            $em->persist($entity);
+            $em->flush();
             
         }
-        return array(
-            'entity'      => $entity,
-            'publish_form' => $form->createView(),
-        );
+        return $this->redirect($this->generateUrl('teg_show', array('id' => $id)));
+        
     }
 
     /**
@@ -352,19 +354,10 @@ class tegController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
-        $form = $this->createFormBuilder(null, array('attr' => array('class' => 'form-inline')))
+        $form = $this->createFormBuilder(null, array('attr' => array('style' => 'display:initial;')))
             ->setAction($this->generateUrl('teg_publish', array('id' => $id)))
             ->setMethod('POST')
-            ->setAttribute('class', 'form-group')
-            ->add('published', 'checkbox',
-                array(
-                    'label'    => '¿Publicado?',
-                    //'label_attr' => array('class' => 'control-label col-xs-3') ,
-                    'attr'=> array('class' => 'checkbox-inline','data-on-text'=> 'Sí','data-off-text'=> 'No', 'checked'=>$entity->getPublished()),
-                    'required' => false,
-                )
-            )
-            ->add('submit', 'submit', array('label' => 'Aplicar', 'attr'=> array('class' => 'button save btn-info')))
+            ->add('submit', 'submit', array('label' => ($entity->getPublished()?'Ocultar':'publicar'), 'attr'=> array('class' => 'btn btn-default')))
             ->getForm()
         ;
         return $form;

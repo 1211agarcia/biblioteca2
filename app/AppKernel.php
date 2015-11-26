@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new Biblioteca\UserBundle\BibliotecaUserBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Biblioteca\TegBundle\BibliotecaTegBundle(),
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

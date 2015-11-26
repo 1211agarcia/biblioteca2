@@ -5,17 +5,23 @@
 {% endblock %} 
 {% block body %}
 <div ng-controller="showTegController as ctrl">
-    <div class="form-inline">
-            <a href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i><span>&nbsp;Back to the list</a>
+    <div class="form-inline" style="border-color: red;border-width: medium;padding: 5px;margin: 5px;background-color: maroon;border-radius: 5px;">
+            <a class="btn btn-default" href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i>&nbsp;Back to the list</a>
             {% if edit is defined and edit %}
-                <a class="btn btn-warning" href="{{ path('teg_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Editar</a>
+                <a class="btn btn-default" href="{{ path('teg_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Editar</a>
             {% endif %}
             {% if publish_form is defined %}
                 {{ form_start(publish_form) }}
                 {{ form_errors(publish_form) }}
-                {{ form_widget(publish_form.submit) }}
+                {# { form_widget(publish_form.submit) } #}
+                {% if entity.published %}
+                    <button type="submit" id="form_submit" name="form[submit]" class="btn btn-default"><i class="fa fa-eye-slash fa-lg"></i>&nbsp;Ocultar</button>
+                    {% else %}
+                    <button type="submit" id="form_submit" name="form[submit]" class="btn btn-default"><i class="fa fa-eye fa-lg"></i>&nbsp;Publicar</button>
+                {% endif %}
+                
                 {{ form_widget(publish_form._token) }}
-                {{ form_rest(publish_form) }}
+                {# { form_rest(publish_form) } #}
                 {{ form_end(publish_form, {'render_rest': false}) }}
             {% endif %}
             {% if isSAdmin or isAdmin %}

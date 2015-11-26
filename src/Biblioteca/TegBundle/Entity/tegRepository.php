@@ -71,11 +71,7 @@ class tegRepository extends EntityRepository
                     $exprQ
         );
         
-        $query->where($query->expr()->andX(
-            $query->expr()->eq('t.published', '1'),
-            $condiciones
-            )
-        )
+        $query->where($query->expr()->andX($condiciones))
         ->orderBy('t.publicacion', 'DESC')->getQuery();
 
 	    // No need to manually get get the result ($query->getResult())
@@ -111,5 +107,9 @@ class tegRepository extends EntityRepository
             ->setMaxResults($limit); // Limit
 
         return $paginator;
+    }
+    public function findAll()
+    {
+        return $this->findBy(array(), array('publicacion' => 'DESC'));
     }
 }
