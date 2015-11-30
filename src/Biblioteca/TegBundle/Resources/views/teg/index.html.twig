@@ -26,7 +26,7 @@
 </div>
 
 
-    <h4>{{ entities | length }} disponibles</h4>
+    <h4>{{ entities | length }} de {{ pagination.getTotalItemCount }}</h4>
         {% for entity in entities %}
         {% if entity.published or isAdmin or isSAdmin %}
             <div class="col-md-9 col-xs-12">

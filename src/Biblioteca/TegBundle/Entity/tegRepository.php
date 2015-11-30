@@ -21,20 +21,22 @@ class tegRepository extends EntityRepository
 	 * 2. Paginate will return a `\Doctrine\ORM\Tools\Pagination\Paginator` object
 	 * 3. Return that object to the controller
 	 *
-	 * @param integer $currentPage The current page (passed from controller)
+	 * @param booleam $published true si solo se muestran los publicos, false todos los teg existentes
 	 * 
 	 * @return \Doctrine\ORM\Tools\Pagination\Paginator
 	 */
-	public function search($data = null, $currentPage = 1)
+	public function search($data = null, $published = true)
 	{
+        printf("<pre>");print_r($data); printf("</pre>");
 	    // Create our query
 	    $query = $this->createQueryBuilder('t');
     	if (isset($data['q'])) {
             $exprQ = $query->expr()->orX(
                 $query->expr()->like('t.cota', "'%".$data['q']."%'"),
                 $query->expr()->like('t.titulo', "'%".$data['q']."%'"),
-                $query->expr()->like('t.resumen', "'%".$data['q']."%'"),
-                $query->expr()->like('t.palabrasClave', "'%".$data['q']."%'")//,
+                $query->expr()->like('t.escuela', "'%".$data['q']."%'"),
+                $query->expr()->like('t.resumen', "'%".$data['q']."%'")//,
+                //$query->expr()->like('t.palabrasClave', "'%".$data['q']."%'")//,
                 //$query->expr()->like('t.autores', "'%".$data['q']."%'"),
                 //$query->expr()->like('t.tutores', "'%".$data['q']."%'")
             );
@@ -66,50 +68,45 @@ class tegRepository extends EntityRepository
         }
         //Se unen en AND las codiciones
         $condiciones = $query->expr()->andX(
+                    $query->expr()->eq('t.published', "'".$published."'"),
                     $exprEscuela,
                     $exprInteval,
                     $exprQ
         );
+        printf("<pre>");/*print_r($condiciones);*/ printf("</pre>");
         
         $query->where($query->expr()->andX($condiciones))
         ->orderBy('t.publicacion', 'DESC')->getQuery();
+$result = $query->getResult();
+printf("<pre>");
 
-	    // No need to manually get get the result ($query->getResult())
-
-	    $paginator = $this->paginate($query, $currentPage);
-
-	    return $paginator;
+print_r($result);
+ printf("</pre>");
+        
+	    return $query;
 	}
 
-	/**
-     * Paginator Helper
+    /**
      *
-     * Pass through a query object, current page & limit
-     * the offset is calculated from the page and limit
-     * returns an `Paginator` instance, which you can call the following on:
      *
-     *     $paginator->getIterator()->count() # Total fetched (ie: `5` posts)
-     *     $paginator->count() # Count of ALL posts (ie: `20` posts)
-     *     $paginator->getIterator() # ArrayIterator
-     *
-     * @param Doctrine\ORM\Query $dql   DQL Query Object
-     * @param integer            $page  Current page (defaults to 1)
-     * @param integer            $limit The total number per page (defaults to 5)
-     *
-     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     * @param boolean $all, true: se muestra todo los teg
+     *                     false: se muestra SOLO las que esten publicas
+     * @return Doctrine\ORM\Query $dql   DQL Query Object
      */
-    public function paginate($dql, $page = 1, $limit = 5)
+    public function findAllQuery($all = true)
     {
-        $paginator = new Paginator($dql);
+        // Create our query
+        $query = $this->createQueryBuilder('t');
+        
+        if ($all){
+            $query->orderBy('t.publicacion', 'DESC')->getQuery();
+        }
+        else{ 
+            
+            $query->where($query->expr()->eq('t.published', "'true'"))->orderBy('t.publicacion', 'DESC')->getQuery();
 
-        $paginator->getQuery()
-            ->setFirstResult($limit * ($page - 1)) // Offset
-            ->setMaxResults($limit); // Limit
+        }
 
-        return $paginator;
-    }
-    public function findAll()
-    {
-        return $this->findBy(array(), array('publicacion' => 'DESC'));
+        return $query;
     }
 }

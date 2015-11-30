@@ -47,7 +47,7 @@ class DefaultController extends Controller
      * @Method("GET")
      * @Template("BibliotecaTegBundle:teg:index.html.twig")
      */
-    public function searchAction(Request $request, $page = 5)
+    public function searchAction(Request $request)
     {
         
         // Se cre el formulario
@@ -58,90 +58,31 @@ class DefaultController extends Controller
             $data = $form->getData();
             
             $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
-/*
-            $qb = $repository->createQueryBuilder('t');
-            
-            if (isset($data['q'])) {
-                $exprQ = $qb->expr()->orX(
-                    $qb->expr()->like('t.cota', "'%".$data['q']."%'"),
-                    $qb->expr()->like('t.titulo', "'%".$data['q']."%'"),
-                    $qb->expr()->like('t.resumen', "'%".$data['q']."%'"),
-                    $qb->expr()->like('t.palabrasClave', "'%".$data['q']."%'")//,
-                    //$qb->expr()->like('t.autores', "'%".$data['q']."%'"),
-                    //$qb->expr()->like('t.tutores', "'%".$data['q']."%'")
-                );
-            }
-            else
-            {
-                //$exprEscuela = $qb->expr()->isNotNull('t.escuela');
-            }
 
-            //Si se filtra por Escuela se 
-            if (isset($data['escuela'])){
-                $exprEscuela = $qb->expr()->eq('t.escuela', "'".$data['escuela']."'");}
-            else{$exprEscuela = $qb->expr()->isNotNull('t.escuela');}
+            $query = $repository->search($data);
 
             
-            //Si rangos de fechas es ignorado
-            if (!isset($data['desde']) && !isset($data['hasta'])){
-                $exprInteval= $qb->expr()->isNotNull('t.publicacion');}
-            else{
-                //Si ingreso rango inferior
-                if (isset($data['desde'])) {
-                    $desde = "'".$data['desde']."-1-1'";
-                }else{$desde = 't.publicacion';}
-                //Si ingreso rango superior
-                if (isset($data['hasta'])) {
-                    $hasta = "'".$data['hasta']."-12-31'";
-                }else{$hasta = 't.publicacion';}
-                $exprInteval = $qb->expr()->between('t.publicacion', $desde, $hasta);
-            }
-            //Se unen en AND las codiciones
-            $condiciones = $qb->expr()->andX(
-                        $exprEscuela,
-                        $exprInteval,
-                        $exprQ
+            $paginator  = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1)/*page number*/,
+                10/*limit per page*/
             );
+            //printf("<pre>");
+            //print_r($pagination[0]->getPalabrasClave()->toArray());
+            //print_r($pagination[0]->getAutores());
+            //print_r($pagination[0]->getTutores());
             
-            $qb->where($qb->expr()->andX(
-                $qb->expr()->eq('t.published', '1'),
-                $condiciones
-                )
-            )
-            ->orderBy('t.publicacion', 'DESC');
-
-            $query = $qb->getQuery();
-*/
+            //echo "<br/>";
+            //print_r(array_filter($pagination[0]->getPalabrasClave()->toArray(),array(new LikeFilter($data['q']),'isLike')));
+            //print_r($query->getResult());
             
-            // Controller Action
-            //$currentPage = $page;
-            $entities = $repository->search($data, $currentPage); // Returns 5 posts out of 20
-
-            // You can also call the count methods (check PHPDoc for `paginate()`)
-            $totalTegReturned = $entities->getIterator()->count(); # Total fetched (ie: `5` Teg)
-            $totalTeg = $entities->count(); # Count of ALL Teg (ie: `20` Teg)
-            $iterator = $entities->getIterator(); # ArrayIterator
-
-            //$entities = $query->getResult();
-            /*printf("<pre>");
-            print_r($entities[0]->getPalabrasClave()->toArray());
-            print_r($entities[0]->getAutores());
-            print_r($entities[0]->getTutores());
-            
-            echo "<br/>";
-            print_r(array_filter($entities[0]->getPalabrasClave()->toArray(),array(new LikeFilter($data['q']),'isLike')));
-            printf("</pre>");*/
-            $limit = 5;
-            $maxPages = ceil($entities->count() / $limit);
-            $thisPage = $page;
-
-//return $this->render('BiblitecaTeg:views:teg:index.twig.html', compact('entities', 'maxPages', 'thisPage'));
+            //printf("</pre>");
             return array(
-                'form' => $form->createView(),
-                'entities' => $entities,
-                'maxPages' => $maxPages,
-                'thisPage' => $thisPage
-            );
+                    'form' => $form->createView(),
+                    'entities' => $pagination,
+                    'pagination' => $pagination
+                );
         
         }
         else{

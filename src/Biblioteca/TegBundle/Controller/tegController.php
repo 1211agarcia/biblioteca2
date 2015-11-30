@@ -29,40 +29,31 @@ class tegController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        //$em = $this->get('doctrine.orm.entity_manager');
-    $dql   = "SELECT a FROM BibliotecaTegBundle:teg a";
-    $query = $em->createQuery($dql);
-
-    $paginator  = $this->get('knp_paginator');
-    $pagination = $paginator->paginate(
-        $query, /* query NOT result */
-        $request->query->getInt('page', 1)/*page number*/,
-        10/*limit per page*/
-    );
         $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
-        //$entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
+        
         $userLogged = $this->get('security.token_storage')->getToken()->getUser();
         if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') && ($userLogged->getRoles()[0] === "ROLE_ADMIN" || $userLogged->getRoles()[0] === "ROLE_SUPER_ADMIN" )){
-            $entities = $em->getRepository('BibliotecaTegBundle:teg')->findAll();
+            $query = $repository->findAllQuery();
         }
         else
         {
-            $entities = $em->getRepository('BibliotecaTegBundle:teg')->findBy(array('published' => false, 'orderBy' => 'DESC'));
-        }      
-          
-
+            $query = $repository->findAllQuery(false);
+        }                
+        
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
         $form = $this->createForm(new searchType(), null, array(
             'action' => $this->generateUrl('teg_search'),
-            'attr'   => array('class' => 'searchform')));    
-        //return $this->render('index.twig.html', compact('entities', 'maxPages', 'thisPage'));
+            'attr'   => array('class' => 'searchform')));
         
         return array(
                 'form' => $form->createView(),
                 'entities' => $pagination,
                 'pagination' => $pagination
-                //'maxPages' => $maxPages,
-                //'thisPage' => $thisPage
             );
     }
     /**
