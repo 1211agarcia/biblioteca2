@@ -98,23 +98,26 @@ class tegController extends Controller
 
                 $em->persist($capitulo);
             }
-
             foreach ($entity->getAuthors() as $actualAuthor) {
                 $author = new author();
                 $author = $actualAuthor;
+                $entity->addAuthor($author);
                 $em->persist($author);
             }
             foreach ($entity->getTuthors() as $actualTuthor) {
                 $tuthor = new tuthor();
                 $tuthor = $actualTuthor;
+                $entity->addTuthor($tuthor);
                 $em->persist($tuthor);
             }
             foreach ($entity->getKeyWords() as $actualKeyWord) {
                 $keyWord = new keyWord();
                 $keyWord = $actualKeyWord;
+                $entity->addKeyWord($keyWord);
                 $em->persist($keyWord);
             }
 
+            $em->flush();
             $userManager->updateUser($creator);
 
             return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));
