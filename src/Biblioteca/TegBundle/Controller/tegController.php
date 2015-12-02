@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Biblioteca\TegBundle\Entity\teg;
 use Biblioteca\TegBundle\Entity\documento;
+use Biblioteca\TegBundle\Entity\author;
+use Biblioteca\TegBundle\Entity\tuthor;
+use Biblioteca\TegBundle\Entity\keyWord;
 use Biblioteca\TegBundle\Form\tegType;
 use Biblioteca\TegBundle\Form\searchType;
 use Biblioteca\UserBundle\Entity\usuario as User;
@@ -93,12 +96,25 @@ class tegController extends Controller
 
                 $entity->addCapitulo($capitulo);
 
-                //  $em->persist($entity);
-
                 $em->persist($capitulo);
             }
 
-            $em->flush();
+            foreach ($entity->getAuthors() as $actualAuthor) {
+                $author = new author();
+                $author = $actualAuthor;
+                $em->persist($author);
+            }
+            foreach ($entity->getTuthors() as $actualTuthor) {
+                $tuthor = new tuthor();
+                $tuthor = $actualTuthor;
+                $em->persist($tuthor);
+            }
+            foreach ($entity->getKeyWords() as $actualKeyWord) {
+                $keyWord = new keyWord();
+                $keyWord = $actualKeyWord;
+                $em->persist($keyWord);
+            }
+
             $userManager->updateUser($creator);
 
             return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));

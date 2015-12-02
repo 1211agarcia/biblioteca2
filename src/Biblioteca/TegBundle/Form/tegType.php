@@ -93,6 +93,9 @@ class tegType extends AbstractType
                 'label_attr' => array('class' => 'control-label col-xs-3'),
                 'label' => 'Autor(es)',
                 'type' => new authortype(),
+                'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => true,
                 'options'  => array(
                     'required'  => true,
                     'attr'      => array('class' => 'form-group')
@@ -105,6 +108,9 @@ class tegType extends AbstractType
                 'label_attr' => array('class' => 'control-label col-xs-3'),        
                 'label' => 'Tutor(es)',
                 'type' => new tuthorType(),
+                'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => true,
                 'options'  => array(
                     'required'  => true,
                     'attr'      => array('class' => 'form-group')

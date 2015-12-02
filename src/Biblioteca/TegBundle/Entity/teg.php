@@ -295,8 +295,7 @@ class teg
     {
         $this->capitulos[] = $capitulos;
         $capitulos->setTeg($this);
-        return $this;
-
+        
         return $this;
     }
 
@@ -431,6 +430,7 @@ class teg
     public function addAuthor(\Biblioteca\TegBundle\Entity\author $authors)
     {
         $this->authors[] = $authors;
+        $authors->setTeg($this);
 
         return $this;
     }
@@ -484,9 +484,10 @@ class teg
      * @param \Biblioteca\TegBundle\Entity\keyword $keyWords
      * @return teg
      */
-    public function addKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWords)
+    public function addKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWord)
     {
-        $this->keyWords[] = $keyWords;
+        $this->keyWords[] = $keyWord;
+        $keyWord->setTeg($this);
 
         return $this;
     }
@@ -517,9 +518,10 @@ class teg
      * @param \Biblioteca\TegBundle\Entity\tuthor $tuthors
      * @return teg
      */
-    public function addTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthors)
+    public function addTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthor)
     {
-        $this->tuthors[] = $tuthors;
+        $this->tuthors[] = $tuthor;
+        $tuthor->setTeg($this);
 
         return $this;
     }
