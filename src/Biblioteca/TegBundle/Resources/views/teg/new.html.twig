@@ -32,44 +32,43 @@
             </div>
 
             <div class="form-group">
-                {{ form_label(form.autores) }}
-                {{ form_errors(form.autores) }}
+                {{ form_label(form.authors) }}
                 <div id="form-autor" class="col-xs-9">
 
-                    <ul id="autor-fields-list" class="list-unstyled" ng-init="{% for i in form.autores %}addA('{{ i.vars.value}}');{% endfor %}">
+                    <ul id="autor-fields-list" class="list-unstyled" ng-init="{% for i in form.authors %}addA('{{ i.vars.value}}');{% endfor %}">
                         <li>
-                                {{ form_widget(form.autores[0]) }}
+                            {{ form_widget(form.authors[0].name) }}
+                            {{ form_widget(form.authors[0].lastname) }}
+                            {{ form_errors(form.authors[0]) }}
                         </li>
-                        <li>
-                            {% if form.autores[1] is defined %}
-                                {{ form_widget(form.autores[1], { 'attr': {'placeholder': 'Opcional', 'required':'false'} }) }}
-                            {% else %}
-                                <input type="text" id="biblioteca_tegbundle_teg_autores_1" name="biblioteca_tegbundle_teg[autores][1]" class="form-control" placeholder="Opcional" required="false">
-                            {% endif %}
-                                
+
+                        <label>Segundo autor (Opcional): <input type="checkbox" ng-model="segundoA" ng-init="segundoA={% if form.autores[1] is defined %}true{% endif %}" /></label><br/>
+                       
+                        <li ng-if="segundoA" >
+                            {{ form_widget(form.authors[1].name) }}
+                            {{ form_widget(form.authors[1].lastname) }}
+                            {{ form_errors(form.authors[1]) }}
                         </li>
-                        
                     </ul>
                 </div>
             </div>
             <div class="form-group">
-                {{ form_label(form.tutores) }}
-                {{ form_errors(form.tutores) }}
+                {{ form_label(form.tuthors) }}
                 <div id="form-tutor" class="col-xs-9">
 
-                    <ul id="tutor-fields-list" class="list-unstyled" ng-init="{% for i in form.tutores %}addA('{{ i.vars.value}}');{% endfor %}">
+                    <ul id="tutor-fields-list" class="list-unstyled" ng-init="{% for i in form.tuthors %}addA('{{ i.vars.value}}');{% endfor %}">
                         <li>
-                                {{ form_widget(form.tutores[0]) }}
+                            {{ form_widget(form.tuthors[0].name) }}
+                            {{ form_widget(form.tuthors[0].lastname) }}
+                            {{ form_errors(form.tuthors[0]) }}
                         </li>
-                        <li>
-                            {% if form.tutores[1] is defined %}
-                                {{ form_widget(form.tutores[1], { 'attr': {'placeholder': 'Opcional', 'required':'false'} }) }}
-                            {% else %}
-                                <input type="text" id="biblioteca_tegbundle_teg_tutores_1" name="biblioteca_tegbundle_teg[tutores][1]" class="form-control" placeholder="Opcional" required="false">
-                            {% endif %}
-                                
+                        <label>Segundo tutor (Opcional): <input type="checkbox" ng-model="segundoT" ng-init="segundoT={% if form.tutores[1] is defined %}true{% endif %}" /></label><br/>
+                       
+                        <li ng-if="segundoT" >
+                            {{ form_widget(form.tuthors[1].name) }}
+                            {{ form_widget(form.tuthors[1].lastname) }}
+                            {{ form_errors(form.tuthors[1]) }}
                         </li>
-                        
                     </ul>
                 </div>
             </div>
@@ -83,12 +82,12 @@
             </div>
             
             <div class="form-group" >
-                {{ form_label(form.palabrasClave) }}
-                {{ form_errors(form.palabrasClave) }}
+                {{ form_label(form.keyWords) }}
+                {{ form_errors(form.keyWords) }}
 
-                <div class="col-xs-9" ng-init="{% for i in form.palabrasClave %}add('{{ i.vars.value}}');{% endfor %}">
+                <div class="col-xs-9" ng-init="{% for i in form.keyWords %}add('{{ i.vars.value}}');{% endfor %}">
                     <div ng-repeat="item in wordkeys track by $index" class="input-group col-md-2 col-xs-12" style="float: left;margin-right: 5px;">
-                        <input type="text" name="[['biblioteca_tegbundle_teg[palabrasClave]['+$index+']']]" value="[[item]]:[[$index]]" required="required" class="form-control"/>
+                        <input type="text" name="[['biblioteca_tegbundle_teg[keyWords]['+$index+']']]" value="[[item]]:[[$index]]" required="required" class="form-control"/>
                         <span class="input-group-btn">
                             <button type="button" class="close" ng-click="remove($index)"><span aria-hidden="true">&times;</span></button>
                           </span>

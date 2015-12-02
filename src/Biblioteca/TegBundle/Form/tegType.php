@@ -69,6 +69,7 @@ class tegType extends AbstractType
             ->add('keyWords', 'collection',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'label' => 'Palabras clave',
                     'type' => new keyWordType(),
                     'allow_add' => true,
                     'allow_delete' => true,
@@ -90,10 +91,11 @@ class tegType extends AbstractType
         $builder
             ->add('authors', 'collection', array(
                 'label_attr' => array('class' => 'control-label col-xs-3'),
+                'label' => 'Autor(es)',
                 'type' => new authortype(),
                 'options'  => array(
                     'required'  => true,
-                    'attr'      => array('class' => 'form-control')
+                    'attr'      => array('class' => 'form-group')
                     ),
                 )
             )
@@ -101,10 +103,11 @@ class tegType extends AbstractType
         $builder
             ->add('tuthors', 'collection', array(
                 'label_attr' => array('class' => 'control-label col-xs-3'),        
+                'label' => 'Tutor(es)',
                 'type' => new tuthorType(),
                 'options'  => array(
                     'required'  => true,
-                    'attr'      => array('class' => 'form-control')
+                    'attr'      => array('class' => 'form-group')
                     ),
                 )
             )
