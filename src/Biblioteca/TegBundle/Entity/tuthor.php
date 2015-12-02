@@ -139,4 +139,8 @@ class tuthor
     {
         return $this->teg;
     }
+    
+    public function __toString() {
+        return sprintf('%s %s', $this->getName(), $this->getLastname());
+    }
 }

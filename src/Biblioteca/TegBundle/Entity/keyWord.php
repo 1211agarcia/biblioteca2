@@ -103,4 +103,9 @@ class keyWord
     {
         return $this->teg;
     }
+
+
+    public function __toString() {
+        return sprintf('%s', $this->getKeyWord());
+    }
 }
