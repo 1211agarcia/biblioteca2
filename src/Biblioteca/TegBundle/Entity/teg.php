@@ -7,6 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Biblioteca\TegBundle\Entity\documento;
+use Biblioteca\TegBundle\Entity\tuthor;
+use Biblioteca\TegBundle\Entity\author;
+use Biblioteca\TegBundle\Entity\keyWord;
 
 /**
  * teg
@@ -77,9 +80,10 @@ class teg
     /**
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\OneToMany(targetEntity="keyWord", mappedBy="teg") 
+     * @Assert\Valid
      */
-    private $palabrasClave;
+    private $keyWords;
 
     /**
      * @var string
@@ -91,16 +95,18 @@ class teg
     /**
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\OneToMany(targetEntity="author", mappedBy="teg") 
+     * @Assert\Valid
      */
-    private $autores;
+    private $authors;
 
     /**
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\OneToMany(targetEntity="tuthor", mappedBy="teg") 
+     * @Assert\Valid
      */
-    private $tutores;
+    private $tuthors;
 
     /**
      * @var array
@@ -141,9 +147,9 @@ class teg
 
     public function __construct()
     {
-        $this->autores = new ArrayCollection(array('',''));
-        $this->tutores = new ArrayCollection(array('',''));
-        $this->palabrasClave = new ArrayCollection(array('','',''));
+        $this->authors = new ArrayCollection(array(new author(),new author()));
+        $this->tuthors = new ArrayCollection(array(new tuthor(),new tuthor()));
+        $this->keyWords = new ArrayCollection(array(new keyword(),new keyword()));
         $this->capitulos = new ArrayCollection();
         $this->published = true;
     }
@@ -252,29 +258,6 @@ class teg
     }
 
     /**
-     * Set palabrasClave
-     *
-     * @param array $palabrasClave
-     * @return teg
-     */
-    public function setPalabrasClave($palabrasClave)
-    {
-        $this->palabrasClave = $palabrasClave;
-
-        return $this;
-    }
-
-    /**
-     * Get palabrasClave
-     *
-     * @return array 
-     */
-    public function getPalabrasClave()
-    {
-        return $this->palabrasClave;
-    }
-
-    /**
      * Set resumen
      *
      * @param string $resumen
@@ -295,53 +278,6 @@ class teg
     public function getResumen()
     {
         return $this->resumen;
-    }
-
-    /**
-     * Set autores
-     *
-     * @param array $autores
-     * @return teg
-     */
-    public function setAutores($autores)
-    {
-        $this->autores = $autores;
-        return $this;
-    }
-
-    /**
-     * Get autores
-     *
-     * @return array
-     */
-    public function getAutores()
-    {
-       return $this->autores;
-  //     return implode(",", $this->autores);
-      
-    }
-
-    /**
-     * Set tutores
-     *
-     * @param array $tutores
-     * @return teg
-     */
-    public function setTutores($tutores)
-    {
-        $this->tutores = $tutores;
-        return $this;
-    }
-
-    /**
-     * Get tutores
-     *
-     * @return array
-     */
-    public function getTutores()
-    {
-       return $this->tutores;
-      
     }
 
     public function __toString() {
@@ -484,5 +420,117 @@ class teg
     public function getCreator()
     {
         return $this->creator;
+    }
+
+    /**
+     * Add authors
+     *
+     * @param \Biblioteca\TegBundle\Entity\author $authors
+     * @return teg
+     */
+    public function addAuthor(\Biblioteca\TegBundle\Entity\author $authors)
+    {
+        $this->authors[] = $authors;
+
+        return $this;
+    }
+
+    /**
+     * Remove authors
+     *
+     * @param \Biblioteca\TegBundle\Entity\author $authors
+     */
+    public function removeAuthor(\Biblioteca\TegBundle\Entity\author $authors)
+    {
+        $this->authors->removeElement($authors);
+    }
+
+    /**
+     * Set tuthors
+     *
+     * @param array $tuthors
+     * @return teg
+     */
+    public function setTuthors($tuthors)
+    {
+        $this->tuthors = $tuthors;
+
+        return $this;
+    }
+
+    /**
+     * Get tuthors
+     *
+     * @return array 
+     */
+    public function getTuthors()
+    {
+        return $this->tuthors;
+    }
+
+    /**
+     * Get authors
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAuthors()
+    {
+        return $this->authors;
+    }
+
+    /**
+     * Add keyWords
+     *
+     * @param \Biblioteca\TegBundle\Entity\keyword $keyWords
+     * @return teg
+     */
+    public function addKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWords)
+    {
+        $this->keyWords[] = $keyWords;
+
+        return $this;
+    }
+
+    /**
+     * Remove keyWords
+     *
+     * @param \Biblioteca\TegBundle\Entity\keyword $keyWords
+     */
+    public function removeKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWords)
+    {
+        $this->keyWords->removeElement($keyWords);
+    }
+
+    /**
+     * Get keyWords
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getKeyWords()
+    {
+        return $this->keyWords;
+    }
+
+    /**
+     * Add tuthors
+     *
+     * @param \Biblioteca\TegBundle\Entity\tuthor $tuthors
+     * @return teg
+     */
+    public function addTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthors)
+    {
+        $this->tuthors[] = $tuthors;
+
+        return $this;
+    }
+
+    /**
+     * Remove tuthors
+     *
+     * @param \Biblioteca\TegBundle\Entity\tuthor $tuthors
+     */
+    public function removeTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthors)
+    {
+        $this->tuthors->removeElement($tuthors);
     }
 }

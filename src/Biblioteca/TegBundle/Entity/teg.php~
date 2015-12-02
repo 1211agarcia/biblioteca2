@@ -7,7 +7,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\Common\Collections\ArrayCollection;
 use Biblioteca\TegBundle\Entity\documento;
-use Biblioteca\UserBundle\Entity\usuario;
+use Biblioteca\TegBundle\Entity\tuthor;
+use Biblioteca\TegBundle\Entity\author;
+use Biblioteca\TegBundle\Entity\keyWord;
 
 /**
  * teg
@@ -78,9 +80,10 @@ class teg
     /**
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\OneToMany(targetEntity="keyword", mappedBy="teg") 
+     * @Assert\Valid
      */
-    private $palabrasClave;
+    private $keyWords;
 
     /**
      * @var string
@@ -92,16 +95,18 @@ class teg
     /**
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\OneToMany(targetEntity="author", mappedBy="teg") 
+     * @Assert\Valid
      */
-    private $autores;
+    private $authors;
 
     /**
      * @var array
      *
-     * @ORM\Column(type="array")
+     * @ORM\OneToMany(targetEntity="tuthor", mappedBy="teg") 
+     * @Assert\Valid
      */
-    private $tutores;
+    private $tuthors;
 
     /**
      * @var array
@@ -120,11 +125,8 @@ class teg
     private $created;
 
     /**
-     * @var \Biblioteca\UserBundle\Entity\usuario $user
-     *
-     * @ORM\ManyToOne(targetEntity="usuario", inversedBy="creations")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", onDelete="CASCADE")
-     * 
+     * @ORM\ManyToOne(targetEntity="Biblioteca\UserBundle\Entity\usuario", inversedBy="creations")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $creator;
 
@@ -145,8 +147,8 @@ class teg
 
     public function __construct()
     {
-        $this->autores = new ArrayCollection(array('',''));
-        $this->tutores = new ArrayCollection(array('',''));
+        $this->authors = new ArrayCollection(array(new author(),new author()));
+        $this->tuthors = new ArrayCollection(array('',''));
         $this->palabrasClave = new ArrayCollection(array('','',''));
         $this->capitulos = new ArrayCollection();
         $this->published = true;
@@ -256,29 +258,6 @@ class teg
     }
 
     /**
-     * Set palabrasClave
-     *
-     * @param array $palabrasClave
-     * @return teg
-     */
-    public function setPalabrasClave($palabrasClave)
-    {
-        $this->palabrasClave = $palabrasClave;
-
-        return $this;
-    }
-
-    /**
-     * Get palabrasClave
-     *
-     * @return array 
-     */
-    public function getPalabrasClave()
-    {
-        return $this->palabrasClave;
-    }
-
-    /**
      * Set resumen
      *
      * @param string $resumen
@@ -299,53 +278,6 @@ class teg
     public function getResumen()
     {
         return $this->resumen;
-    }
-
-    /**
-     * Set autores
-     *
-     * @param array $autores
-     * @return teg
-     */
-    public function setAutores($autores)
-    {
-        $this->autores = $autores;
-        return $this;
-    }
-
-    /**
-     * Get autores
-     *
-     * @return array
-     */
-    public function getAutores()
-    {
-       return $this->autores;
-  //     return implode(",", $this->autores);
-      
-    }
-
-    /**
-     * Set tutores
-     *
-     * @param array $tutores
-     * @return teg
-     */
-    public function setTutores($tutores)
-    {
-        $this->tutores = $tutores;
-        return $this;
-    }
-
-    /**
-     * Get tutores
-     *
-     * @return array
-     */
-    public function getTutores()
-    {
-       return $this->tutores;
-      
     }
 
     public function __toString() {
@@ -470,10 +402,10 @@ class teg
     /**
      * Set creator
      *
-     * @param \Biblioteca\TegBundle\Entity\usuario $creator
+     * @param \Biblioteca\UserBundle\Entity\usuario $creator
      * @return teg
      */
-    public function setCreator(\Biblioteca\TegBundle\Entity\usuario $creator = null)
+    public function setCreator(\Biblioteca\UserBundle\Entity\usuario $creator = null)
     {
         $this->creator = $creator;
 
@@ -483,10 +415,66 @@ class teg
     /**
      * Get creator
      *
-     * @return \Biblioteca\TegBundle\Entity\usuario 
+     * @return \Biblioteca\UserBundle\Entity\usuario 
      */
     public function getCreator()
     {
         return $this->creator;
+    }
+
+    /**
+     * Add authors
+     *
+     * @param \Biblioteca\TegBundle\Entity\author $authors
+     * @return teg
+     */
+    public function addAuthor(\Biblioteca\TegBundle\Entity\author $authors)
+    {
+        $this->authors[] = $authors;
+
+        return $this;
+    }
+
+    /**
+     * Remove authors
+     *
+     * @param \Biblioteca\TegBundle\Entity\author $authors
+     */
+    public function removeAuthor(\Biblioteca\TegBundle\Entity\author $authors)
+    {
+        $this->authors->removeElement($authors);
+    }
+
+    /**
+     * Set tuthors
+     *
+     * @param array $tuthors
+     * @return teg
+     */
+    public function setTuthors($tuthors)
+    {
+        $this->tuthors = $tuthors;
+
+        return $this;
+    }
+
+    /**
+     * Get tuthors
+     *
+     * @return array 
+     */
+    public function getTuthors()
+    {
+        return $this->tuthors;
+    }
+
+    /**
+     * Get authors
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAuthors()
+    {
+        return $this->authors;
     }
 }

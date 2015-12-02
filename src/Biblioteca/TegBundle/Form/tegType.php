@@ -7,8 +7,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Biblioteca\TegBundle\Form\documentoType;
+use Biblioteca\TegBundle\Form\authorType;
+use Biblioteca\TegBundle\Form\tuthorType;
+use Biblioteca\TegBundle\Form\keyWordType;
 use Biblioteca\TegBundle\Entity\teg;
-use Biblioteca\UserBundle\Form\Type\RegistrationType;
+
 class tegType extends AbstractType
 {
     /**
@@ -55,7 +58,6 @@ class tegType extends AbstractType
                     'days' => range(1, date('d')),
                     'empty_value' => 
                         array('day' => 'Dia', 'month' => 'Mes', 'year' => 'Año'),
-//                    'attr'      => array('class' => 'form-control'),
                 )
             )
             ->add('titulo', 'text', 
@@ -64,9 +66,10 @@ class tegType extends AbstractType
                     'attr'=> array('class' => 'form-control'),
                 )
             )
-            ->add('palabrasClave', 'collection',
+            ->add('keyWords', 'collection',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'type' => new keyWordType(),
                     'allow_add' => true,
                     'allow_delete' => true,
                     'prototype' => true,
@@ -83,11 +86,11 @@ class tegType extends AbstractType
                                      'row' => '3')
                 )
             )
-            //->add('capitulo', new documentoType(), array('label' => 'Capítulo (PDF file)'))
-        ;
+       ;
         $builder
-            ->add('autores', 'collection', array(
-                'label_attr' => array('class' => 'control-label col-xs-3'),        
+            ->add('authors', 'collection', array(
+                'label_attr' => array('class' => 'control-label col-xs-3'),
+                'type' => new authortype(),
                 'options'  => array(
                     'required'  => true,
                     'attr'      => array('class' => 'form-control')
@@ -96,8 +99,9 @@ class tegType extends AbstractType
             )
         ;
         $builder
-            ->add('tutores', 'collection', array(
+            ->add('tuthors', 'collection', array(
                 'label_attr' => array('class' => 'control-label col-xs-3'),        
+                'type' => new tuthorType(),
                 'options'  => array(
                     'required'  => true,
                     'attr'      => array('class' => 'form-control')
