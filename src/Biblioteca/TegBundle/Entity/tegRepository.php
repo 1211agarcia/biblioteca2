@@ -31,12 +31,18 @@ class tegRepository extends EntityRepository
 	    // Create our query bundler
 	    $qb = $this->createQueryBuilder('t');
     	if (isset($data['q'])) {
+            //$qb->join('t.key_word', 'k', $qb->expr()->like('k.keyWord', "'%".$data['q']."%'"));
+// Example - $qb->join('u.Group', 'g', Expr\Join::WITH, $qb->expr()->eq('u.status_id', '?1'))
+// Example - $qb->join('u.Group', 'g', 'WITH', 'u.status = ?1')
+// Example - $qb->join('u.Group', 'g', 'WITH', 'u.status = ?1', 'g.id')
+// public function join($join, $alias, $conditionType = null, $condition = null, $indexBy = null);
+
             $exprQ = $qb->expr()->orX(
                 $qb->expr()->like('t.cota', "'%".$data['q']."%'"),
                 $qb->expr()->like('t.titulo', "'%".$data['q']."%'"),
                 $qb->expr()->like('t.escuela', "'%".$data['q']."%'"),
-                $qb->expr()->like('t.resumen', "'%".$data['q']."%'"),
-                $qb->expr()->like('t.palabrasClave', "'%".$data['q']."%'")//,
+                $qb->expr()->like('t.resumen', "'%".$data['q']."%'")//,
+                //$qb->expr()->like('t.palabrasClave', "'%".$data['q']."%'")//,
                 //$qb->expr()->like('t.autores', "'%".$data['q']."%'"),
                 //$qb->expr()->like('t.tutores', "'%".$data['q']."%'")
             );

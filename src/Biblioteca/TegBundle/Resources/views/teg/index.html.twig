@@ -29,12 +29,13 @@
     <h4>{{ entities | length }} de {{ pagination.getTotalItemCount }}</h4>
         {% for entity in entities %}
         {% if entity.published or isAdmin or isSAdmin %}
+            
             <div class="col-md-9 col-xs-12">
             <div class="well well-sm">
                     <div class="section-box">
                         <h3><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></h3>
 
-                        <p><b>{% for Field in entity.autores %}{{ Field}},{% endfor %}{% for Field in entity.tutores %}{{ Field }},{% endfor %}</b></br><i>{% for palabraField in entity.palabrasClave %}{{palabraField }},{% endfor %}</i></p>
+                        <p><b>{% for Field in entity.authors %}{{ Field }},{% endfor %}{% for Field in entity.tuthors %}{{ Field }},{% endfor %}</b></br><i>{% for Field in entity.keyWords %}{{ Field }},{% endfor %}</i></p>
                         <hr />
                         <div class="row rating-desc">
                             <div class="col-md-12">

@@ -296,7 +296,7 @@ class tegController extends Controller
      *
      * @Route("/{id}", name="teg_update")
      * @Method("PUT")
-     * @Template("BibliotecaTegBundle:teg:edit.html.twig")
+     * @Template("BibliotecaTegBundle:teg:new.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -315,12 +315,12 @@ class tegController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('teg_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('teg_show', array('id' => $id)));
         }
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
             'publish_form' => $publishForm->createView(),
         );
     }

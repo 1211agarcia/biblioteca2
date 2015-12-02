@@ -60,27 +60,14 @@ class DefaultController extends Controller
             $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
 
             $query = $repository->search($data);//->getQuery();
-
-// ... then call getResult() on the Query (not on the QueryBuilder)
-//$entidades = $query->getResult(); 
-          //  $entidades = $repository->search($data);
-
+            
             $paginator  = $this->get('knp_paginator');
             $pagination = $paginator->paginate(
                 $query, /* query NOT result */
                 $request->query->getInt('page', 1)/*page number*/,
                 10/*limit per page*/
             );
-            printf("<pre>");
-            //print_r($pagination[0]->getPalabrasClave()->toArray());
-            //print_r($pagination[0]->getAutores());
-            //print_r($pagination[0]->getTutores());
-            
-            //echo "<br/>";
-            //print_r(array_filter($pagination[0]->getPalabrasClave()->toArray(),array(new LikeFilter($data['q']),'isLike')));
-            //print_r($entidades);
-            
-            printf("</pre>");
+
             return array(
                     'form' => $form->createView(),
                     'entities' => $pagination,

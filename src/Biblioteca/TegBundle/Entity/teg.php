@@ -281,7 +281,8 @@ class teg
     }
 
     public function __toString() {
-        return sprintf('%d at %s (%s)', $this->getId(), $this->getCota(), $this->getTitulo());
+        //print_r (sprintf('%s (%s)\nPalabras: %s\nAutores: %s\nTutores: %s', $this->getTitulo(), $this->getCota(), implode(",", $this->getKeyWords()), implode(",", $this->Authors()), implode(",", $this->Tuthros())));
+        return sprintf($this->getTitulo().' ('.$this->getCota().')'/*.$this->getResumen().'<br>Palabras: '.$this->getKeyWords().'\nAutores: '.$this->Authors().'\nTutores: '.$this->Tuthros()*/);
     }
   
 
