@@ -80,7 +80,7 @@ class teg
     /**
      * @var array
      *
-     * @ORM\OneToMany(targetEntity="keyword", mappedBy="teg") 
+     * @ORM\OneToMany(targetEntity="keyWord", mappedBy="teg") 
      * @Assert\Valid
      */
     private $keyWords;
@@ -148,8 +148,8 @@ class teg
     public function __construct()
     {
         $this->authors = new ArrayCollection(array(new author(),new author()));
-        $this->tuthors = new ArrayCollection(array('',''));
-        $this->palabrasClave = new ArrayCollection(array('','',''));
+        $this->tuthors = new ArrayCollection(array(new tuthor(),new tuthor()));
+        $this->keyWords = new ArrayCollection(array(new keyword(),new keyword()));
         $this->capitulos = new ArrayCollection();
         $this->published = true;
     }
@@ -281,7 +281,8 @@ class teg
     }
 
     public function __toString() {
-        return sprintf('%d at %s (%s)', $this->getId(), $this->getCota(), $this->getTitulo());
+        //print_r (sprintf('%s (%s)\nPalabras: %s\nAutores: %s\nTutores: %s', $this->getTitulo(), $this->getCota(), implode(",", $this->getKeyWords()), implode(",", $this->Authors()), implode(",", $this->Tuthros())));
+        return sprintf($this->getTitulo().' ('.$this->getCota().')'/*.$this->getResumen().'<br>Palabras: '.$this->getKeyWords().'\nAutores: '.$this->Authors().'\nTutores: '.$this->Tuthros()*/);
     }
   
 
@@ -295,8 +296,7 @@ class teg
     {
         $this->capitulos[] = $capitulos;
         $capitulos->setTeg($this);
-        return $this;
-
+        
         return $this;
     }
 
@@ -431,6 +431,7 @@ class teg
     public function addAuthor(\Biblioteca\TegBundle\Entity\author $authors)
     {
         $this->authors[] = $authors;
+        $authors->setTeg($this);
 
         return $this;
     }
@@ -476,5 +477,63 @@ class teg
     public function getAuthors()
     {
         return $this->authors;
+    }
+
+    /**
+     * Add keyWords
+     *
+     * @param \Biblioteca\TegBundle\Entity\keyword $keyWords
+     * @return teg
+     */
+    public function addKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWord)
+    {
+        $this->keyWords[] = $keyWord;
+        $keyWord->setTeg($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove keyWords
+     *
+     * @param \Biblioteca\TegBundle\Entity\keyword $keyWords
+     */
+    public function removeKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWords)
+    {
+        $this->keyWords->removeElement($keyWords);
+    }
+
+    /**
+     * Get keyWords
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getKeyWords()
+    {
+        return $this->keyWords;
+    }
+
+    /**
+     * Add tuthors
+     *
+     * @param \Biblioteca\TegBundle\Entity\tuthor $tuthors
+     * @return teg
+     */
+    public function addTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthor)
+    {
+        $this->tuthors[] = $tuthor;
+        $tuthor->setTeg($this);
+
+        return $this;
+    }
+
+    /**
+     * Remove tuthors
+     *
+     * @param \Biblioteca\TegBundle\Entity\tuthor $tuthors
+     */
+    public function removeTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthors)
+    {
+        $this->tuthors->removeElement($tuthors);
     }
 }

@@ -13,7 +13,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        for ($i=0; $i < 3 ; $i++) { 
+        for ($i=1; $i <= 3 ; $i++) { 
            
             $user = new User();
             //$user->setIndentityCard($entityCard);

@@ -8,7 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Biblioteca\TegBundle\Entity\teg;
 
 /**
+<<<<<<< HEAD
  * keyword
+=======
+ * keyWord
+>>>>>>> dfec5be6e4627928e1787b5440e28edc34f52beb
  *
  * @author Armando Garcia <1211agarcia@gmail.com>
  * @author Currently Working: Armando Garcia <1211agarcia@gmail.com>
@@ -103,4 +107,12 @@ class keyWord
     {
         return $this->teg;
     }
+<<<<<<< HEAD
+=======
+
+
+    public function __toString() {
+        return sprintf('%s', $this->getKeyWord());
+    }
+>>>>>>> dfec5be6e4627928e1787b5440e28edc34f52beb
 }

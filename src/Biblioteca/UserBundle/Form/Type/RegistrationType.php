@@ -4,6 +4,7 @@ namespace Biblioteca\UserBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RegistrationType extends AbstractType
 {
@@ -13,23 +14,30 @@ class RegistrationType extends AbstractType
             ->add('name')
             ->add('roles', 'collection', array(
                 'label_attr' => array('class' => 'control-label col-xs-3'),
-                // cada elemento en el arreglo debe ser un campo "email"
                 'type'   => 'choice',
                 'allow_add' => true,
                 'prototype' => true,
-                // estas opciones se pasan a cada tipo "email"
                 'options'  => array(
                     'required'  => true,
                     'attr'      => array('class' => 'form-control'),
                     'choices'  => array(
-                        'ROLE_USER' => 'Normal',
-                        'ROLE_ADMIN' => 'Administrador'),
+                        '1' => 'Estudiante',
+                        '2' => 'Administrador'),
                     ),
                 )
             )
         ;
     }
-
+    /**
+     * @param OptionsResolverInterface $resolver
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'data_class' => 'Biblioteca\UserBundle\Entity\usuario'
+        ));
+    }
+    
     public function getParent()
     {
         return 'fos_user_registration';
