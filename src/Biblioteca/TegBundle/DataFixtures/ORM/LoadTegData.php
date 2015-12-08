@@ -42,9 +42,9 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
                     $teg->setTitulo("Titulo-".$i);
 
                     $teg->setResumen("Resumen-".$i);
-                    $teg->setPalabrasClave(array('Palabra-$i-1', 'Palabra-$i-2','Palabra-$i-3'));
-                    $teg->setAutores(array('Autor-$i-1', 'Autor-$i-2'));
-                    $teg->setTutores(array('Tutor-$i-1', 'Tutor-$i-2'));
+                    //$teg->setPalabrasClave(array('Palabra-$i-1', 'Palabra-$i-2','Palabra-$i-3'));
+                    //$teg->setAutores(array('Autor-$i-1', 'Autor-$i-2'));
+                    //$teg->setTutores(array('Tutor-$i-1', 'Tutor-$i-2'));
                     
                     $manager->persist($teg);
 
@@ -61,6 +61,6 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
     */
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 }
