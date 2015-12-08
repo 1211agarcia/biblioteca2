@@ -48,7 +48,7 @@ body { padding-top: 70px; }
 #resumen p {
     font-size: 15px;font-size: 1.5rem;
 }
-.searchform input{width: 86%;height:30px;padding: 5px;float: left;border: 0;background: #eee;border-radius: 3px 0 0 3px;box-shadow: 0 1px 1px rgba(0,0,0,.4) inset;box-sizing: initial;-webkit-box-sizing: initial;font: 16px arial,sans-serif;}
+.searchform input{width: 86%;height:20px;padding: 5px;float: left;border: 0;background: #eee;border-radius: 3px 0 0 3px;box-shadow: 0 1px 1px rgba(0,0,0,.4) inset;box-sizing: initial;-webkit-box-sizing: initial;font: 16px arial,sans-serif;}
 .searchform input:focus {
     outline: 0;
     background: #fff;

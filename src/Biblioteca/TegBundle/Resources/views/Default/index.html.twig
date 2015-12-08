@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-xs-12 navbar-brand"></div>
             <div class="col-xs-12">
-                {{ form_widget(form.q, (attr: requeried }) }}
+                {{ form_widget(form.q, { 'attr': {'required': 'required' } }) }}
                 {{ form_widget(form.submit) }}
             </div>
             {{ form_widget(form._token) }}

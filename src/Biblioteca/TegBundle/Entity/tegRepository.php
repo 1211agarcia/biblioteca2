@@ -104,7 +104,7 @@ class tegRepository extends EntityRepository
         }
         else{ 
             
-            $query->where($query->expr()->eq('t.published', "'true'"))->orderBy('t.publicacion', 'DESC')->getQuery();
+            $query->where($query->expr()->eq('t.published', "true"))->orderBy('t.publicacion', 'DESC')->getQuery();
 
         }
 
