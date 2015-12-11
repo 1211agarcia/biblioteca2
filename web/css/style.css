@@ -67,7 +67,8 @@ body { padding-top: 70px; }
     }
 .searchform select {
     height: 25px;
-    }
+    background: rgba(38,114,224,0.5);
+}
 .searchform button, select {
     position: relative;
     border: 0;

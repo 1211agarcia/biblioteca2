@@ -91,10 +91,9 @@ class DefaultController extends Controller
      */
     public function searchCreateForm()
     {
-		$form = $this->createForm(new searchType(), null, array(
+        $form = $this->createForm(new searchType(), null, array(
             'action' => $this->generateUrl('teg_search'),
-            'attr'   => array('class' => 'searchform col-md-7 col-xs-12',
-                'style' => 'margin: 0 auto 25px;float: initial;')));
+            'attr'   => array('class' => 'searchform')));
 
         return $form;
     }

@@ -21,7 +21,7 @@ class searchType extends AbstractType
             ->add('q', 'text', 
                 array(
                     'attr'=> array('maxlength' => '200',
-                                    'name' => 'tan(arg)',
+                                    'required' => false,
                                    'placeholder' => 'Palabra o frase...'),
                 )
             )
@@ -32,19 +32,22 @@ class searchType extends AbstractType
                 array(
                     'choices' => range(1998, date('Y')),
                     'required' => false,
+                    'label_attr' => array('class' => 'form-control-static'),
                 )
             )
             ->add('hasta', 'choice',
                 array(
                     'choices' => range(1998, date('Y')),
                     'required' => false,
+                    'label_attr' => array('class' => 'form-control-static'),
                 )
             )
             ->add('escuela', 'choice',
                 array(
-                    'empty_value' => 'Todas',
+                    'empty_value' => 'Cualquier escuela',
                     'choices'  => teg::getSchools(),
                     'required' => false,
+                    'label' => false
                 )
             ) ;
     }

@@ -1,19 +1,20 @@
 {% extends '::base.html.twig' %}
-{% block body -%}
+{% block body %}
 {% if form is defined %}
 {{ form_start(form) }}
     {{ form_errors(form) }}
     <div class="row">
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;">
             {{ form_widget(form.q) }}
             {{ form_widget(form.submit) }}
         </div>
         <div class="col-md-6 col-xs-12">
-            {{ form_label(form.desde)}}
-            {{ form_widget(form.desde) }}
-            {{ form_label(form.hasta)}}
-            {{ form_widget(form.hasta) }}
-            {{ form_label(form.escuela)}}
+
+            <label class="form-control-static">Filtros</label><span class="separator">|</span>
+            <label class="form-control-static">Desde</label>
+            {{ form_widget(form.desde) }}<span class="separator">|</span>
+            <label class="form-control-static">Hasta</label>
+            {{ form_widget(form.hasta) }}<span class="separator">|</span>
             {{ form_widget(form.escuela) }}
         </div>
         {{ form_widget(form._token) }}
@@ -21,16 +22,13 @@
 {{ form_rest(form) }}
 {{ form_end(form, {'render_rest': false}) }}
 {% endif %} 
-<div class="count">
-    {{ pagination.getTotalItemCount }}
-</div>
 
-
-    <h4>{{ entities | length }} de {{ pagination.getTotalItemCount }}</h4>
+    <h5>{{ entities | length }} de {{ pagination.getTotalItemCount }} disponibles</h5>
+    
         {% for entity in entities %}
         {% if entity.published or isAdmin or isSAdmin %}
             
-            <div class="col-md-9 col-xs-12">
+        <div class="col-md-9 col-xs-12">
             <div class="well well-sm">
                     <div class="section-box">
                         <h3><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></h3>
