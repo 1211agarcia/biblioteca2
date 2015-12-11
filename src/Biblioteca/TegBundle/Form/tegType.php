@@ -76,7 +76,7 @@ class tegType extends AbstractType
                     'prototype' => true,
                     'options'  => array(
                         'required'  => true,
-                        'attr'      => array('class' => 'form-control')
+                        'attr'      => array('class' => 'form-control', 'style' => 'width: initial;')
                         ),
                 )
             )
