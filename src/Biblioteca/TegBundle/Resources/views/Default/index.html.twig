@@ -1,17 +1,21 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-<div id="home">
+<div id="home" ng-controller="searchTegController">
     {{ form_start(form) }}
         {{ form_errors(form) }}
         <div class="row">
             <div class="col-xs-12 navbar-brand"></div>
             <div class="col-xs-12">
-                {{ form_widget(form.q, { 'attr': {'required': 'required' } }) }}
+                {{ form_widget(form.q) }}
                 {{ form_widget(form.submit) }}
-            </div>
+            </div>[[submit]]
             {{ form_widget(form._token) }}
         </div>
     {{ form_end(form, {'render_rest': false}) }}
 </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/tegController.js') }}" type="text/javascript"></script>
 {% endblock %}

@@ -1,4 +1,9 @@
 {% extends '::base.html.twig' %}
+{# % form_theme form _self %}
+{% block submit_widget %}
+        <input type="submit" {{ block('attributes') }} value="{{ value }}" name="{{ name }}" />
+{% endblock % #}
+
 {% block body %}
 {% if form is defined %}
 
@@ -8,19 +13,20 @@
         <span ng-show="valid()">Seleccione uno filtro ó ingrese palabra o frase</span>
         <div class="row">
             <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;" ng-init="q='{{form.q.vars.value}}';">
-                {{ form_widget(form.q, { 'attr': {'ng-model': 'q','ng-required': 'valid()'} }) }}
-                {{ form_widget(form.submit, { 'attr': {'ng-disabled': 'valid()'} }) }}
+                {{ form_widget(form.q) }}
+                {{ form_row(form.submit) }}
             </div>
             <div class="col-md-6 col-xs-12" ng-init="desde='{{form.desde.vars.value}}';hasta='{{form.hasta.vars.value}}';escuela='{{form.escuela.vars.value}}';">
 
                 <label class="form-control-static">Filtros</label><span class="separator">|</span>
                 <label class="form-control-static">Desde</label>
-                {{ form_widget(form.desde, { 'attr': {'ng-model': 'desde' } }) }}<span class="separator">|</span>
+                {{ form_widget(form.desde) }}<span class="separator">|</span>
                 <label class="form-control-static">Hasta</label>
-                {{ form_widget(form.hasta, { 'attr': {'ng-model': 'hasta' } }) }}<span class="separator">|</span>
-                {{ form_widget(form.escuela, { 'attr': {'ng-model': 'escuela' } }) }}
+                {{ form_widget(form.hasta) }}<span class="separator">|</span>
+                {{ form_widget(form.escuela) }}
             </div>
             {{ form_widget(form._token) }}
+
         </div>
     {{ form_rest(form) }}
     {{ form_end(form, {'render_rest': false}) }}
@@ -30,8 +36,6 @@
     <h5>{{ entities | length }} de {{ pagination.getTotalItemCount }} disponibles</h5>
     
         {% for entity in entities %}
-        {% if entity.published or isAdmin or isSAdmin %}
-            
         <div class="col-md-9 col-xs-12">
             <div class="well well-sm">
                     <div class="section-box">
@@ -50,24 +54,18 @@
                                         <span style="float:right;"><i class="fa fa-eye fa-lg"></i>&nbsp;Publico</span>
                                         {% endif %}
                                     {% endif %}
-                                    
                             </div>
                         </div>
-                    </div>
-                    
+                    </div>                    
             </div>
-        {% endif %}
         </div>
         {% endfor %}
-        {# display navigation #}
-<div class="navigation">
-    {{ knp_pagination_render(pagination) }}
-</div>
+        <div class="col-md-9 col-xs-12">
+            {{ knp_pagination_render(pagination) }}
+        </div>
 
     {% endblock %}
 {% block javascripts %}
     {{ parent() }}
-
     <script src="{{ asset('js/tegController.js') }}" type="text/javascript"></script>
-
 {% endblock %}

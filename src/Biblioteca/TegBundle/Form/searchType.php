@@ -22,17 +22,21 @@ class searchType extends AbstractType
                 array(
                     'attr'=> array('maxlength' => '200',
                                     'required' => false,
-                                   'placeholder' => 'Palabra o frase...'),
+                                   'placeholder' => 'Palabra o frase...',
+                                   'ng-model'=>'q',
+                                   'xng-required'=>'isInvalid()'),
                 )
             )
             ->add('submit', 'submit', 
-                array('label'=> 'Buscar')
+                array('label'=> 'Buscar',
+                    'attr'=> array('value'=> 'Buscar','ng-disabled'=> 'isInvalid()', 'ng-click' => 'load($event)', 'ng-model' => 'loading', 'Xdisabler'=>'Cargando'))
             )
             ->add('desde', 'choice',
                 array(
                     'choices' => range(1998, date('Y')),
                     'required' => false,
                     'label_attr' => array('class' => 'form-control-static'),
+                    'attr'=> array('ng-model'=>'desde'),
                 )
             )
             ->add('hasta', 'choice',
@@ -40,6 +44,7 @@ class searchType extends AbstractType
                     'choices' => range(1998, date('Y')),
                     'required' => false,
                     'label_attr' => array('class' => 'form-control-static'),
+                    'attr'=> array('ng-model'=>'hasta'),
                 )
             )
             ->add('escuela', 'choice',
@@ -47,7 +52,8 @@ class searchType extends AbstractType
                     'empty_value' => 'Cualquier escuela',
                     'choices'  => teg::getSchools(),
                     'required' => false,
-                    'label' => false
+                    'label' => false,
+                    'attr'=> array('ng-model'=>'escuela'),
                 )
             ) ;
     }

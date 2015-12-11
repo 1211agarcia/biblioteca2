@@ -1,6 +1,7 @@
 var tegApp = angular.module('tegApp', ['chieffancypants.loadingBar'])
   .config(function(cfpLoadingBarProvider) {
-    cfpLoadingBarProvider.includeSpinner = true;
+    cfpLoadingBarProvider.includeBar = true;
+    cfpLoadingBarProvider.latencyThreshold = 500;
   });
 tegApp.config(function($interpolateProvider){
                 $interpolateProvider.startSymbol('[[').endSymbol(']]');
@@ -18,7 +19,6 @@ tegApp.controller('LoadCtrl', function ($scope, $http, $timeout, cfpLoadingBar) 
     $scope.complete = function () {
       cfpLoadingBar.complete();
     }
-
 
     // fake the initial load so first time users can see it right away:
     $scope.start();

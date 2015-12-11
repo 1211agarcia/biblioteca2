@@ -150,12 +150,37 @@ tegApp.controller('showTegController', function ($scope, $sce) {
 });
 
 
-tegApp.controller('searchTegController', function ($scope) {
-    console.log($scope.q);
-    $scope.valid = function() {        
-        return angular.isUndefinedOrNull($scope.q) && angular.isUndefinedOrNull($scope.desde) && angular.isUndefinedOrNull($scope.hasta) && angular.isUndefinedOrNull($scope.escuela);
-    };
+tegApp.controller('searchTegController', function ($scope, $timeout) {
+  $scope.load = function($event) {
+    $scope.loading = true;
+    $timeout(function() { $scope.loading = false; }, 1000);
     
+  }
 
+    console.log($scope.q);
+    $scope.isInvalid = function() {        
+        return (angular.isUndefinedOrNull($scope.q) && angular.isUndefinedOrNull($scope.desde) && angular.isUndefinedOrNull($scope.hasta) && angular.isUndefinedOrNull($scope.escuela));
+    };
+});
 
+tegApp.directive('disabler', function($compile) {
+  return {
+        link: function(scope, elm, attrs) {
+        var btnContents = $compile(elm.contents())(scope);
+        scope.$watch(attrs.ngModel, function(value) {
+        if (value) {
+          console.log(elm);
+          scope.initial_value = elm.attr('value');
+          console.log(scope.initial_value);
+          elm.attr('value', scope.$eval(attrs.disabler));
+          console.log("comment next line to see effect");
+          elm.attr('disabled',true);
+          
+        } else {
+              elm.attr('value', scope.initial_value);
+              elm.attr('disabled',false);
+              }
+          });
+        }
+  }
 });
