@@ -1,8 +1,8 @@
 {% extends '::base.html.twig' %}
-{# % form_theme form _self %}
+{% form_theme form _self %}
 {% block submit_widget %}
-        <input type="submit" {{ block('attributes') }} value="{{ value }}" name="{{ name }}" />
-{% endblock % #}
+        <input type="submit" id="search_submit" name="search[submit]" {{ block('attributes') }} value="{{ value }}" name="{{ name }}" />
+{% endblock %}
 
 {% block body %}
 {% if form is defined %}
@@ -14,8 +14,9 @@
         <div class="row">
             <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;" ng-init="q='{{form.q.vars.value}}';">
                 {{ form_widget(form.q) }}
-                {{ form_row(form.submit) }}
+                {{ form_widget(form.submit) }}
             </div>
+
             <div class="col-md-6 col-xs-12" ng-init="desde='{{form.desde.vars.value}}';hasta='{{form.hasta.vars.value}}';escuela='{{form.escuela.vars.value}}';">
 
                 <label class="form-control-static">Filtros</label><span class="separator">|</span>

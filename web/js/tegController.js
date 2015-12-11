@@ -151,11 +151,10 @@ tegApp.controller('showTegController', function ($scope, $sce) {
 
 
 tegApp.controller('searchTegController', function ($scope, $timeout) {
-  $scope.load = function($event) {
-    $scope.loading = true;
-    $timeout(function() { $scope.loading = false; }, 1000);
-    
-  }
+    $scope.load = function($event) {
+        $scope.loadingSubmit = true;
+        $timeout(function() { $scope.loadingSubmit = false; }, 1000);
+    };
 
     console.log($scope.q);
     $scope.isInvalid = function() {        
@@ -164,7 +163,7 @@ tegApp.controller('searchTegController', function ($scope, $timeout) {
 });
 
 tegApp.directive('disabler', function($compile) {
-  return {
+    return {
         link: function(scope, elm, attrs) {
         var btnContents = $compile(elm.contents())(scope);
         scope.$watch(attrs.ngModel, function(value) {
@@ -173,8 +172,13 @@ tegApp.directive('disabler', function($compile) {
           scope.initial_value = elm.attr('value');
           console.log(scope.initial_value);
           elm.attr('value', scope.$eval(attrs.disabler));
+          console.log(attrs.disabler);
           console.log("comment next line to see effect");
-          elm.attr('disabled',true);
+          //elm.attr('disabled',true);
+          setTimeout(function(){
+            elm.attr('value', attrs.disabler);
+            elm.attr('disabled',true);
+            }, 0)
           
         } else {
               elm.attr('value', scope.initial_value);

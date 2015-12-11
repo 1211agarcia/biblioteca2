@@ -21,15 +21,15 @@ class searchType extends AbstractType
             ->add('q', 'text', 
                 array(
                     'attr'=> array('maxlength' => '200',
-                                    'required' => false,
+                                   'required' => false,
                                    'placeholder' => 'Palabra o frase...',
                                    'ng-model'=>'q',
-                                   'xng-required'=>'isInvalid()'),
+                                   'ng-required'=>'isInvalid()'),
                 )
             )
             ->add('submit', 'submit', 
                 array('label'=> 'Buscar',
-                    'attr'=> array('value'=> 'Buscar','ng-disabled'=> 'isInvalid()', 'ng-click' => 'load($event)', 'ng-model' => 'loading', 'Xdisabler'=>'Cargando'))
+                    'attr'=> array('value'=> 'Buscar','ng-disabled'=> 'isInvalid()', 'ng-click' => 'load($event)', 'ng-model' => 'loadingSubmit', 'disabler'=>'Buscando'))
             )
             ->add('desde', 'choice',
                 array(
