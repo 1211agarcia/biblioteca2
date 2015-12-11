@@ -19,7 +19,7 @@
 
             <div class="col-md-6 col-xs-12" ng-init="desde='{{form.desde.vars.value}}';hasta='{{form.hasta.vars.value}}';escuela='{{form.escuela.vars.value}}';">
 
-                <label class="form-control-static">Filtros</label><span class="separator">|</span>
+                <label class="form-control-static"><i class="fa fa-filter"></i>&nbsp;Filtros</label><span class="separator">|</span>
                 <label class="form-control-static">Desde</label>
                 {{ form_widget(form.desde) }}<span class="separator">|</span>
                 <label class="form-control-static">Hasta</label>
@@ -40,7 +40,7 @@
         <div class="col-md-9 col-xs-12">
             <div class="well well-sm {% if not entity.published %}oculto{% endif %}">
                     <div class="section-box">
-                        <h3><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></h3>
+                        <h4 style="margin-top: 0px;"><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></h4>
 
                         <p><b>{% for Field in entity.authors %}{{ Field }},{% endfor %}{% for Field in entity.tuthors %}{{ Field }},{% endfor %}</b></br><i>{% for Field in entity.keyWords %}{{ Field }},{% endfor %}</i></p>
                         <hr />
