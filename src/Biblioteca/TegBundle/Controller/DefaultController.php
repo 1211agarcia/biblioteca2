@@ -33,8 +33,12 @@ class DefaultController extends Controller
 
         $entities = $query->getResult();
 		*/
-	    $form = $this->searchCreateForm();
-	 
+	    
+        $form = $this->createForm(new searchType(), null, array(
+            'action' => $this->generateUrl('teg_search'),
+            'attr'   => array('class' => 'searchform col-md-7 col-xs-12',
+                'style' => 'margin: 0 auto 25px;float: initial;')));
+
   		return array(
             'form' => $form->createView(),
             /*'entities' => $entities*/);
@@ -51,7 +55,9 @@ class DefaultController extends Controller
     {
         
         // Se cre el formulario
-        $form = $this->searchCreateForm();
+        $form = $this->createForm(new searchType(), null, array(
+            'action' => $this->generateUrl('teg_search'),
+            'attr'   => array('class' => 'searchform')));
         $form->handleRequest($request);
         
         if ($form->isValid()) {
@@ -82,20 +88,6 @@ class DefaultController extends Controller
 
         return array(
             'form' => $form->createView());
-    }
-
-    /**
-     * Creates a form to search a teg entity.
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    public function searchCreateForm()
-    {
-        $form = $this->createForm(new searchType(), null, array(
-            'action' => $this->generateUrl('teg_search'),
-            'attr'   => array('class' => 'searchform')));
-
-        return $form;
     }
 }
 

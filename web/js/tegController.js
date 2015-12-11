@@ -102,7 +102,7 @@ tegApp.filter('trustAsResourceUrl', ['$sce', function($sce) {
     };
 }]);
 */
-tegApp.controller('showTegController', function($scope, $sce) {
+tegApp.controller('showTegController', function ($scope, $sce) {
 
     $scope.trustSrc = function(src) {
         return $sce.trustAsResourceUrl(src);
@@ -147,6 +147,15 @@ tegApp.controller('showTegController', function($scope, $sce) {
         //iframe.appendTo("capitulo");
         //$("#viewer").appendTo("form:eq(0)");
     };
+});
+
+
+tegApp.controller('searchTegController', function ($scope) {
+    console.log($scope.q);
+    $scope.valid = function() {        
+        return angular.isUndefinedOrNull($scope.q) && angular.isUndefinedOrNull($scope.desde) && angular.isUndefinedOrNull($scope.hasta) && angular.isUndefinedOrNull($scope.escuela);
+    };
+    
 
 
 });
