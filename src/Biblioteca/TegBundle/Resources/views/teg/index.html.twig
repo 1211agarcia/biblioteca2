@@ -38,7 +38,7 @@
     
         {% for entity in entities %}
         <div class="col-md-9 col-xs-12">
-            <div class="well well-sm">
+            <div class="well well-sm {% if not entity.published %}oculto{% endif %}">
                     <div class="section-box">
                         <h3><a href="{{ path('teg_show', { 'id': entity.id }) }}">{{ entity.titulo }}</a></h3>
 
@@ -47,7 +47,7 @@
                         <div class="row rating-desc">
                             <div class="col-md-12">
                                 <span class="glyphicon glyphicon-schools">{{entity.escuela}}</span><span class="separator">|</span>
-                                <span><i class="fa fa-calendar"></i>&nbsp;{{ entity.publicacion|date('m-Y') }}
+                                <span><i class="fa fa-calendar"></i>&nbsp;{{ entity.publicacion|date('m-Y') }}</span>
                                     {% if (isAdmin or isSAdmin) %}
                                         {% if not entity.published %}
                                         <span style="float:right;"><i class="fa fa-eye-slash fa-lg"></i>&nbsp;Oculto</span>

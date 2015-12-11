@@ -36,6 +36,10 @@
         </ul>
     </div>
     <div class="tab-content  form-horizontal col-md-9 col-xs-12">
+        {% if not entity.published %}
+            <h4 class="alert alert-danger"><i class="fa fa-eye-slash fa-x2"></i>&nbsp;Este trabajo se encuentra oculto</h4>
+            
+        {% endif %}
         <div id="detalles" class="tab-pane fade in active">
             <h3>{{ entity.titulo }}</h3>
             <div class="form-group">
