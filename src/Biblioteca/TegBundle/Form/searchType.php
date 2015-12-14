@@ -38,7 +38,9 @@ class searchType extends AbstractType
                     'required' => false,
                     'label_attr' => array('class' => 'form-control-static'),
                     'attr'=> array('ng-model'=>'desde',
-                                   'class' => 'form-control'),
+                                   'class' => 'form-control',
+                                   'ng-options'=>'n for n in [] | range:1998:'.date('Y')
+                                   )
                 )
             )
             ->add('hasta', 'choice',
@@ -47,8 +49,10 @@ class searchType extends AbstractType
                     'required' => false,
                     'label_attr' => array('class' => 'form-control-static'),
                     'attr'=> array('ng-model'=>'hasta',
-                                   'class' => 'form-control'),
-                )
+                                   'class' => 'form-control',
+                                   'ng-options'=>'n for n in [] | range:fechaMin:'.date('Y')
+                                   )
+                    )
             )
             ->add('escuela', 'choice',
                 array(

@@ -10,7 +10,6 @@
 <div ng-controller="searchTegController">
     {{ form_start(form) }}
         {{ form_errors(form) }}
-        <span ng-show="isInvalid()">Seleccione uno filtro ó ingrese palabra o frase</span>
         <div class="row">
             <div class="col-sm-5 col-xs-12" style="margin-bottom: 10px;" ng-init="q='{{form.q.vars.value}}';">
                 {{ form_widget(form.q) }}
@@ -31,6 +30,7 @@
                 {{ form_widget(form._token) }}
             </div>
         </div>
+        <span ng-show="isInvalid()">Seleccione uno filtro ó ingrese palabra o frase</span>
     {{ form_rest(form) }}
     {{ form_end(form, {'render_rest': false}) }}
 </div>

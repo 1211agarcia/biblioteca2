@@ -151,6 +151,12 @@ tegApp.controller('showTegController', function ($scope, $sce) {
 
 
 tegApp.controller('searchTegController', function ($scope, $timeout) {
+    
+    $scope.rango = function() {
+        $scope.fechaMin = angular.isUndefinedOrNull($scope.desde)?1998 : $scope.desde;
+        console.log($scope.desde);
+    }
+    $scope.$watch($scope.rango);
     $scope.load = function($event) {
         $scope.loadingSubmit = true;
         $timeout(function() { $scope.loadingSubmit = false; }, 1000);
@@ -171,9 +177,7 @@ tegApp.directive('disabler', function($compile) {
           console.log(elm);
           scope.initial_value = elm.attr('value');
           console.log(scope.initial_value);
-          elm.attr('value', scope.$eval(attrs.disabler));
-          console.log(attrs.disabler);
-          console.log("comment next line to see effect");
+          //elm.attr('value', scope.$eval(attrs.disabler));
           //elm.attr('disabled',true);
           setTimeout(function(){
             elm.attr('value', attrs.disabler);
@@ -181,8 +185,8 @@ tegApp.directive('disabler', function($compile) {
             }, 0)
           
         } else {
-              elm.attr('value', scope.initial_value);
-              elm.attr('disabled',false);
+              //elm.attr('value', scope.initial_value);
+              //elm.attr('disabled',false);
               }
           });
         }
