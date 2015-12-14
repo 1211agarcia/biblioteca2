@@ -24,19 +24,21 @@ class searchType extends AbstractType
                                    'required' => false,
                                    'placeholder' => 'Palabra o frase...',
                                    'ng-model'=>'q',
-                                   'ng-required'=>'isInvalid()'),
+                                   'ng-required'=>'isInvalid()',
+                                   'class' => 'form-control'),
                 )
             )
             ->add('submit', 'submit', 
                 array('label'=> 'Buscar',
-                    'attr'=> array('value'=> 'Buscar','ng-disabled'=> 'isInvalid()', 'ng-click' => 'load($event)', 'ng-model' => 'loadingSubmit', 'disabler'=>'Buscando'))
+                    'attr'=> array('class' => 'btn btn-primary','value'=> 'Buscar','ng-disabled'=> 'isInvalid()', 'ng-click' => 'load($event)', 'ng-model' => 'loadingSubmit', 'disabler'=>'Buscando'))
             )
             ->add('desde', 'choice',
                 array(
                     'choices' => range(1998, date('Y')),
                     'required' => false,
                     'label_attr' => array('class' => 'form-control-static'),
-                    'attr'=> array('ng-model'=>'desde'),
+                    'attr'=> array('ng-model'=>'desde',
+                                   'class' => 'form-control'),
                 )
             )
             ->add('hasta', 'choice',
@@ -44,7 +46,8 @@ class searchType extends AbstractType
                     'choices' => range(1998, date('Y')),
                     'required' => false,
                     'label_attr' => array('class' => 'form-control-static'),
-                    'attr'=> array('ng-model'=>'hasta'),
+                    'attr'=> array('ng-model'=>'hasta',
+                                   'class' => 'form-control'),
                 )
             )
             ->add('escuela', 'choice',
@@ -53,7 +56,8 @@ class searchType extends AbstractType
                     'choices'  => teg::getSchools(),
                     'required' => false,
                     'label' => false,
-                    'attr'=> array('ng-model'=>'escuela'),
+                    'attr'=> array('ng-model'=>'escuela',
+                                   'class' => 'form-control'),
                 )
             ) ;
     }

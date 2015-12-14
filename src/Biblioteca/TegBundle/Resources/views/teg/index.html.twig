@@ -12,22 +12,24 @@
         {{ form_errors(form) }}
         <span ng-show="isInvalid()">Seleccione uno filtro ó ingrese palabra o frase</span>
         <div class="row">
-            <div class="col-md-6 col-xs-12" style="margin-bottom: 10px;" ng-init="q='{{form.q.vars.value}}';">
+            <div class="col-sm-5 col-xs-12" style="margin-bottom: 10px;" ng-init="q='{{form.q.vars.value}}';">
                 {{ form_widget(form.q) }}
+            </div>
+            <div class="col-sm-3 col-xs-5" ng-init="desde='{{form.desde.vars.value}}';hasta='{{form.hasta.vars.value}}';escuela='{{form.escuela.vars.value}}';">
+                <div class="input-group" id="datepicker">
+                    <span class="input-group-addon">Fecha</span>
+                    {{ form_widget(form.desde) }}
+                    <span class="input-group-addon">a</span>
+                    {{ form_widget(form.hasta) }}
+                </div>
+            </div>
+            <div class="col-sm-3 col-xs-5">
+               {{ form_widget(form.escuela) }}
+            </div>
+            <div class="col-xs-1" ng-init="desde='';hasta='';escuela='';">
                 {{ form_widget(form.submit) }}
+                {{ form_widget(form._token) }}
             </div>
-
-            <div class="col-md-6 col-xs-12" ng-init="desde='{{form.desde.vars.value}}';hasta='{{form.hasta.vars.value}}';escuela='{{form.escuela.vars.value}}';">
-
-                <label class="form-control-static"><i class="fa fa-filter"></i>&nbsp;Filtros</label><span class="separator">|</span>
-                <label class="form-control-static">Desde</label>
-                {{ form_widget(form.desde) }}<span class="separator">|</span>
-                <label class="form-control-static">Hasta</label>
-                {{ form_widget(form.hasta) }}<span class="separator">|</span>
-                {{ form_widget(form.escuela) }}
-            </div>
-            {{ form_widget(form._token) }}
-
         </div>
     {{ form_rest(form) }}
     {{ form_end(form, {'render_rest': false}) }}
