@@ -154,15 +154,13 @@ tegApp.controller('searchTegController', function ($scope, $timeout) {
     
     $scope.rango = function() {
         $scope.fechaMin = angular.isUndefinedOrNull($scope.desde)?1998 : $scope.desde;
-        console.log($scope.desde);
     }
     $scope.$watch($scope.rango);
     $scope.load = function($event) {
         $scope.loadingSubmit = true;
         $timeout(function() { $scope.loadingSubmit = false; }, 1000);
     };
-
-    console.log($scope.q);
+    //console.log($scope.q);
     $scope.isInvalid = function() {        
         return (angular.isUndefinedOrNull($scope.q) && angular.isUndefinedOrNull($scope.desde) && angular.isUndefinedOrNull($scope.hasta) && angular.isUndefinedOrNull($scope.escuela));
     };
@@ -174,9 +172,9 @@ tegApp.directive('disabler', function($compile) {
         var btnContents = $compile(elm.contents())(scope);
         scope.$watch(attrs.ngModel, function(value) {
         if (value) {
-          console.log(elm);
+          //console.log(elm);
           scope.initial_value = elm.attr('value');
-          console.log(scope.initial_value);
+          //console.log(scope.initial_value);
           //elm.attr('value', scope.$eval(attrs.disabler));
           //elm.attr('disabled',true);
           setTimeout(function(){
