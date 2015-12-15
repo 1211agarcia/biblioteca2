@@ -10,9 +10,13 @@
         {{ form_errors(form) }}
         <div class="row">
             <div class="col-xs-12 navbar-brand"></div>
-            <div class="col-xs-12">
-                {{ form_widget(form.q) }}
-                {{ form_widget(form.submit) }}
+            <div class="col-xs-12 input-group">
+                <div class="input-group">
+                    {{ form_widget(form.q) }}
+                    <span class="input-group-btn">
+                        {{ form_widget(form.submit) }}
+                    </span>
+                </div>
             </div>
             {{ form_widget(form._token) }}
         </div>
