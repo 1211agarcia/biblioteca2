@@ -37,12 +37,7 @@ tegApp.directive('stringToNumber', function() {
     }
   };
 });
-tegApp.config(function(tagsInputConfigProvider) {
-  tagsInputConfigProvider.setDefaults('tagsInput', {
-    placeholder: 'New tag',
-    removeTagSymbol: '✖'
-  })
-});
+
 tegApp.controller('inputTegController', function ($scope) {
 
  /*$scope.tags = new JSTagsCollection(["jsTag", "angularJS"]);
@@ -73,7 +68,6 @@ $scope.jsTagOptions = {
 	
 	$scope.keyWords = [];
 	$scope.authors = [];
-	$scope.label_author = "Agregar";
 	$scope.tutors = [];
 
     $scope.remove = function(item) {
@@ -203,4 +197,14 @@ tegApp.directive('disabler', function($compile) {
           });
         }
   }
+});
+
+tegApp.filter('range', function() {
+  return function(input, min, max) {
+    min = parseInt(min);
+    max = parseInt(max);
+    for (var i=min; i<=max; i++)
+      input.push(i);
+    return input;
+  };
 });

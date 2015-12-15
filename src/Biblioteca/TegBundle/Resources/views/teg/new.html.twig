@@ -49,6 +49,9 @@
                             {{ form_widget(form.authors[1].name) }}
                             {{ form_widget(form.authors[1].lastname) }}
                             {{ form_errors(form.authors[1]) }}
+                            {% else %}
+                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_name" name="biblioteca_tegbundle_teg[authors][1][name]" required="required" class="form-control" placeholder="Nombre">
+                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_lastname" name="biblioteca_tegbundle_teg[authors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
                             {% endif %}
                         </li>
                     </ul>
@@ -71,6 +74,9 @@
                             {{ form_widget(form.tuthors[1].name) }}
                             {{ form_widget(form.tuthors[1].lastname) }}
                             {{ form_errors(form.tuthors[1]) }}
+                            {% else %}
+                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_name" name="biblioteca_tegbundle_teg[tuthors][1][name]" required="required" class="form-control" placeholder="Nombre">
+                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_lastname" name="biblioteca_tegbundle_teg[tuthors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
                             {% endif %}
                         </li>
                     </ul>
