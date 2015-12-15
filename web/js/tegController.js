@@ -37,7 +37,12 @@ tegApp.directive('stringToNumber', function() {
     }
   };
 });
-
+tegApp.config(function(tagsInputConfigProvider) {
+  tagsInputConfigProvider.setDefaults('tagsInput', {
+    placeholder: 'New tag',
+    removeTagSymbol: '✖'
+  })
+});
 tegApp.controller('inputTegController', function ($scope) {
 
  /*$scope.tags = new JSTagsCollection(["jsTag", "angularJS"]);
@@ -66,19 +71,19 @@ $scope.jsTagOptions = {
 	$scope.$watch($scope.generar);
 
 	
-	$scope.wordkeys = [];
+	$scope.keyWords = [];
 	$scope.authors = [];
 	$scope.label_author = "Agregar";
 	$scope.tutors = [];
 
     $scope.remove = function(item) {
-        $scope.wordkeys.splice(item,1);
+        $scope.keyWords.splice(item,1);
     };
     $scope.add = function(item) {
         if(item != ""){
-            $scope.wordkeys.push(item);
+            $scope.keyWords.push({'name':item});
         }
-        $scope.newWordkey = "";
+        console.log($scope.keyWords);
     };
 
     $scope.addA = function() {

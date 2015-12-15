@@ -62,7 +62,7 @@ class tegType extends AbstractType
             )
             ->add('titulo', 'text', 
                 array(
-                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'label_attr' => array('class' => 'control-label col-xs-3 col-lg-1'),
                     'attr'=> array('class' => 'form-control'),
                 )
             )
