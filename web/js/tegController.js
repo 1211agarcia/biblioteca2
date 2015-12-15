@@ -40,6 +40,15 @@ tegApp.directive('stringToNumber', function() {
 
 tegApp.controller('inputTegController', function ($scope) {
 
+ /*$scope.tags = new JSTagsCollection(["jsTag", "angularJS"]);
+
+$scope.jsTagOptions = {
+    "texts": {
+      "inputPlaceHolder": "Escriba aquí"
+    },
+    "defaultTags": ["Default Tag #1", "Default Tag #2"],
+    "tags": $scope.tags
+  };*/
 	$scope.generar = function(){
 
 		$scope.cota_year = angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_publicacion_year) || isNaN($scope.biblioteca_tegbundle_teg_publicacion_year)? "'Año'" : ("0" + (parseInt($scope.biblioteca_tegbundle_teg_publicacion_year) % 100) ).slice (-2);

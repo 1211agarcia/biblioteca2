@@ -87,7 +87,10 @@ class tegController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
-
+            $data = $form->getData();
+            printf("<pre>");
+            //print_r($data['palabras']);
+            printf("</pre>");
             foreach ($entity->getCapitulos() as $actualCapitulo) {  
                 
                 $capitulo = new documento();

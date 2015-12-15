@@ -1,4 +1,4 @@
-var tegApp = angular.module('tegApp', ['chieffancypants.loadingBar'])
+var tegApp = angular.module('tegApp', ['chieffancypants.loadingBar','ngTagsInput'])
   .config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeBar = true;
     cfpLoadingBarProvider.latencyThreshold = 500;
