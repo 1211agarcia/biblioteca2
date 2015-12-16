@@ -149,7 +149,7 @@ class tegController extends Controller
 
         $form
             ->add('submit', 'submit', array('label' => 'Guardar',
-                                             'attr' => array('class' => 'btn btn-primary' )
+                                             'attr' => array('class' => 'btn btn-primary', 'ng-click'=>'submitForm(formData)', 'ng-disabled'=>'!formInputTeg.$valid' )
                                              )
             )
             ->add('reset', 'reset', array('label' => 'Limpiar',

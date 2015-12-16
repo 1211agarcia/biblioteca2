@@ -19,7 +19,7 @@
             {{ form_errors(form) }}
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#paso1">Paso 1</a></li>
-        <li><a data-toggle="tab" href="#paso2">Paso 2</a></li>
+        <li><a ng-data-toggle="tab" href="#paso2">Paso 2</a></li>
         <li><a data-toggle="tab" href="#paso3">Paso 3</a></li>
     </ul>
     <div class="tab-content">
@@ -30,38 +30,39 @@
                 {{ form_errors(form.titulo) }}
                 <div class="col-xs-9 col-lg-12">
                     {{ form_widget(form.titulo) }}
+                    <span ng-show="!formInputTeg.$pristine && formInputTeg.biblioteca_tegbundle_teg[publicacion][day].$error.required">Titulo is required.</span>
 
 <div >
     <div class='form-group'>
             <label for="name">Name</label>
             <input type="text" class='form-control' placeholder='name' 
-            name='name' data-ng-model='formData.name' required 
-            data-ng-class='{ error: formInputTeg.name.$invalid && !formInputTeg.$pristine }'>
-            <span data-ng-show="!formInputTeg.$pristine && formInputTeg.name.$error.required">Name is required.</span>
+            name='name' id='name' ng-model='formData.name' required 
+            ng-class='{ error: formInputTeg.name.$invalid && !formInputTeg.$pristine }'>
+            <span ng-show="!formInputTeg.$pristine && formInputTeg.name.$error.required">Name is required.</span>
           </div>
           
           <div class='form-group'>
             <label for="lastname">Last Name</label>
             <input type="text" class='form-control' placeholder='last name' 
-            name='lastname' data-ng-model='formData.lastname' required
-            data-ng-class='{ error: formInputTeg.lastname.$invalid && !formInputTeg.$pristine }'>
-            <span data-ng-show='!formInputTeg.$pristine && formInputTeg.lastname.$error.required'>Last name is required</span>
+            name='lastname' ng-model='formData.lastname' required
+            ng-class='{ error: formInputTeg.lastname.$invalid && !formInputTeg.$pristine }'>
+            <span ng-show='!formInputTeg.$pristine && formInputTeg.lastname.$error.required'>Last name is required</span>
           </div>
           
           <div class='form-group'>
             <label for="email">Email</label>
             <input type="email" class='form-control' placeholder='example@email.com' 
-            name='email' data-ng-model='formData.email' required
-            data-ng-class='{ error: formInputTeg.email.$invalid && !formInputTeg.$pristine, warning: formInputTeg.email.$error.email }'>
-            <span data-ng-show='!formInputTeg.$pristine && formInputTeg.email.$error.required'>Email is required</span>
-            <span data-ng-show='!formInputTeg.$pristine && formInputTeg.email.$error.email'>Please enter a valid email</span>
+            name='email' ng-model='formData.email' required
+            ng-class='{ error: formInputTeg.email.$invalid && !formInputTeg.$pristine, warning: formInputTeg.email.$error.email }'>
+            <span ng-show='!formInputTeg.$pristine && formInputTeg.email.$error.required'>Email is required</span>
+            <span ng-show='!formInputTeg.$pristine && formInputTeg.email.$error.email'>Please enter a valid email</span>
           </div>
           
           <input type="submit" class='btn btn-success pull-right' 
-          data-ng-click='submitForm(formData)' data-ng-disabled='!formInputTeg.$valid'>
+          ng-click='submitForm(formData)' ng-disabled='!formInputTeg.$valid'>
         <br>
         Form content:
-        [[formData]]
+        <pre>[[formInputTeg]]</pre>
       </div> 
                 </div>
             </div>

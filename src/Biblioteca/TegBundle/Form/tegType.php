@@ -63,7 +63,9 @@ class tegType extends AbstractType
             ->add('titulo', 'text', 
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3 col-lg-1'),
-                    'attr'=> array('class' => 'form-control'),
+                    'attr'=> array('class' => 'form-control',
+                        'ng-model'=>'formData.titulo',
+                        'ng-class'=>'{ error: formInputTeg.biblioteca_tegbundle_teg[titulo].$error.required && !formInputTeg.$pristine}'),
                 )
             )
             ->add('keyWords', 'collection',

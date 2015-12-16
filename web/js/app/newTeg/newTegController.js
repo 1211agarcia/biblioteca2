@@ -28,13 +28,5 @@ newTeg.controller('newTegController', function ($scope) {
  
     $scope.submitForm = function (formData) {
         alert('Form submitted with' + JSON.stringify(formData));
-        };
+    };
 });/*Fin de newTegController*/
-
-newTeg.controller('MainCtrl', function ($scope) {
-  $scope.formData = {};
-  
-  $scope.submitForm = function (formData) {
-    alert('Form submitted with' + JSON.stringify(formData));
-  };
-});
