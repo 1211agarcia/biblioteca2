@@ -1,4 +1,4 @@
-
+//tegApp = angular.module(tegApp, ['chieffancypants.loadingBar','ngTagsInput']);
 angular.isUndefinedOrNull = function(val) {
     return angular.isUndefined(val) || val === null || val === ''
 }
@@ -40,15 +40,15 @@ tegApp.directive('stringToNumber', function() {
 
 tegApp.controller('inputTegController', function ($scope) {
 
- /*$scope.tags = new JSTagsCollection(["jsTag", "angularJS"]);
+    /*$scope.tags = new JSTagsCollection(["jsTag", "angularJS"]);
 
-$scope.jsTagOptions = {
+    $scope.jsTagOptions = {
     "texts": {
       "inputPlaceHolder": "Escriba aquí"
     },
     "defaultTags": ["Default Tag #1", "Default Tag #2"],
     "tags": $scope.tags
-  };*/
+    };*/
 	$scope.generar = function(){
 
 		$scope.cota_year = angular.isUndefinedOrNull($scope.biblioteca_tegbundle_teg_publicacion_year) || isNaN($scope.biblioteca_tegbundle_teg_publicacion_year)? "'Año'" : ("0" + (parseInt($scope.biblioteca_tegbundle_teg_publicacion_year) % 100) ).slice (-2);
@@ -197,14 +197,4 @@ tegApp.directive('disabler', function($compile) {
           });
         }
   }
-});
-
-tegApp.filter('range', function() {
-  return function(input, min, max) {
-    min = parseInt(min);
-    max = parseInt(max);
-    for (var i=min; i<=max; i++)
-      input.push(i);
-    return input;
-  };
 });

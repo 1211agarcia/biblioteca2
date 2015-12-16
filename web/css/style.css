@@ -101,3 +101,10 @@ textarea.form-control{
   border-color: #a94442;
   background-color: #f2dede;   
 }
+.error {
+  border-color: red;
+}
+ 
+.warning {
+  border-color: yellow;
+}

@@ -1,15 +1,15 @@
-var tegApp = angular.module('tegApp', ['chieffancypants.loadingBar']);
+var showTeg = angular.module('showTegModule', ['chieffancypants.loadingBar']);
 
-tegApp.config(function(cfpLoadingBarProvider) {
+showTeg.config(function($interpolateProvider){
+                $interpolateProvider.startSymbol('[[').endSymbol(']]');
+});
+
+showTeg.config(function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeBar = true;
     cfpLoadingBarProvider.latencyThreshold = 500;
   });
 
-tegApp.config(function($interpolateProvider){
-                $interpolateProvider.startSymbol('[[').endSymbol(']]');
-        });
-
-tegApp.controller('LoadCtrl', function ($scope, $http, $timeout, cfpLoadingBar) {
+showTeg.controller('LoadCtrl', function ($scope, $http, $timeout, cfpLoadingBar) {
     $scope.posts = [];
     $scope.section = null;
     $scope.subreddit = null;
@@ -33,5 +33,5 @@ tegApp.controller('LoadCtrl', function ($scope, $http, $timeout, cfpLoadingBar) 
   });
 
 angular.element(document).ready(function() {
-      angular.bootstrap(document, ['tegApp']);
+      angular.bootstrap(document, ['showTegModule']);
 });
