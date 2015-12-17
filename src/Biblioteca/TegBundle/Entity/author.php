@@ -38,6 +38,7 @@ class author
      *     minMessage="El nombre es muy corto.",
      *     maxMessage="El nombre es muy largo."
      * )
+     * @Assert\NotNull(message="Debe ingresar el Nombre del Autor")
      */
     private $name;
 
@@ -51,6 +52,7 @@ class author
      *     minMessage="El Apellido es muy corto.",
      *     maxMessage="El Apellido es muy largo."
      * )
+     * @Assert\NotNull(message="Debe ingresar el Apellido del Autor")
      */
     private $lastname;
 

@@ -47,6 +47,7 @@ class teg
      * D[Inicial de Escuela]{indica}[año en 2 digitos]
      *
      * @ORM\Column(type="string", length=20, unique=true)
+     * @Assert\NotNull(message="Debe ingresar la cota")
      */
     private $cota;
 
@@ -54,6 +55,8 @@ class teg
      * @var string
      *
      * @ORM\Column(type="string", length=20)
+     * @Assert\Choice(callback = "getSchools")
+     * @Assert\NotNull(message="Debe ingresar el Departamento")
      */
     private $escuela;
 
@@ -61,6 +64,8 @@ class teg
      * @var \Date
      *
      * @ORM\Column(type="date")
+     * @Assert\Date(message="Este Valor no es una fecha")
+     * @Assert\NotNull(message="Debe ingresar la fecha de publicación")
      */
     private $publicacion;
 
@@ -74,6 +79,7 @@ class teg
      *     minMessage="El titulo es muy corto.",
      *     maxMessage="El titulo es muy largo."
      * )
+     * @Assert\NotNull(message="Debe escribir un título")
      */
     private $titulo;
 
@@ -82,6 +88,13 @@ class teg
      *
      * @ORM\OneToMany(targetEntity="keyWord", mappedBy="teg") 
      * @Assert\Valid
+     *
+     * @Assert\Count(
+     *      min = "3",
+     *      max = "15",
+     *      minMessage = "Debe ingresar al menos 3 palabras",
+     *      maxMessage = "No puede ingresar más de {{ limit }} palabras"
+     * )
      */
     private $keyWords;
 
@@ -89,20 +102,31 @@ class teg
      * @var string
      *
      * @ORM\Column(type="text")
+     * @Assert\NotNull(message="Debe ingresar el resumen")
      */
     private $resumen;
 
     /**
      * @var array
-     *
      * @ORM\OneToMany(targetEntity="author", mappedBy="teg") 
      * @Assert\Valid
+     * @Assert\Count(
+     *      min = "1",
+     *      max = "2",
+     *      minMessage = "Debe tener al menos 1 Autor",
+     *      maxMessage = "Sólo puede tener como maximo {{ limit }} Autores"
+     * )
      */
     private $authors;
 
     /**
      * @var array
-     *
+     * @Assert\Count(
+     *      min = "1",
+     *      max = "2",
+     *      minMessage = "Debe tener al menos 1 Tutor",
+     *      maxMessage = "Sólo puede tener como maximo {{ limit }} Tutores"
+     * )
      * @ORM\OneToMany(targetEntity="tuthor", mappedBy="teg") 
      * @Assert\Valid
      */
@@ -110,7 +134,12 @@ class teg
 
     /**
      * @var array
-     *
+     * @Assert\Count(
+     *      min = "1",
+     *      max = "5",
+     *      minMessage = "Debe tener al menos 1 Archivo",
+     *      maxMessage = "Sólo puede tener como maximo {{ limit }} Archivos"
+     * )
      * @ORM\OneToMany(targetEntity="documento", mappedBy="teg") 
      * @Assert\Valid
      */
@@ -142,6 +171,7 @@ class teg
      * @var boolean $published
      *
      * @ORM\Column(type="boolean")
+     * @Assert\NotNull(message="Debe tener un palo valido")
      */
     private $published;
 
