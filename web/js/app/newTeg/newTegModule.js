@@ -1,5 +1,5 @@
 angular.isUndefinedOrNull = function(val) {
-    return angular.isUndefined(val) || val === null || val === ''
+    return angular.isUndefined(val) || val === null || val === '';
 }
 angular.isInvalide = function(type,val) {
     switch(type){

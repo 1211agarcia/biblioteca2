@@ -1,13 +1,88 @@
 {% extends '::base.html.twig' %}
 {% form_theme form _self %}
+{% block widget_attributes %}
+    id="{{ id }}" name="{{ full_name }}"
+    {% if disabled %} disabled="disabled"{% endif %}
+    {% if required %} required="required"{% endif %}
+    {% for attrname, attrvalue in attr %}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {{- attrname }}="{{ attrvalue }}"
+        {%- endif -%}
+    {%- endfor -%}
+    {{- " " -}}
+    {% if value is not empty %}
+        value="{{ value }}"
+        ng-init="formData.{{ id }}='{{ value }}';"
+    {% endif %}
+    ng-model="formData.{{ id }}"
+    ng-class="{ error: formInputTeg['{{ full_name }}'].$error.required && !formInputTeg['{{ full_name }}'].$pristine}"
+{%- endblock widget_attributes -%}
+
 
 {% block form_widget_simple %}
     {% set type = type|default('text') %}
-    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" ng-init="formData.{{ id }}='{{ value }}';" {% endif %} ng-model="formData.{{ id }}" ng-class="{ error: formInputTeg['{{ full_name }}'].$error.required && !formInputTeg.$pristine}"/>
-
-    <span ng-show="!formInputTeg.$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
+    <input type="{{ type }}" {{ block('widget_attributes') }} />
+    <span ng-show="!formInputTeg['{{ full_name }}'].$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
 {% endblock form_widget_simple %}
+{% block textarea_widget %}
+    <textarea {{ block('widget_attributes') }}></textarea>
+    <span ng-show="!formInputTeg['{{ full_name }}'].$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
+{% endblock textarea_widget %}
 
+{%- block choice_widget_collapsed -%}
+    {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {%- if placeholder is not none -%}
+            <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder != '' ? (translation_domain is same as(false) ? placeholder : placeholder|trans({}, translation_domain)) }}</option>
+        {%- endif -%}
+        {%- if preferred_choices|length > 0 -%}
+            {% set options = preferred_choices %}
+            {{- block('choice_widget_options') -}}
+            {%- if choices|length > 0 and separator is not none -%}
+                <option disabled="disabled">{{ separator }}</option>
+            {%- endif -%}
+        {%- endif -%}
+        {%- set options = choices -%}
+        {{- block('choice_widget_options') -}}
+    </select>
+    <span ng-show="!formInputTeg['{{ full_name }}'].$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
+
+{%- endblock choice_widget_collapsed -%}
+
+{% use 'form_div_layout.html.twig' with form_label %}
+{% block form_label %}
+    {% if label is not sameas(false) -%}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif %}
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif %}
+        {% if label is empty %}
+            {% if label_format is not empty -%}
+                {% set label = label_format|replace({'%name%': name,'%id%': id,}) %}
+            {% else %}
+                {% set label = name|humanize %}
+            {% endif %}
+        {% endif %}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}{% if required %}<span style="color:red" title="Este campo es requerido"> (*)</span>
+        {% endif %}
+        {% if 'history' in label_attr.class %}
+            <a data-toggle="modal" href="#{{historyUrl}}"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></a>
+        {% endif %}
+        {% if 'help' in label_attr.class %}
+            <a data-toggle="modal" href="#{{helpUrl}}"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span></a>
+        {% endif %}
+        </label>
+    {% endif %}
+{% endblock form_label %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -21,8 +96,7 @@
 {% block body %}
 
     <div ng-controller="newTegController">
-
-        <h1>Nuevo Trabajo Especial de Grado</h1>
+        <h2><a class="btn btn-default" href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i>&nbsp;Cancelar</a>&nbsp;Nuevo Trabajo Especial de Grado</h2>
         {{ form_start(form, { 'name': 'formInputTeg' }) }}
 
             {{ form_errors(form) }}
@@ -33,15 +107,13 @@
     </ul>
     <div class="tab-content">
         <div id="paso1" class="tab-pane fade in active">
-
-            <div class="form-group">
+        <p style="float: right;margin: initial;"><span style="color:red">(*)</span> Campos Obligatorios</p>
+            <div class="form-group col-lg-12">
                 {{ form_label(form.titulo) }}
                 {{ form_errors(form.titulo) }}
                 <div class="col-xs-9 col-lg-12" >
                     {{ form_widget(form.titulo) }}
-                    <!--<span ng-show="!formInputTeg.$pristine && formInputTeg['biblioteca_tegbundle_teg[titulo]'].$error.required">Titulo es requerido.</span>-->
                 </div>
-                {{ form.titulo.vars.name }}
             </div>
 
             <div class="form-group col-lg-6">
@@ -62,8 +134,10 @@
                             {{ form_widget(form.authors[1].lastname) }}
                             {{ form_errors(form.authors[1]) }}
                             {% else %}
-                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_name" name="biblioteca_tegbundle_teg[authors][1][name]" required="required" class="form-control" placeholder="Nombre">
-                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_lastname" name="biblioteca_tegbundle_teg[authors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
+                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_name" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$pristine}" ng-model="biblioteca_tegbundle_teg_authors_1_name" name="biblioteca_tegbundle_teg[authors][1][name]" required="required" class="form-control" placeholder="Nombre">
+                            <span ng-show="!formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$pristine && formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$error.required">Este Campo es requerido.</span>
+                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_lastname" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$pristine}" ng-model="biblioteca_tegbundle_teg_authors_1_lastname" name="biblioteca_tegbundle_teg[authors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
+                            <span ng-show="!formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$pristine && formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$error.required">Este Campo es requerido.</span>
                             {% endif %}
                         </li>
                     </ul>
@@ -87,8 +161,10 @@
                             {{ form_widget(form.tuthors[1].lastname) }}
                             {{ form_errors(form.tuthors[1]) }}
                             {% else %}
-                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_name" name="biblioteca_tegbundle_teg[tuthors][1][name]" required="required" class="form-control" placeholder="Nombre">
-                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_lastname" name="biblioteca_tegbundle_teg[tuthors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
+                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_name" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$pristine}" ng-model="biblioteca_tegbundle_teg_tuthors_1_name" name="biblioteca_tegbundle_teg[tuthors][1][name]" required="required" class="form-control" placeholder="Nombre">
+                            <span ng-show="!formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$pristine && formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$error.required">Este Campo es requerido.</span>
+                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_lastname" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$pristine}" ng-model="biblioteca_tegbundle_teg_tuthors_1_lastname" name="biblioteca_tegbundle_teg[tuthors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
+                            <span ng-show="!formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$pristine && formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$error.required">Este Campo es requerido.</span>
                             {% endif %}
                         </li>
                     </ul>
@@ -124,9 +200,9 @@
                 {{ form_errors(form.publicacion) }}
                 
                 {% for Field in form.publicacion %}
-                    <div class="col-md-2 col-xs-3 col-lg-3" ng-init="{{Field.vars.id}}='{{Field.vars.value}}';">
+                    <div class="col-md-2 col-xs-3 col-lg-3">
                         {{ form_errors(Field) }}
-                        {{ form_widget(Field, { 'attr': {'class': 'form-control form-compacto', 'ng-model':(Field.vars.id)} }) }}
+                        {{ form_widget(Field, { 'attr': {'class': 'form-control form-compacto'} }) }}
                     </div>
                 {% endfor %}
             </div>
@@ -134,8 +210,8 @@
             <div class="form-group col-lg-6">
                 {{ form_label(form.escuela) }}
                 {{ form_errors(form.escuela) }}
-                <div class="col-xs-9" ng-init="{{form.escuela.vars.id}}='{{form.escuela.vars.value}}';">
-                    {{ form_widget(form.escuela, { 'attr': {'ng-model':(form.escuela.vars.id)} }) }}
+                <div class="col-xs-9">
+                    {{ form_widget(form.escuela) }}
                 </div>
             </div>
             
@@ -188,14 +264,6 @@
       
     {{ form_widget(form._token) }}
     {{ form_end(form, {'render_rest': false} ) }}
-
-        <ul class="record_actions">
-            <li>
-                <a href="{{ path('teg') }}">
-                    Back to the list
-                </a>
-            </li>
-        </ul>
     </div>
 {% endblock %}
 
