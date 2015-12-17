@@ -184,7 +184,8 @@
                 {{ form_errors(form.keyWords) }}
 
                 <div class="col-xs-9" ng-init="{% for i in form.keyWords %}add('{{ i.vars.value}}');{% endfor %}">
-                    <tags-input ng-model="keyWords" display-property="name" placeholder="Agregar palabra" template="tagtemplate" add-on-blur="false" min-tags="3" max-tags="15" enable-editing-last-tag="true" replace-spaces-with-dashes="false" max-length="30"></tags-input>
+                    <tags-input ng-model="keyWords" display-property="name" placeholder="Agregar palabra" template="tagtemplate" max-tags="15" allow-leftover-text="true" enable-editing-last-tag="true" replace-spaces-with-dashes="false" max-length="30"></tags-input>
+                    <span ng-show="keyWords.length > 15 ">MAXIMO.</span>
                     <script type="text/ng-template" id="tagtemplate">
                       <div class="tag-template">
                         <div>

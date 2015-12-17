@@ -19,7 +19,17 @@ newTeg.controller('newTegController', function ($scope) {
         $scope.cota_index = val.substring(2, 4);
     };
 
- 
+    $scope.tagError = false;
+    $scope.tagErrorMensaje = "";
+ 	$scope.onTagAdding = function () {
+ 		if ($scope.keyWords.length === 15) {
+ 			$scope.tagErrorMensaje = "Se permite un maximo de 15 palabras claves";
+ 			$scope.tagError = true;
+ 			return false;
+ 		}
+ 		else
+ 			return true;
+ 	}
     $scope.submitForm = function (formData) {
         alert('Form submitted with' + JSON.stringify(formData));
     };
