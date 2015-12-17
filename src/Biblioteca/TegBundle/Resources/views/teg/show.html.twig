@@ -5,8 +5,8 @@
 {% endblock %} 
 {% block body %}
 <div ng-controller="showTegController as ctrl">
-    <div class="form-inline" style="border-color: red;border-width: medium;padding: 5px;margin: 5px;background-color: maroon;border-radius: 5px;">
-            <a class="btn btn-default" href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i>&nbsp;Back to the list</a>
+    <div class="alert alert-info" style="/*border-color: red;border-width: medium;padding: 5px;margin: 5px;background-color: maroon;border-radius: 5px;*/">
+            <a class="btn btn-danger" href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i>&nbsp;Volver</a>
             {% if edit is defined and edit %}
                 <a class="btn btn-default" href="{{ path('teg_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Editar</a>
             {% endif %}
@@ -25,7 +25,7 @@
                 {{ form_end(publish_form, {'render_rest': false}) }}
             {% endif %}
             {% if isSAdmin or isAdmin %}
-                creado por <a href="{{ path('teg') }}">{{entity.creator}}</a>
+                <span  style="float:right; padding: 6px 12px;">creado por <a href="{{ path('teg') }}">{{entity.creator}}</a></span>
             {% endif %}
     </div>
     <div class="col-md-2 col-xs-12">

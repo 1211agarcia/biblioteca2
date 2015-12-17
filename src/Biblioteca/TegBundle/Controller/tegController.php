@@ -127,6 +127,7 @@ class tegController extends Controller
         }
 
         return array(
+            'operacion' => 0,
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -149,7 +150,7 @@ class tegController extends Controller
 
         $form
             ->add('submit', 'submit', array('label' => 'Guardar',
-                                             'attr' => array('class' => 'btn btn-primary', 'ng-click'=>'submitForm(formData)', 'ng-disabled'=>'!formInputTeg.$valid' )
+                                             'attr' => array('class' => 'btn btn-primary' )
                                              )
             )
             ->add('reset', 'reset', array('label' => 'Limpiar',
@@ -174,6 +175,7 @@ class tegController extends Controller
         $form   = $this->createCreateForm($entity);
 
         return array(
+            'operacion' => 0,//Significa que sera NEW
             'entity' => $entity,
             'form'   => $form->createView(),
         );
@@ -259,6 +261,7 @@ class tegController extends Controller
         $publishForm = $this->createPublishForm($id);
 
         return array(
+            'operacion' => 1,//significa que es edicion
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'publish_form' => $publishForm->createView(),
@@ -322,6 +325,7 @@ class tegController extends Controller
         }
 
         return array(
+            'operacion' => 1,//significa que es edicion
             'entity'      => $entity,
             'form'   => $editForm->createView(),
             'publish_form' => $publishForm->createView(),

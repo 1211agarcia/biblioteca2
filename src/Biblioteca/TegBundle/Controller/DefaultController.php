@@ -81,13 +81,13 @@ class DefaultController extends Controller
                 );
         
         }
-        else{
+        /*else{
             //esto no se que hace es para ir a una pagina si hay error en el form
             return $this->redirectToRoute('home', array(), 301);
-        }
+        }*/
 
-        return array(
-            'form' => $form->createView());
+        return $this->redirect($this->generateUrl('teg'));
+        
     }
 }
 

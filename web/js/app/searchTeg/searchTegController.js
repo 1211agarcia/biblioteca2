@@ -2,6 +2,8 @@ searchTeg.controller('searchTegController', function ($scope, $timeout) {
     
     $scope.rango = function() {
         $scope.fechaMin = angular.isUndefinedOrNull($scope.desde)?1998 : $scope.desde;
+    console.log($scope.desde);
+
     }
     $scope.$watch($scope.rango);
     $scope.load = function($event) {
@@ -12,4 +14,6 @@ searchTeg.controller('searchTegController', function ($scope, $timeout) {
     $scope.isInvalid = function() {        
         return (angular.isUndefinedOrNull($scope.q) && angular.isUndefinedOrNull($scope.desde) && angular.isUndefinedOrNull($scope.hasta) && angular.isUndefinedOrNull($scope.escuela));
     };
+
+
 });

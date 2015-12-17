@@ -180,7 +180,7 @@ class teg
         $this->authors = new ArrayCollection(array(new author(),new author()));
         $this->tuthors = new ArrayCollection(array(new tuthor(),new tuthor()));
         $this->keyWords = new ArrayCollection(array(new keyword(),new keyword()));
-        $this->capitulos = new ArrayCollection();
+        $this->capitulos = new ArrayCollection(array(new documento(),new documento(),new documento(),new documento(),new documento()));
         $this->published = true;
     }
 

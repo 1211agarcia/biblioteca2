@@ -32,7 +32,7 @@ class documentoType extends AbstractType
             ->add('file', 'file',
             array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
-                    'label' => null,
+                    'label' => 'Archivo',
                     'attr'=> array('class' => 'file'),
                     'required' => true,
 
