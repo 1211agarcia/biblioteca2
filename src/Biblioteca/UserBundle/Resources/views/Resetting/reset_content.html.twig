@@ -1,4 +1,9 @@
 {% trans_default_domain 'FOSUserBundle' %}
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <h3 class="panel-title">Cambio de contraseña</h3>
+    </div>
+    <div class="panel-body">
 
 <form action="{{ path('fos_user_resetting_reset', {'token': token}) }}" {{ form_enctype(form) }} method="POST" class="form-horizontal fos_user_resetting_reset" role="form">
     {{ form_errors(form) }}
@@ -26,3 +31,4 @@
     </div>
     <button class="btn btn-primary" type="submit">{{ 'resetting.reset.submit'|trans }}</button>
 {{ form_end(form) }}
+</div></div>

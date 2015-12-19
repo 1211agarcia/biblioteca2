@@ -5,6 +5,11 @@
     <strong>Error</strong> {{ 'resetting.request.invalid_username'|trans({'%username%': invalid_username}) }}
 </div>
 {% endif %}
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <h3 class="panel-title">Recuperacion de contraseña</h3>
+    </div>
+    <div class="panel-body">
 <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
     <div class="form-group">
         <label class="col-sm-2 control-label" for="username">{{ 'resetting.request.username'|trans }}</label>
@@ -16,3 +21,4 @@
         <button class="btn btn-primary"type="submit">{{ 'resetting.request.submit'|trans }}</button>
     </div>
 </form>
+</div></div>

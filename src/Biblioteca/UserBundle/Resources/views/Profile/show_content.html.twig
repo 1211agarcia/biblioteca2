@@ -1,31 +1,56 @@
 {% trans_default_domain 'FOSUserBundle' %}
-<form class="form-horizontal" role="form">
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Perfil</h3>
+    </div>
+    <div class="panel-body">
+
+<div class="row form-horizontal" role="form">
+<div class="col-md-6 col-md-12">
     <div class="form-group">
-        <label class="col-sm-2 control-label">{{ 'profile.show.username'|trans }}</label>
-        <div class="col-sm-10">
+        <label class="col-sm-2 col-md-6 control-label">{{ 'profile.show.username'|trans }}</label>
+        <div class="col-sm-10 col-md-6">
             <p class="form-control-static">{{ user.username }}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2 control-label">{{ 'profile.show.email'|trans }}</label>
-        <div class="col-sm-10">
+        <label class="col-sm-2 col-md-6 control-label">{{ 'profile.show.email'|trans }}</label>
+        <div class="col-sm-10 col-md-6">
             <p class="form-control-static">{{ user.email }}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2 control-label">Rol</label>
-        <div class="col-sm-10">
+        <label class="col-sm-2 col-md-6 control-label">Rol</label>
+        <div class="col-sm-10 col-md-6">
             <p class="form-control-static">{{ user.roles[0] }}</p>
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-3 col-xs-6 col-md-2 control-label">Creations</label> 
-        <div class="col-xs-9">
-            {% for iField in user.creations %} 
-            <p class="form-control-static">{{ iField }}</p>{% endfor %}
+        <label class="col-sm-2 col-md-6 control-label">Ultimo acceso</label>
+        <div class="col-sm-10 col-md-6">
+            <p class="form-control-static">{% if user.lastLogin %}{{ user.lastLogin|date('Y-m-d H:i') }}{% else %}nunca{% endif %}</p>
         </div>
     </div>
-</form>
+</div>
+    <div class="col-md-6 col-md-12 form-group">
+        <label class="col-sm-3 col-xs-6 control-label">Creaciones</label> 
+        <div class="col-xs-12">
+            {% if user.creations|length > 0 %}
+                {% for iField in user.creations %} 
+                <p class="form-control-static"><a href="{{ path('teg_show', { 'id': iField.id }) }}">{{ iField }}</a></p>{% endfor %}
+            {% else %}
+                <p class="form-control-static alert-warning">Este usuario no posee TEG's creadas</p>
+            {% endif %} 
+        </div>
+    </div>
+</div>
+{% if app.user.id == user.id %}
+<hr>
 <a class="btn btn-warning" href="{{ path('fos_user_profile_edit') }}"><i class="fa fa-pencil-square-o fa-lg"></i> Editar</a>
 
 <a class="btn btn-primary" href="{{ path('fos_user_change_password') }}">Cambiar contraseña</a>
+
+<a style="float: right;" class="btn btn-default" href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i>&nbsp;Salir</a>
+{% endif %}
+
+</div></div>

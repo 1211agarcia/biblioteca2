@@ -1,4 +1,9 @@
 {% trans_default_domain 'FOSUserBundle' %}
+<div class="panel panel-warning">
+    <div class="panel-heading">
+        <h3 class="panel-title">Edición de Perfil</h3>
+    </div>
+    <div class="panel-body">
 {{ form_start(form, {'attr': {'class': 'form-horizontal fos_user_profile_edit', 'role': 'form'}}) }}
     {{ form_errors(form) }}
     <div class="form-group{% if form.username.vars.errors[0].message is defined %} has-error{% endif %}">
@@ -34,5 +39,9 @@
             {% endif %}
         </div>
     </div>
-    <button class="btn btn-primary" type="submit">{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}</button>
+    <div class="form-group" style="text-align: right;padding-right: 15px;">
+            <a class="btn btn-danger" href="{{ path('fos_user_profile_show') }}"><i class="fa fa-arrow-left fa-fw"></i>&nbsp;Cancelar</a>&nbsp;
+            <button class="btn btn-default" type="submit">{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}</button>
+    </div>
 {{ form_end(form) }}
+</div></div>
