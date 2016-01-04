@@ -46,12 +46,16 @@ class documento
     /**
      * @var UploadedFile
      * @Assert\File(maxSize="6000000")
-     * @Assert\NotBlank(message="Please, upload the Capitulo as a PDF file.")
+     * @Assert\NotBlank(message="Por favor, cargar el Capítulo como un archivo PDF.")
      * @Assert\File(mimeTypes={ "application/pdf" })
      */
     private $file;
 
     private $temp;
+
+    function __construct($name = null){
+        $this->name = $name;
+    }
 
     /**
      * Sets file.
