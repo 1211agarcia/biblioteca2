@@ -26,12 +26,25 @@
 
 {% block form_widget_simple %}
     {% set type = type|default('text') %}
+    
     <input type="{{ type }}" {{ block('widget_attributes') }} />
+    {% if type == "text" %}
     <span ng-show="!formInputTeg['{{ full_name }}'].$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
+    <span ng-show="formInputTeg['{{ full_name }}'].$error.minlength">Texto muy corto.</span>
+    <span ng-show="formInputTeg['{{ full_name }}'].$error.maxlength">Texto muy largo.</span>
+    {% endif %}
+    <p>formInputTeg['{{ full_name }}'].$error.required = [[ formInputTeg['{{ full_name }}'].$error.required ]]</p>
+    <p>formInputTeg['{{ full_name }}'].$error = [[ formInputTeg['{{ full_name }}'].$error ]]</p>
+    <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p>
 {% endblock form_widget_simple %}
 {% block textarea_widget %}
     <textarea {{ block('widget_attributes') }}></textarea>
     <span ng-show="!formInputTeg['{{ full_name }}'].$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
+    <span ng-show="formInputTeg['{{ full_name }}'].$error.minlength">Resumen muy corto.</span>
+    <p>formInputTeg['{{ full_name }}'].$error.required = [[ formInputTeg['{{ full_name }}'].$error.required ]]</p>
+    <p>formInputTeg['{{ full_name }}'].$error = [[ formInputTeg['{{ full_name }}'].$error ]]</p>
+    <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p>
+
 {% endblock textarea_widget %}
 
 {%- block choice_widget_collapsed -%}
@@ -53,6 +66,9 @@
         {{- block('choice_widget_options') -}}
     </select>
     <span ng-show="!formInputTeg['{{ full_name }}'].$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
+    <p>formInputTeg['{{ full_name }}'].$error.required = [[ formInputTeg['{{ full_name }}'].$error.required ]]</p>
+    <p>formInputTeg['{{ full_name }}'].$error = [[ formInputTeg['{{ full_name }}'].$error ]]</p>
+    <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p>
 
 {%- endblock choice_widget_collapsed -%}
 
@@ -90,7 +106,6 @@
     <link href="{{ asset('plugins/ngTagsInput/ng-tags-input.min.css') }}" type="text/css" rel="stylesheet" />
     
     <link href="{{ asset('css/fileinput.min.css') }}" media="all" rel="stylesheet" type="text/css" />
-
 {% endblock %} 
 
 {% block body %}
@@ -107,7 +122,7 @@
         <div id="paso1" class="tab-pane fade in active">
             <div class="navbar" style="margin: -15px; margin-bottom: 5px;">
             <a style="float:left;"class="btn btn-danger" href="{{ path('teg') }}">Cancelar</a>
-            <a style="float:right;" class="btn btn-primary" data-toggle="tab" href="#paso2">Siguiente&nbsp;<i class="fa fa-arrow-right fa-fw"></i></a>
+            <a ng-disabled="!pasoUnoValid()" style="float:right;" class="btn btn-primary" data-toggle="tab" href="#paso2">Siguiente&nbsp;<i class="fa fa-arrow-right fa-fw"></i></a>
             </div>
             <div class="form-group col-lg-12">
                 {{ form_label(form.titulo) }}
@@ -185,8 +200,11 @@
                 {{ form_errors(form.keyWords) }}
 
                 <div class="col-xs-9" ng-init="{% for i in form.keyWords %}add('{{ i.vars.value}}');{% endfor %}">
-                    <tags-input ng-model="keyWords" display-property="name" placeholder="Agregar palabra" template="tagtemplate" max-tags="15" allow-leftover-text="true" enable-editing-last-tag="true" replace-spaces-with-dashes="false" max-length="30"></tags-input>
-                    <span ng-show="keyWords.length > 15 ">MAXIMO.</span>
+                    <tags-input ng-model="formData.keyWords" display-property="name" placeholder="Agregar palabra" template="tagtemplate" max-tags="15" allow-leftover-text="true" enable-editing-last-tag="true" replace-spaces-with-dashes="false" max-length="30"></tags-input>
+                    <span ng-show="keyWords.length > 15 ">Maximo de 15 Palabras clave.</span>
+                    <span ng-show="keyWords.length > 0 && keyWords.length < 3 ">Minimo de 3 Palabras clave.</span>
+                    <span ng-show="keyWords.length == 0 ">Este campo es requerido.</span>
+                    <span >[[formData.keyWords.length]]</span>
                     <script type="text/ng-template" id="tagtemplate">
                       <div class="tag-template">
                         <div>
@@ -307,17 +325,17 @@
 
     <script type="text/javascript">
     $("[name='biblioteca_tegbundle_teg[published]']").bootstrapSwitch();
-/*$('#biblioteca_tegbundle_teg_capitulos_0_file,#biblioteca_tegbundle_teg_capitulos_1_file,#biblioteca_tegbundle_teg_capitulos_2_file,#biblioteca_tegbundle_teg_capitulos_3_file,#biblioteca_tegbundle_teg_capitulos_4_file').fileinput({
+$('#biblioteca_tegbundle_teg_capitulos_0_file,#biblioteca_tegbundle_teg_capitulos_1_file,#biblioteca_tegbundle_teg_capitulos_2_file,#biblioteca_tegbundle_teg_capitulos_3_file,#biblioteca_tegbundle_teg_capitulos_4_file').fileinput({
     language: 'es',
     uploadUrl: '#',
     allowedFileExtensions : ['pdf'],
     maxFileSize: 10000,
-    showUpload: false*,
+    showUpload: false/*,
     initialPreview: [
             '<img src="/biblioteca2/web/img/logo.jpg" class="file-preview-image" alt="The Moon" title="The Moon">'
-        ],*
+        ],*/
 
-});*/
+});
 
     </script>
         

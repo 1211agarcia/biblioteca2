@@ -27,7 +27,7 @@ class authorType extends AbstractType
                     'label_attr' => array('class' => 'control-label col-xs-3'),
                     'label' => 'Nombre',
                     'attr'=> array('class' => 'form-control',
-                                    'placeholder' => 'Nombre'),
+                                    'placeholder' => 'Nombre', 'ng-minlength'=>"3", 'ng-maxlength'=>"25"),
                 )
             )
             ->add('lastname', 'text', 
@@ -35,7 +35,7 @@ class authorType extends AbstractType
                     'label_attr' => array('class' => 'control-label col-xs-3'),
                     'label' => 'Apellido',
                     'attr'=> array('class' => 'form-control',
-                                    'placeholder' => 'Apellido'),
+                                    'placeholder' => 'Apellido', 'ng-minlength'=>"3", 'ng-maxlength'=>"25"),
                 )
             )
        ;

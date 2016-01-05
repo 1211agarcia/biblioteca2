@@ -102,7 +102,11 @@ class teg
      * @var string
      *
      * @ORM\Column(type="text")
-     * @Assert\NotNull(message="Debe ingresar el resumen")
+     * @Assert\Length(
+     *     min=5,
+     *     minMessage="El resumen es muy corto."
+     * )
+     * @Assert\NotNull(message="Debe escribir ingresar el resumen")
      */
     private $resumen;
 
@@ -171,7 +175,7 @@ class teg
      * @var boolean $published
      *
      * @ORM\Column(type="boolean")
-     * @Assert\NotNull(message="Debe tener un palo valido")
+     * @Assert\NotNull(message="Debe tener un valor valido")
      */
     private $published;
 

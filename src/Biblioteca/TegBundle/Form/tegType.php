@@ -63,7 +63,7 @@ class tegType extends AbstractType
             ->add('titulo', 'text', 
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3 col-lg-1'),
-                    'attr'=> array('class' => 'form-control'),
+                    'attr'=> array('class' => 'form-control', 'ng-minlength'=>"5", 'ng-maxlength'=>"500"),
                 )
             )
             ->add('keyWords', 'collection',
@@ -84,7 +84,7 @@ class tegType extends AbstractType
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
                     'attr'=> array('class' => 'form-control',
-                                     'row' => '3')
+                                     'row' => '3', 'ng-minlength'=>"5")
                 )
             )
        ;
