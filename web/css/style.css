@@ -102,9 +102,36 @@ textarea.form-control{
   background-color: #f2dede;   
 }
 .error {
-  border-color: red;
+  border-color: #a94442;
+}
+.valid {
+  border-color: #3c763d;
 }
  
 .warning {
   border-color: yellow;
+}
+tags-input[name="biblioteca_tegbundle_teg[keyWords]"].error > div > div {
+  border-color: #a94442;
+  -webkit-box-shadow: 0 0 0 0 rgb(169, 68, 66);
+  -moz-box-shadow: 0 0 0 0 rgb(169, 68, 66);
+    box-shadow: 0 0 0 0 rgb(169, 68, 66);
+}
+tags-input[name="biblioteca_tegbundle_teg[keyWords]"].valid > div > div {
+  border-color: #3c763d;
+  -webkit-box-shadow: 0 0 0 0 rgb(60, 118, 61);
+  -moz-box-shadow: 0 0 0 0 rgb(60, 118, 61);
+    box-shadow: 0 0 0 0 rgb(60, 118, 61);
+}
+tags-input[name="biblioteca_tegbundle_teg[keyWords]"].defaultTags > div > div {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+}
+tags-input[name="biblioteca_tegbundle_teg[keyWords]"] > div > div {
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  
 }

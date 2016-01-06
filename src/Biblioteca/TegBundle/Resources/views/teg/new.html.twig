@@ -20,33 +20,61 @@
         ng-init="formData.{{ id }}='{{ value }}';"
     {% endif %}
     ng-model="formData.{{ id }}"
-    ng-class="{ error: formInputTeg['{{ full_name }}'].$error.required && !formInputTeg['{{ full_name }}'].$pristine}"
+    ng-class="{ error: formInputTeg['{{ full_name }}'].$invalid && formInputTeg['{{ full_name }}'].$touched, valid: formInputTeg['{{ full_name }}'].$valid}"
 {%- endblock widget_attributes -%}
 
-
+ 
 {% block form_widget_simple %}
+{% spaceless %}
     {% set type = type|default('text') %}
     
-    <input type="{{ type }}" {{ block('widget_attributes') }} />
+   	<input type="{{ type }}" {{ block('widget_attributes') }} />
+
     {% if type == "text" %}
-    <span ng-show="!formInputTeg['{{ full_name }}'].$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
-    <span ng-show="formInputTeg['{{ full_name }}'].$error.minlength">Texto muy corto.</span>
-    <span ng-show="formInputTeg['{{ full_name }}'].$error.maxlength">Texto muy largo.</span>
+    <p class="text-danger" ng-show="formInputTeg['{{ full_name }}'].$touched && formInputTeg['{{ full_name }}'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+    <p class="text-warning" ng-show="formInputTeg['{{ full_name }}'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Texto muy corto.</p>
+    <p class="text-warning" ng-show="formInputTeg['{{ full_name }}'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Texto muy largo.</p>
     {% endif %}
+    {% if type == "date" %}
+    <p class="text-danger" ng-show="formInputTeg['{{ full_name }}'].$touched && formInputTeg['{{ full_name }}'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+    <p class="text-danger" ng-show="formInputTeg['{{ full_name }}'].$error.date"><i class="fa fa-exclamation-triangle"></i> Fecha invalida.</p>
+
+    <p class="text-warning" ng-show="formInputTeg['{{full_name}}'].$error.min"><i class="fa fa-exclamation-triangle"></i> Inferior al permitido.</p>
+
+    <p class="text-warning" ng-show="formInputTeg['{{ full_name }}'].$error.max"><i class="fa fa-exclamation-triangle"></i> Superior al permitido.</p>
+    {% endif %}
+    <!--p>formInputTeg['{{ full_name }}'] = "[[ formInputTeg['{{ full_name }}'] ]]"</p>
+    <p>formInputTeg['{{ full_name }}'].$pristine = [[ formInputTeg['{{ full_name }}'].$pristine ]]</p>
     <p>formInputTeg['{{ full_name }}'].$error.required = [[ formInputTeg['{{ full_name }}'].$error.required ]]</p>
     <p>formInputTeg['{{ full_name }}'].$error = [[ formInputTeg['{{ full_name }}'].$error ]]</p>
-    <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p>
+    <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p-->
+{% endspaceless %}
 {% endblock form_widget_simple %}
 {% block textarea_widget %}
     <textarea {{ block('widget_attributes') }}></textarea>
-    <span ng-show="!formInputTeg['{{ full_name }}'].$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
-    <span ng-show="formInputTeg['{{ full_name }}'].$error.minlength">Resumen muy corto.</span>
-    <p>formInputTeg['{{ full_name }}'].$error.required = [[ formInputTeg['{{ full_name }}'].$error.required ]]</p>
+    <p class="text-danger" ng-show="formInputTeg['{{ full_name }}'].$touched && formInputTeg['{{ full_name }}'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+    <p class="text-warning" ng-show="formInputTeg['{{ full_name }}'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Resumen muy corto.</p>
+    <p class="text-warning" ng-show="formInputTeg['{{ full_name }}'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Resumen muy largo.</p>
+    <!-- p>formInputTeg['{{ full_name }}'].$error.required = [[ formInputTeg['{{ full_name }}'].$error.required ]]</p>
     <p>formInputTeg['{{ full_name }}'].$error = [[ formInputTeg['{{ full_name }}'].$error ]]</p>
-    <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p>
-
+    <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p -->
 {% endblock textarea_widget %}
-
+{% block date_widget %}
+	{% spaceless %}
+    {% if widget == 'single_text' %}
+    	{% set type = type|default('date') %}
+        {{ block('form_widget_simple') }}
+    {% else %}
+        <div {{ block('widget_container_attributes') }}>
+            {{ date_pattern|replace({
+                '{{ year }}':  form_widget(form.year),
+                '{{ month }}': form_widget(form.month),
+                '{{ day }}':   form_widget(form.day),
+            })|raw }}
+        </div>
+    {% endif %}
+	{% endspaceless %}
+{% endblock date_widget %}
 {%- block choice_widget_collapsed -%}
     {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
         {% set required = false %}
@@ -65,11 +93,10 @@
         {%- set options = choices -%}
         {{- block('choice_widget_options') -}}
     </select>
-    <span ng-show="!formInputTeg['{{ full_name }}'].$pristine && formInputTeg['{{ full_name }}'].$error.required">Este Campo es requerido.</span>
-    <p>formInputTeg['{{ full_name }}'].$error.required = [[ formInputTeg['{{ full_name }}'].$error.required ]]</p>
+    <p class="text-danger" ng-show="formInputTeg['{{ full_name }}'].$touched && formInputTeg['{{ full_name }}'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+    <!--p>formInputTeg['{{ full_name }}'].$error.required = [[ formInputTeg['{{ full_name }}'].$error.required ]]</p>
     <p>formInputTeg['{{ full_name }}'].$error = [[ formInputTeg['{{ full_name }}'].$error ]]</p>
-    <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p>
-
+    <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p -->
 {%- endblock choice_widget_collapsed -%}
 
 {% use 'form_div_layout.html.twig' with form_label %}
@@ -88,7 +115,7 @@
                 {% set label = name|humanize %}
             {% endif %}
         {% endif %}
-        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}{% if required %}<span style="color:red" title="Este campo es requerido"> (*)</span>
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}><i class="fa fa-check-circle text-success" ng-show="isValid('{{ full_name }}')"></i>{{ label|trans({}, translation_domain) }}{% if required %}<span style="color:red" title="Este campo es requerido"> (*)</span>
         {% endif %}
         {% if 'history' in label_attr.class %}
             <a data-toggle="modal" href="#{{historyUrl}}"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></a>
@@ -122,7 +149,7 @@
         <div id="paso1" class="tab-pane fade in active">
             <div class="navbar" style="margin: -15px; margin-bottom: 5px;">
             <a style="float:left;"class="btn btn-danger" href="{{ path('teg') }}">Cancelar</a>
-            <a ng-disabled="!pasoUnoValid()" style="float:right;" class="btn btn-primary" data-toggle="tab" href="#paso2">Siguiente&nbsp;<i class="fa fa-arrow-right fa-fw"></i></a>
+            <a ng-disabled="!pasoUnoValid" style="float:right;" class="btn btn-primary" data-toggle="tab" href="#paso2">Siguiente&nbsp;<i class="fa fa-arrow-right fa-fw"></i></a>
             </div>
             <div class="form-group col-lg-12">
                 {{ form_label(form.titulo) }}
@@ -137,11 +164,10 @@
                 <div id="form-autor" class="col-xs-9">
                     <ul id="autor-fields-list" class="list-unstyled" ng-init="{% for i in form.authors %}addA('{{ i.vars.value}}');{% endfor %}">
                         <li>
+                            {{ form_errors(form.authors) }}
                             {{ form_widget(form.authors[0].name) }}
                             {{ form_widget(form.authors[0].lastname) }}
-                            {{ form_errors(form.authors[0]) }}
                         </li>
-
                         <label>Segundo autor (Opcional): <input type="checkbox" ng-model="segundoA" {% if form.authors[1] is defined %}ng-init="segundoA=true"{% endif %} /></label><br/>
                        
                         <li ng-if="segundoA" >
@@ -200,11 +226,19 @@
                 {{ form_errors(form.keyWords) }}
 
                 <div class="col-xs-9" ng-init="{% for i in form.keyWords %}add('{{ i.vars.value}}');{% endfor %}">
-                    <tags-input ng-model="formData.keyWords" display-property="name" placeholder="Agregar palabra" template="tagtemplate" max-tags="15" allow-leftover-text="true" enable-editing-last-tag="true" replace-spaces-with-dashes="false" max-length="30"></tags-input>
-                    <span ng-show="keyWords.length > 15 ">Maximo de 15 Palabras clave.</span>
-                    <span ng-show="keyWords.length > 0 && keyWords.length < 3 ">Minimo de 3 Palabras clave.</span>
-                    <span ng-show="keyWords.length == 0 ">Este campo es requerido.</span>
-                    <span >[[formData.keyWords.length]]</span>
+                    <tags-input name="{{ form.keyWords.vars.full_name }}" ng-model="formData.{{ form.keyWords.vars.id }}" display-property="word" required placeholder="Agregar palabra" template="tagtemplate" min-tags="3" max-tags="15" allow-leftover-text="true" enable-editing-last-tag="true" replace-spaces-with-dashes="false" max-length="30"
+ng-class="{
+error: formInputTeg['{{ form.keyWords.vars.full_name }}'].$invalid && formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched, defaultTags: formInputTeg['{{ form.keyWords.vars.full_name }}'].$untouched, valid:formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid }"></tags-input>
+
+<p class="text-danger" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.required"><i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+<p class="text-warning" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.minTags && !formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.required"><i class="fa fa-exclamation-triangle"></i> Minimo de 3 palabras.</p>
+<p class="text-warning" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.maxTags"><i class="fa fa-exclamation-triangle"></i> Maximo de 15 palabras.</p>
+       
+<!--p>formInputTeg['{{ form.keyWords.vars.full_name }}'] = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'] ]]</p>
+<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched ]]</p>
+<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$error = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$error ]]</p>
+<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid ]]</p-->
+
                     <script type="text/ng-template" id="tagtemplate">
                       <div class="tag-template">
                         <div>
@@ -215,16 +249,12 @@
                     </script>
                 </div>
             </div>
-            <div class="form-group col-lg-6">
+        <div class="form-group col-lg-6">
                 {{ form_label(form.publicacion) }}
                 {{ form_errors(form.publicacion) }}
-                
-                {% for Field in form.publicacion %}
-                    <div class="col-md-2 col-xs-3 col-lg-3">
-                        {{ form_errors(Field) }}
-                        {{ form_widget(Field, { 'attr': {'class': 'form-control form-compacto'} }) }}
-                    </div>
-                {% endfor %}
+                <div class="col-xs-9">
+                    {{ form_widget(form.publicacion) }}
+                </div>
             </div>
 
             <div class="form-group col-lg-6">

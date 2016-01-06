@@ -1,6 +1,6 @@
 newTeg.controller('newTegController', function ($scope) {
     $scope.formData = {};
-
+    $scope.pasoUnoValid = false;
 	$scope.generar = function(){
 		//console.log($scope.formData);
 		$scope.cota_year = angular.isUndefinedOrNull($scope.formData.biblioteca_tegbundle_teg_publicacion_year) || isNaN($scope.formData.biblioteca_tegbundle_teg_publicacion_year)? "'Año'" : ("0" + (parseInt($scope.formData.biblioteca_tegbundle_teg_publicacion_year) % 100) ).slice (-2);
@@ -18,18 +18,60 @@ newTeg.controller('newTegController', function ($scope) {
     $scope.initCota = function(val) {
         $scope.cota_index = val.substring(2, 4);
     };
+    $scope.isValid = function(item) {
+        switch(item){
+            case "biblioteca_tegbundle_teg[authors]":
+                console.log($scope.formInputTeg[item+"[1][name]"]);
+                return $scope.formInputTeg[item+"[0][name]"].$valid &&
+                $scope.formInputTeg[item+"[0][lastname]"].$valid &&
+                ($scope.segundoA ?
+                angular.isDefined($scope.formInputTeg[item+"[1][name]"]) &&
+                $scope.formInputTeg[item+"[1][name]"].$valid &&
+                $scope.formInputTeg[item+"[1][lastname]"].$valid : true);
+                
+            break;
+            case "biblioteca_tegbundle_teg[tuthors]":
+                return $scope.formInputTeg[item+"[0][name]"].$valid &&
+                $scope.formInputTeg[item+"[0][lastname]"].$valid &&
+                ($scope.segundoT ?
+                angular.isDefined($scope.formInputTeg[item+"[1][name]"]) &&
+                $scope.formInputTeg[item+"[1][name]"].$valid &&
+                $scope.formInputTeg[item+"[1][lastname]"].$valid : true);
+                
+            break;
+            case "biblioteca_tegbundle_teg[capitulos]":
+                return false;
+            break;
+            default:
+                return $scope.formInputTeg[item].$valid;
+            break;
+        }
+    };
+    $scope.isValidCollection = function(item) {
+                   console.log("entro isValidCollection "+item);
+        console.log($scope.formInputTeg[item+"[0][name]"].$valid &&
+                $scope.formInputTeg[item+"[0][lastname]"].$valid);
+        return
+                $scope.formInputTeg[item+"[0][name]"].$valid &&
+                $scope.formInputTeg[item+"[0][lastname]"].$valid;
+            
+        
+    };
 
-    $scope.tagError = false;
-    $scope.tagErrorMensaje = "";
- 	$scope.onTagAdding = function () {
- 		if ($scope.keyWords.length === 15) {
- 			$scope.tagErrorMensaje = "Se permite un maximo de 15 palabras claves";
- 			$scope.tagError = true;
- 			return false;
- 		}
- 		else
- 			return true;
- 	}
+    $scope.formValid = function () {
+        console.log("authors="+$scope.isValid('biblioteca_tegbundle_teg[authors]'));
+        
+ 		$scope.pasoUnoValid =
+            ($scope.isValid('biblioteca_tegbundle_teg[titulo]') &&
+            $scope.isValid('biblioteca_tegbundle_teg[escuela]') &&
+            $scope.isValid('biblioteca_tegbundle_teg[keyWords]') &&
+            $scope.isValid('biblioteca_tegbundle_teg[resumen]') &&
+            $scope.isValid('biblioteca_tegbundle_teg[authors]') &&
+            $scope.isValid('biblioteca_tegbundle_teg[tuthors]') &&
+            $scope.isValid('biblioteca_tegbundle_teg[publicacion]'));
+    };
+$scope.$watch($scope.formValid);
+    
     $scope.submitForm = function (formData) {
         alert('Form submitted with' + JSON.stringify(formData));
     };

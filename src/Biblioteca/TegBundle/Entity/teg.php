@@ -141,7 +141,7 @@ class teg
      * @Assert\Count(
      *      min = "1",
      *      max = "5",
-     *      minMessage = "Debe tener al menos 1 Archivo",
+     *      minMessage = "Debe tener al menos 1 Archivo, en caso de ser el tomo completo",
      *      maxMessage = "Sólo puede tener como maximo {{ limit }} Archivos"
      * )
      * @ORM\OneToMany(targetEntity="documento", mappedBy="teg") 

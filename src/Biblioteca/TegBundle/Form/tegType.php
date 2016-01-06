@@ -47,18 +47,19 @@ class tegType extends AbstractType
                 )
 
             )
-            ->add('publicacion', 'birthday',
+            ->add('publicacion', 'date',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
-                    'attr' => array('class' => 'col-xs-9'),
-                    'widget' => 'choice',
-                    'format' => 'dd-MM-yyyy',
+                    'attr'=> array('class' => 'form-control', 'min'=>"1998-01-01", 'max'=>date('Y')."-".date('m')."-".date('d')),
+                    'widget' => 'single_text',
+                    'required'  => true
+                    /*'format' => 'dd-MM-yyyy'/*,
                     'years' => range(1998, date('Y')),
                     'months' => range(1, date('m')),
                     'days' => range(1, date('d')),
                     'empty_value' => 
                         array('day' => 'Dia', 'month' => 'Mes', 'year' => 'Año'),
-                )
+                */)
             )
             ->add('titulo', 'text', 
                 array(
