@@ -1,5 +1,6 @@
 newTeg.controller('newTegController', function ($scope) {
     $scope.formData = {};
+    $scope.formData.biblioteca_tegbundle_teg_keyWords = [];
     $scope.pasoUnoValid = false;
 	$scope.generar = function(){
 		//console.log($scope.formData);
@@ -18,6 +19,13 @@ newTeg.controller('newTegController', function ($scope) {
     $scope.initCota = function(val) {
         $scope.cota_index = val.substring(2, 4);
     };
+    $scope.add = function(item) {
+        console.log($scope.formData.biblioteca_tegbundle_teg_keyWords);
+        if(item != ""){
+            $scope.formData.biblioteca_tegbundle_teg_keyWords.push({'word':item});
+        }
+    };
+
     $scope.isValid = function(item) {
         switch(item){
             case "biblioteca_tegbundle_teg[authors]":
@@ -47,16 +55,7 @@ newTeg.controller('newTegController', function ($scope) {
             break;
         }
     };
-    $scope.isValidCollection = function(item) {
-                   console.log("entro isValidCollection "+item);
-        console.log($scope.formInputTeg[item+"[0][name]"].$valid &&
-                $scope.formInputTeg[item+"[0][lastname]"].$valid);
-        return
-                $scope.formInputTeg[item+"[0][name]"].$valid &&
-                $scope.formInputTeg[item+"[0][lastname]"].$valid;
-            
-        
-    };
+   
 
     $scope.formValid = function () {
         console.log("authors="+$scope.isValid('biblioteca_tegbundle_teg[authors]'));

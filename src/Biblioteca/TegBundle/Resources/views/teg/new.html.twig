@@ -224,20 +224,16 @@
             <div class="form-group col-lg-6">
                 {{ form_label(form.keyWords) }}
                 {{ form_errors(form.keyWords) }}
-
                 <div class="col-xs-9" ng-init="{% for i in form.keyWords %}add('{{ i.vars.value}}');{% endfor %}">
-                    <tags-input name="{{ form.keyWords.vars.full_name }}" ng-model="formData.{{ form.keyWords.vars.id }}" display-property="word" required placeholder="Agregar palabra" template="tagtemplate" min-tags="3" max-tags="15" allow-leftover-text="true" enable-editing-last-tag="true" replace-spaces-with-dashes="false" max-length="30"
-ng-class="{
-error: formInputTeg['{{ form.keyWords.vars.full_name }}'].$invalid && formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched, defaultTags: formInputTeg['{{ form.keyWords.vars.full_name }}'].$untouched, valid:formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid }"></tags-input>
-
-<p class="text-danger" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.required"><i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
-<p class="text-warning" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.minTags && !formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.required"><i class="fa fa-exclamation-triangle"></i> Minimo de 3 palabras.</p>
-<p class="text-warning" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.maxTags"><i class="fa fa-exclamation-triangle"></i> Maximo de 15 palabras.</p>
+                    <tags-input name="{{ form.keyWords.vars.full_name }}" ng-model="formData.{{ form.keyWords.vars.id }}" display-property="word" required placeholder="Agregar palabra" template="tagtemplate" min-tags="3" max-tags="15" allow-leftover-text="true" enable-editing-last-tag="true" replace-spaces-with-dashes="false" max-length="30" ng-class="{ error: formInputTeg['{{ form.keyWords.vars.full_name }}'].$invalid && formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched, defaultTags: formInputTeg['{{ form.keyWords.vars.full_name }}'].$untouched, valid:formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid }"></tags-input>
+                    <p class="text-danger" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.required"><i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+                    <p class="text-warning" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.minTags && !formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.required"><i class="fa fa-exclamation-triangle"></i> Minimo de 3 palabras.</p>
+                    <p class="text-warning" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.maxTags"><i class="fa fa-exclamation-triangle"></i> Maximo de 15 palabras.</p>
        
-<!--p>formInputTeg['{{ form.keyWords.vars.full_name }}'] = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'] ]]</p>
-<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched ]]</p>
-<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$error = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$error ]]</p>
-<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid ]]</p-->
+					<!--p>formInputTeg['{{ form.keyWords.vars.full_name }}'] = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'] ]]</p>
+					<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched ]]</p>
+					<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$error = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$error ]]</p>
+					<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid ]]</p-->
 
                     <script type="text/ng-template" id="tagtemplate">
                       <div class="tag-template">
@@ -249,7 +245,7 @@ error: formInputTeg['{{ form.keyWords.vars.full_name }}'].$invalid && formInputT
                     </script>
                 </div>
             </div>
-        <div class="form-group col-lg-6">
+        	<div class="form-group col-lg-6">
                 {{ form_label(form.publicacion) }}
                 {{ form_errors(form.publicacion) }}
                 <div class="col-xs-9">
@@ -263,8 +259,7 @@ error: formInputTeg['{{ form.keyWords.vars.full_name }}'].$invalid && formInputT
                 <div class="col-xs-9">
                     {{ form_widget(form.escuela) }}
                 </div>
-            </div>
-            
+            </div>            
         </div>
         <div id="paso2" class="tab-pane fade">
             <div class="navbar" style="margin: -15px; margin-bottom: 5px;">
@@ -285,14 +280,14 @@ error: formInputTeg['{{ form.keyWords.vars.full_name }}'].$invalid && formInputT
 					 </ul>
                 	<div class="tab-content col-md-9">
                         {% for capField in form.capitulos %}
-                        <div id="cap{{loop.index}}" class="tab-pane fade {% if loop.first %}in active{% endif %}">
+                        <div id="cap{{loop.index}}" class="tab-pane fade {% if loop.first %}in active{% endif %} col-md-6">
                         	{% if capField.errors[0].message is defined %}
 				            <span class="help-block">
-				                holsd{{ form_errors(capField) }}
+				                {{ form_errors(capField) }}
                             </span>
 				            {% endif %}
-                        	    {{ form_widget(capField, { 'attr': {'ng-model':(capField.vars.id)} }) }}
-                                <h1>xxxxx{{ capField.vars.value }}</h1>
+                        	    {{ form_widget(capField) }}
+                                <h1>{{ capField.vars.value }}</h1>
                         </div>
                         {% endfor %}
                     </div>
