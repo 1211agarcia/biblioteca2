@@ -45,9 +45,13 @@ class documento
 
     /**
      * @var UploadedFile
-     * @Assert\File(maxSize="6000000")
-     * @Assert\NotBlank(message="Por favor, cargar el Capítulo como un archivo PDF.")
-     * @Assert\File(mimeTypes={ "application/pdf" })
+     *
+     * @Assert\File(
+     *     maxSize = "20Mi",
+     *     mimeTypes = {"application/pdf", "application/x-pdf"},
+     *     mimeTypesMessage = "Por favor cargar un PDF valido",
+     * )
+     * Assert\NotNull(message="Por favor, cargar el Capítulo como un archivo PDF.")
      */
     private $file;
 

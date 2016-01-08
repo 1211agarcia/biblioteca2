@@ -87,6 +87,7 @@
 	{% endspaceless %}
 {% endblock date_widget %}
 {%- block choice_widget_collapsed -%}
+{% spaceless %}
     {%- if required and placeholder is none and not placeholder_in_choices and not multiple -%}
         {% set required = false %}
     {%- endif -%}
@@ -105,13 +106,17 @@
         {{- block('choice_widget_options') -}}
     </select>
     <p class="text-danger" ng-show="formInputTeg['{{ full_name }}'].$touched && formInputTeg['{{ full_name }}'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+    {#
     <!--p>formInputTeg['{{ full_name }}'].$error.required = [[ formInputTeg['{{ full_name }}'].$error.required ]]</p>
     <p>formInputTeg['{{ full_name }}'].$error = [[ formInputTeg['{{ full_name }}'].$error ]]</p>
     <p>formInputTeg['{{ full_name }}'].$valid = [[ formInputTeg['{{ full_name }}'].$valid ]]</p -->
+    #}
+{% endspaceless %}
 {%- endblock choice_widget_collapsed -%}
 
 {% use 'form_div_layout.html.twig' with form_label %}
 {% block form_label %}
+{% spaceless %}
     {% if label is not sameas(false) -%}
         {% if not compound %}
             {% set label_attr = label_attr|merge({'for': id}) %}
@@ -136,6 +141,7 @@
         {% endif %} 
         </label>
     {% endif %}
+{% endspaceless %}
 {% endblock form_label %}
 {############################################################################}
 {% block stylesheets %}
@@ -187,14 +193,14 @@
                             {{ form_widget(form.authors[1].lastname) }}
                             {{ form_errors(form.authors[1]) }}
                             {% else %}
-                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_name" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$pristine}" ng-model="biblioteca_tegbundle_teg_authors_1_name" name="biblioteca_tegbundle_teg[authors][1][name]" required="required" class="form-control" placeholder="Nombre">
-<p class="text-warning" ng-if="formInputTeg[authors][1][name]'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Texto muy corto.</p>
-<p class="text-warning" ng-if="formInputTeg[authors][1][name]'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Texto muy largo.</p>
-<p class="text-danger" ng-if="formInputTeg[authors][1][name]'].$touched && formInputTeg[authors][1][name]'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
-                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_lastname" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$pristine}" ng-model="biblioteca_tegbundle_teg_authors_1_lastname" name="biblioteca_tegbundle_teg[authors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
-                            <p class="text-warning" ng-if="formInputTeg[authors][1][lastname]'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Texto muy corto.</p>
-<p class="text-warning" ng-if="formInputTeg[authors][1][lastname]'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Texto muy largo.</p>
-<p class="text-danger" ng-if="formInputTeg[authors][1][lastname]'].$touched && formInputTeg[authors][1][lastname]'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_name" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg['biblioteca_tegbundle_teg[authors][1][name]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$pristine}" ng-model="biblioteca_tegbundle_teg_authors_1_name" name="biblioteca_tegbundle_teg[authors][1][name]" required="required" class="form-control" placeholder="Nombre">
+<p class="text-warning" ng-if="formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Texto muy corto.</p>
+<p class="text-warning" ng-if="formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Texto muy largo.</p>
+<p class="text-danger" ng-if="formInputTeg[authors][1][name]'].$touched && formInputTeg['biblioteca_tegbundle_teg[authors][1][name]'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+                            <input type="text" id="biblioteca_tegbundle_teg_authors_1_lastname" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg['biblioteca_tegbundle_teg[authors][1][lastname]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$pristine}" ng-model="biblioteca_tegbundle_teg_authors_1_lastname" name="biblioteca_tegbundle_teg[authors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
+                            <p class="text-warning" ng-if="formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Texto muy corto.</p>
+<p class="text-warning" ng-if="formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Texto muy largo.</p>
+<p class="text-danger" ng-if="formInputTeg[authors][1][lastname]'].$touched && formInputTeg['biblioteca_tegbundle_teg[authors][1][lastname]'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
                             
                             {% endif %}
                         </li>
@@ -219,14 +225,14 @@
                             {{ form_widget(form.tuthors[1].lastname) }}
                             {{ form_errors(form.tuthors[1]) }}
                             {% else %}
-                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_name" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$pristine}" ng-model="biblioteca_tegbundle_teg_tuthors_1_name" name="biblioteca_tegbundle_teg[tuthors][1][name]" required="required" class="form-control" placeholder="Nombre">
-<p class="text-warning" ng-if="formInputTeg[tuthors][1][name]'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Texto muy corto.</p>
-<p class="text-warning" ng-if="formInputTeg[tuthors][1][name]'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Texto muy largo.</p>
-<p class="text-danger" ng-if="formInputTeg[tuthors][1][name]'].$touched && formInputTeg[tuthors][1][name]'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
-                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_lastname" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$pristine}" ng-model="biblioteca_tegbundle_teg_tuthors_1_lastname" name="biblioteca_tegbundle_teg[tuthors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
-                            <p class="text-warning" ng-if="formInputTeg[tuthors][1][lastname]'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Texto muy corto.</p>
-<p class="text-warning" ng-if="formInputTeg[tuthors][1][lastname]'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Texto muy largo.</p>
-<p class="text-danger" ng-if="formInputTeg[tuthors][1][lastname]'].$touched && formInputTeg[tuthors][1][lastname]'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_name" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg['biblioteca_tegbundle_teg[tuthors][1][name]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$pristine}" ng-model="biblioteca_tegbundle_teg_tuthors_1_name" name="biblioteca_tegbundle_teg[tuthors][1][name]" required="required" class="form-control" placeholder="Nombre">
+<p class="text-warning" ng-if="formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Texto muy corto.</p>
+<p class="text-warning" ng-if="formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Texto muy largo.</p>
+<p class="text-danger" ng-if="formInputTeg[tuthors][1][name]'].$touched && formInputTeg['biblioteca_tegbundle_teg[tuthors][1][name]'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
+                            <input type="text" id="biblioteca_tegbundle_teg_tuthors_1_lastname" ng-class="{ error: formInputTeg['biblioteca_tegbundle_teg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$error.required && !formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$pristine}" ng-model="biblioteca_tegbundle_teg_tuthors_1_lastname" name="biblioteca_tegbundle_teg[tuthors][1][lastname]" required="required" class="form-control" placeholder="Apellido">
+                            <p class="text-warning" ng-if="formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$error.minlength"><i class="fa fa-exclamation-triangle"></i> Texto muy corto.</p>
+<p class="text-warning" ng-if="formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$error.maxlength"><i class="fa fa-exclamation-triangle"></i> Texto muy largo.</p>
+<p class="text-danger" ng-if="formInputTeg[tuthors][1][lastname]'].$touched && formInputTeg['biblioteca_tegbundle_teg[tuthors][1][lastname]'].$error.required"> <i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
                             {% endif %}
                         </li>
                     </ul>
@@ -249,16 +255,16 @@
                     <p class="text-danger" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.required"><i class="fa fa-exclamation-triangle"></i> Este Campo es requerido.</p>
                     <p class="text-warning" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.minTags && !formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.required"><i class="fa fa-exclamation-triangle"></i> Minimo de 3 palabras.</p>
                     <p class="text-warning" ng-show="formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched && formInputTeg['{{ form.keyWords.vars.full_name }}'].$error.maxTags"><i class="fa fa-exclamation-triangle"></i> Maximo de 15 palabras.</p>
-       
-					<!--p>formInputTeg['{{ form.keyWords.vars.full_name }}'] = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'] ]]</p>
+					<p>formData.{{ form.keyWords.vars.id }} = [[ formData.{{ form.keyWords.vars.id }} ]]</p>
+ {#      
 					<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$touched ]]</p>
 					<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$error = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$error ]]</p>
 					<p>formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid = [[ formInputTeg['{{ form.keyWords.vars.full_name }}'].$valid ]]</p-->
-
+#}
                     <script type="text/ng-template" id="tagtemplate">
                       <div class="tag-template">
                         <div>
-                        	<input type="text" id="[['biblioteca_tegbundle_teg_keyWords_'+$index+'_keyWord']]" name="[['biblioteca_tegbundle_teg[keyWords]['+$index+'][keyWord]']]" value="[[$getDisplayText()]]" required="required" readonly style="line-height: initial;  background: rgba(255, 255, 255, 0);border: none;width: [[$getDisplayText().length * 8]]px;"/>
+                        	<input type="text" id="[['biblioteca_tegbundle_teg_keyWords_'+$index+'_keyWord']]" name="[['biblioteca_tegbundle_teg[keyWords]['+$index+'][keyWord]']]" value="[[$getDisplayText()]]" ng-required="true" readonly style="line-height: initial;  background: rgba(255, 255, 255, 0);border: none;width: [[$getDisplayText().length * 8]]px;"/>
                           <a class="remove-button" ng-click="$removeTag()">&#10006;</a>
                         </div>
                       </div>
@@ -281,8 +287,7 @@
                 </div>
             </div>
             <div class="nav" style="margin: auto; width: 100px;;">
-            
-            <a ng-disabled="!pasoUnoValid"class="btn btn-primary" data-toggle="tab" href="#paso2">Siguiente&nbsp;<i class="fa fa-arrow-right fa-fw"></i></a>
+            	<a ng-disabled="!pasoUnoValid"class="btn btn-primary" data-toggle="tab" href="#paso2">Siguiente&nbsp;<i class="fa fa-arrow-right fa-fw"></i></a>
             </div>            
         </div>
         <div id="paso2" class="tab-pane fade">

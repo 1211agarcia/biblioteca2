@@ -46,8 +46,8 @@ class teg
      * @var string
      * D[Inicial de Escuela]{indica}[año en 2 digitos]
      *
-     * @ORM\Column(type="string", length=20, unique=true)
-     * @Assert\NotNull(message="Debe ingresar la cota")
+     * @ORM\Column(type="string", length=20)
+     * @Assert\NotBlank(message="Debe ingresar la cota")
      */
     private $cota;
 
@@ -56,7 +56,7 @@ class teg
      *
      * @ORM\Column(type="string", length=20)
      * @Assert\Choice(callback = "getSchools")
-     * @Assert\NotNull(message="Debe ingresar el Departamento")
+     * @Assert\NotBlank(message="Debe ingresar el Departamento")
      */
     private $escuela;
 
@@ -65,38 +65,23 @@ class teg
      *
      * @ORM\Column(type="date")
      * @Assert\Date(message="Este Valor no es una fecha")
-     * @Assert\NotNull(message="Debe ingresar la fecha de publicación")
+     * @Assert\NotBlank(message="Debe ingresar la fecha de publicación")
      */
     private $publicacion;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=500)
+     * @ORM\Column(type="string", length=500, unique=true)
      * @Assert\Length(
      *     min=5,
      *     max=500,
      *     minMessage="El titulo es muy corto.",
      *     maxMessage="El titulo es muy largo."
      * )
-     * @Assert\NotNull(message="Debe escribir un título")
+     * @Assert\NotBlank(message="Debe escribir un título")
      */
     private $titulo;
-
-    /**
-     * @var array
-     *
-     * @ORM\OneToMany(targetEntity="keyWord", mappedBy="teg") 
-     * @Assert\Valid
-     *
-     * @Assert\Count(
-     *      min = "3",
-     *      max = "15",
-     *      minMessage = "Debe ingresar al menos 3 palabras",
-     *      maxMessage = "No puede ingresar más de {{ limit }} palabras"
-     * )
-     */
-    private $keyWords;
 
     /**
      * @var string
@@ -106,9 +91,35 @@ class teg
      *     min=5,
      *     minMessage="El resumen es muy corto."
      * )
-     * @Assert\NotNull(message="Debe escribir ingresar el resumen")
+     * @Assert\NotBlank(message="Debe escribir ingresar el resumen")
      */
     private $resumen;
+
+
+    /**
+     * @var datetime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+
+    /**
+     * @var datetime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @var boolean $published
+     *
+     * @ORM\Column(type="boolean")
+     * @Assert\NotNull(message="Debe tener un valor valido")
+     */
+    private $published;
 
     /**
      * @var array
@@ -150,35 +161,24 @@ class teg
     protected $capitulos;
 
     /**
-     * @var datetime $created
+     * @var array
      *
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\OneToMany(targetEntity="keyWord", mappedBy="teg") 
+     * @Assert\Valid
+     *
+     * @Assert\Count(
+     *      min = "3",
+     *      max = "15",
+     *      minMessage = "Debe ingresar al menos 3 palabras",
+     *      maxMessage = "No puede ingresar más de {{ limit }} palabras"
+     * )
      */
-    private $created;
-
+    private $keyWords;
     /**
      * @ORM\ManyToOne(targetEntity="Biblioteca\UserBundle\Entity\usuario", inversedBy="creations")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $creator;
-
-    /**
-     * @var datetime $updated
-     *
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
-    private $updated;
-
-    /**
-     * @var boolean $published
-     *
-     * @ORM\Column(type="boolean")
-     * @Assert\NotNull(message="Debe tener un valor valido")
-     */
-    private $published;
-
     public function __construct()
     {
         $this->authors = new ArrayCollection(array(new author()));
@@ -317,56 +317,6 @@ class teg
         return $this->resumen;
     }
 
-    public function __toString() {
-        //print_r (sprintf('%s (%s)\nPalabras: %s\nAutores: %s\nTutores: %s', $this->getTitulo(), $this->getCota(), implode(",", $this->getKeyWords()), implode(",", $this->Authors()), implode(",", $this->Tuthros())));
-        return sprintf($this->getTitulo().' ('.$this->getCota().')'/*.$this->getResumen().'<br>Palabras: '.$this->getKeyWords().'\nAutores: '.$this->Authors().'\nTutores: '.$this->Tuthros()*/);
-    }
-  
-
-    /**
-     * Add capitulos
-     *
-     * @param \Biblioteca\TegBundle\Entity\documento $capitulos
-     * @return teg
-     */
-    public function addCapitulo(\Biblioteca\TegBundle\Entity\documento $capitulos)
-    {
-        $this->capitulos[] = $capitulos;
-        $capitulos->setTeg($this);
-        
-        return $this;
-    }
-
-    /**
-     * Remove capitulos
-     *
-     * @param \Biblioteca\TegBundle\Entity\documento $capitulos
-     */
-    public function removeCapitulo(\Biblioteca\TegBundle\Entity\documento $capitulos)
-    {
-        $this->capitulos->removeElement($capitulos);
-    }
-
-    /**
-     * Remove capitulos
-     *
-     */
-    public function removeAllCapitulos()
-    {
-        unset($this->capitulos);
-        $this->capitulos = new ArrayCollection();
-    }
-
-    /**
-     * Get capitulos
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCapitulos()
-    {
-        return $this->capitulos;
-    }
-
     /**
      * Set created
      *
@@ -436,6 +386,10 @@ class teg
         return $this->published;
     }
 
+    public function __toString() {
+        //print_r (sprintf('%s (%s)\nPalabras: %s\nAutores: %s\nTutores: %s', $this->getTitulo(), $this->getCota(), implode(",", $this->getKeyWords()), implode(",", $this->Authors()), implode(",", $this->Tuthros())));
+        return sprintf($this->getTitulo().' ('.$this->getCota().')'/*.$this->getResumen().'<br>Palabras: '.$this->getKeyWords().'\nAutores: '.$this->Authors().'\nTutores: '.$this->Tuthros()*/);
+    }
     /**
      * Set creator
      *
@@ -445,6 +399,7 @@ class teg
     public function setCreator(\Biblioteca\UserBundle\Entity\usuario $creator = null)
     {
         $this->creator = $creator;
+
 
         return $this;
     }
@@ -457,54 +412,7 @@ class teg
     public function getCreator()
     {
         return $this->creator;
-    }
-
-    /**
-     * Add authors
-     *
-     * @param \Biblioteca\TegBundle\Entity\author $authors
-     * @return teg
-     */
-    public function addAuthor(\Biblioteca\TegBundle\Entity\author $authors)
-    {
-        $this->authors[] = $authors;
-        $authors->setTeg($this);
-
-        return $this;
-    }
-
-    /**
-     * Remove authors
-     *
-     * @param \Biblioteca\TegBundle\Entity\author $authors
-     */
-    public function removeAuthor(\Biblioteca\TegBundle\Entity\author $authors)
-    {
-        $this->authors->removeElement($authors);
-    }
-
-    /**
-     * Set tuthors
-     *
-     * @param array $tuthors
-     * @return teg
-     */
-    public function setTuthors($tuthors)
-    {
-        $this->tuthors = $tuthors;
-
-        return $this;
-    }
-
-    /**
-     * Get tuthors
-     *
-     * @return array 
-     */
-    public function getTuthors()
-    {
-        return $this->tuthors;
-    }
+    }     
 
     /**
      * Get authors
@@ -515,31 +423,15 @@ class teg
     {
         return $this->authors;
     }
-
     /**
-     * Add keyWords
+     * Get tuthors
      *
-     * @param \Biblioteca\TegBundle\Entity\keyword $keyWords
-     * @return teg
+     * @return array 
      */
-    public function addKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWord)
+    public function getTuthors()
     {
-        $this->keyWords[] = $keyWord;
-        $keyWord->setTeg($this);
-
-        return $this;
+        return $this->tuthors;
     }
-
-    /**
-     * Remove keyWords
-     *
-     * @param \Biblioteca\TegBundle\Entity\keyword $keyWords
-     */
-    public function removeKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWords)
-    {
-        $this->keyWords->removeElement($keyWords);
-    }
-
     /**
      * Get keyWords
      *
@@ -549,11 +441,32 @@ class teg
     {
         return $this->keyWords;
     }
-
     /**
-     * Add tuthors
+     * Get capitulos
      *
-     * @param \Biblioteca\TegBundle\Entity\tuthor $tuthors
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCapitulos()
+    {
+        return $this->capitulos;
+    }
+    /**
+     * Add author
+     *
+     * @param \Biblioteca\TegBundle\Entity\author $author
+     * @return teg
+     */
+    public function addAuthor(\Biblioteca\TegBundle\Entity\author $author)
+    {
+        $this->authors[] = $author;
+        $author->setTeg($this);
+
+        return $this;
+    }
+    /**
+     * Add tuthor
+     *
+     * @param \Biblioteca\TegBundle\Entity\tuthor $tuthor
      * @return teg
      */
     public function addTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthor)
@@ -563,14 +476,101 @@ class teg
 
         return $this;
     }
+    /**
+     * Add keyWord
+     *
+     * @param \Biblioteca\TegBundle\Entity\keyword $keyWord
+     * @return teg
+     */
+    public function addKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWord)
+    {
+        $this->keyWords[] = $keyWord;
+        $keyWord->setTeg($this);
 
+        return $this;
+    }
+    /**
+     * Add capitulo
+     *
+     * @param \Biblioteca\TegBundle\Entity\documento $capitulo
+     * @return teg
+     */
+    public function addCapitulo(\Biblioteca\TegBundle\Entity\documento $capitulo)
+    {
+        $this->capitulos[] = $capitulo;
+        $capitulo->setTeg($this);
+        
+        return $this;
+    }
+    /**
+     * Remove author
+     *
+     * @param \Biblioteca\TegBundle\Entity\author $author
+     */
+    public function removeAuthor(\Biblioteca\TegBundle\Entity\author $author)
+    {
+        $this->authors->removeElement($author);
+    }
+    /**
+     * Remove tuthor
+     *
+     * @param \Biblioteca\TegBundle\Entity\tuthor $tuthor
+     */
+    public function removeTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthor)
+    {
+        $this->tuthors->removeElement($tuthor);
+    }
+    /**
+     * Remove keyWord
+     *
+     * @param \Biblioteca\TegBundle\Entity\keyword $keyWord
+     */
+    public function removeKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWord)
+    {
+        $this->keyWords->removeElement($keyWords);
+    }
+    /**
+     * Remove capitulo
+     *
+     * @param \Biblioteca\TegBundle\Entity\documento $capitulo
+     */
+    public function removeCapitulo(\Biblioteca\TegBundle\Entity\documento $capitulo)
+    {
+        $this->capitulos->removeElement($capitulo);
+    }
+
+    /**
+     * Remove authors
+     *
+     */
+    public function removeAllAuthors()
+    {
+        $this->authors->clear();
+
+    }
     /**
      * Remove tuthors
      *
-     * @param \Biblioteca\TegBundle\Entity\tuthor $tuthors
      */
-    public function removeTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthors)
+    public function removeAllTuthors()
     {
-        $this->tuthors->removeElement($tuthors);
+        $this->tuthors->clear();
     }
+    /**
+     * Remove keyWords
+     *
+     */
+    public function removeAllKeyWords()
+    {
+        $this->keyWords->clear();
+    }
+    /**
+     * Remove capitulos
+     *
+     */
+    public function removeAllCapitulos()
+    {
+        $this->capitulos->clear();
+    }
+
 }

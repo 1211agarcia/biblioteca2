@@ -78,25 +78,17 @@ class tegController extends Controller
             // Se obtiene el usuario creador
             $userLogged = $this->get('security.token_storage')->getToken()->getUser();
             $creator = $userLogged;
-            // Se Agrega User creador
-            $entity->setCreator($creator);
             // Se agrega la nueva teg creada al creador
             $creator->addCreation($entity);
-            
-            $userManager = $this->get('fos_user.user_manager');
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
-            $data = $form->getData();
-            printf("<pre>");
-            //print_r($data['palabras']);
-            printf("</pre>");
             foreach ($entity->getCapitulos() as $actualCapitulo) {  
                 
                 $capitulo = new documento();
 
                 $capitulo = $actualCapitulo;
-
+                
                 $entity->addCapitulo($capitulo);
 
                 $em->persist($capitulo);
@@ -121,6 +113,7 @@ class tegController extends Controller
             }
 
             $em->flush();
+            $userManager = $this->get('fos_user.user_manager');
             $userManager->updateUser($creator);
 
             return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));
@@ -128,6 +121,7 @@ class tegController extends Controller
 
         return array(
             'operacion' => 0,
+            'id' => $entity->getId(),
             'form'   => $form->createView(),
         );
     }
@@ -157,6 +151,7 @@ class tegController extends Controller
                                              )
             )
         ;
+        
 
         return $form;
     }
@@ -311,20 +306,32 @@ class tegController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find teg entity.');
         }
-
         $publishForm = $this->createPublishForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $em->persist($entity);
+            foreach ($entity->getCapitulos() as $actualCapitulo) {  
+                $em->persist($actualCapitulo);
+            }
+            foreach ($entity->getAuthors() as $actualAuthor) {
+                $em->persist($actualAuthor);
+            }
+            foreach ($entity->getTuthors() as $actualTuthor) {
+                $em->persist($actualTuthor);
+            }
+            foreach ($entity->getKeyWords() as $actualKeyWord) {
+                $em->persist($actualKeyWord);
+            }
             $em->flush();
 
-            return $this->redirect($this->generateUrl('teg_show', array('id' => $id)));
+            $this->redirect($this->generateUrl('teg_show', array('id' => $id)));
         }
 
         return array(
             'operacion' => 1,//significa que es edicion
-            'entity'      => $entity,
+            'id'      => $entity->getId(),
             'form'   => $editForm->createView(),
             'publish_form' => $publishForm->createView(),
         );

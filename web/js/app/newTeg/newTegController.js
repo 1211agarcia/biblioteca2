@@ -32,7 +32,6 @@ newTeg.controller('newTegController', function ($scope) {
     $scope.isValid = function(item) {
         switch(item){
             case "biblioteca_tegbundle_teg[authors]":
-                console.log($scope.formInputTeg[item+"[1][name]"]);
                 return $scope.formInputTeg[item+"[0][name]"].$valid &&
                 $scope.formInputTeg[item+"[0][lastname]"].$valid &&
                 ($scope.segundoA ?
@@ -84,7 +83,7 @@ newTeg.controller('newTegController', function ($scope) {
             $scope.isValid('biblioteca_tegbundle_teg[authors]') &&
             $scope.isValid('biblioteca_tegbundle_teg[tuthors]') &&
             $scope.isValid('biblioteca_tegbundle_teg[publicacion]'));
-        console.log("pafiles "+$scope.isValid('biblioteca_tegbundle_teg[capitulos]'));
+        console.log("files "+$scope.isValid('biblioteca_tegbundle_teg[capitulos]'));
 
         $scope.pasoDosValid = (
             $scope.pasoUnoValid &&

@@ -95,8 +95,8 @@ class tegType extends AbstractType
                 'label' => 'Autor(es)',
                 'type' => new authortype(),
                 'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true,
+                'allow_delete' => true,
+                'prototype' => true,
                 'options'  => array(
                     'required'  => true,
                     'attr'      => array('class' => 'form-group')
@@ -110,8 +110,8 @@ class tegType extends AbstractType
                 'label' => 'Tutor(es)',
                 'type' => new tuthorType(),
                 'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true,
+                'allow_delete' => true,
+                'prototype' => true,
                 'options'  => array(
                     'required'  => true,
                     'attr'      => array('class' => 'form-group')
@@ -119,7 +119,6 @@ class tegType extends AbstractType
                 )
             )
         ;
-
         $builder
             ->add('capitulos', 'collection', array(
                 'label' => false,

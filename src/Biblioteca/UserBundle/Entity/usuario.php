@@ -135,14 +135,15 @@ class usuario extends BaseUser
     }
 
     /**
-     * Add creations
+     * Add creation
      *
-     * @param \Biblioteca\TegBundle\Entity\teg $creations
+     * @param \Biblioteca\TegBundle\Entity\teg $creation
      * @return usuario
      */
-    public function addCreation(\Biblioteca\TegBundle\Entity\teg $creations)
+    public function addCreation(\Biblioteca\TegBundle\Entity\teg $creation)
     {
-        $this->creations[] = $creations;
+        $this->creations[] = $creation;
+        $creation->setCreator($this);
 
         return $this;
     }
