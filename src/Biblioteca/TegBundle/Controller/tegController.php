@@ -311,7 +311,6 @@ class tegController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
             foreach ($entity->getCapitulos() as $actualCapitulo) {  
                 $em->persist($actualCapitulo);
             }
@@ -324,6 +323,7 @@ class tegController extends Controller
             foreach ($entity->getKeyWords() as $actualKeyWord) {
                 $em->persist($actualKeyWord);
             }
+            $em->persist($entity);
             $em->flush();
 
             $this->redirect($this->generateUrl('teg_show', array('id' => $id)));

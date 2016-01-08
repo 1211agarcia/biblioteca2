@@ -217,7 +217,7 @@
                             {{ form_widget(form.tuthors[0].lastname) }}
                             {{ form_errors(form.tuthors[0]) }}
                         </li>
-                        <label>Segundo tutor (Opcional): <input type="checkbox" ng-model="segundoT" {% if operacion == 0 %}ng-init="segundoT=false"{% endif %} /></label><br/>
+                        <label>Segundo tutor (Opcional): <input type="checkbox" ng-model="segundoT" {% if form.tuthors[1] is defined %}ng-init="segundoT=true"{% endif %} /></label><br/>
                        
                         <li ng-if="segundoT" >
                             {% if form.tuthors[1] is defined %}
