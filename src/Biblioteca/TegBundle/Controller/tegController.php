@@ -128,7 +128,6 @@ class tegController extends Controller
 
         return array(
             'operacion' => 0,
-            'entity' => $entity,
             'form'   => $form->createView(),
         );
     }
@@ -176,7 +175,6 @@ class tegController extends Controller
 
         return array(
             'operacion' => 0,//Significa que sera NEW
-            'entity' => $entity,
             'form'   => $form->createView(),
         );
     }
@@ -262,7 +260,7 @@ class tegController extends Controller
 
         return array(
             'operacion' => 1,//significa que es edicion
-            'entity'      => $entity,
+            'id'      => $entity->getId(),
             'form'   => $editForm->createView(),
             'publish_form' => $publishForm->createView(),
         );

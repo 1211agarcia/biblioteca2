@@ -122,14 +122,9 @@ class tegType extends AbstractType
 
         $builder
             ->add('capitulos', 'collection', array(
-                'label_attr' => array('class' => 'control-label'),
+                'label' => false,
                 'type' => new documentoType(),
-                'allow_add' => true,
-                'prototype' => true,
-                'options'  => array(
-                    'required'  => true,
-                    'attr'      => array('class' => '')
-                    ),
+                
                 )
             )
         ;

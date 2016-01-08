@@ -10,7 +10,7 @@ angular.isInvalide = function(type,val) {
     }
 }
 
-var newTeg = angular.module('newTegModule', ['chieffancypants.loadingBar','ngTagsInput']);
+var newTeg = angular.module('newTegModule', ['chieffancypants.loadingBar','ngTagsInput','ngFileUpload']);
 
 newTeg.directive('stringToNumber', function() {
   return {
@@ -25,7 +25,6 @@ newTeg.directive('stringToNumber', function() {
     }
   };
 });
-
 
 newTeg.config(function($interpolateProvider){
                 $interpolateProvider.startSymbol('[[').endSymbol(']]');
