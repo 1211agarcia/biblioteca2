@@ -15,7 +15,7 @@ use Biblioteca\TegBundle\Entity\keyWord;
 use Biblioteca\TegBundle\Form\tegType;
 use Biblioteca\TegBundle\Form\searchType;
 use Biblioteca\UserBundle\Entity\usuario as User;
-use Symfony\Component\Validator\Constraints\File as FileConstraint;
+use Symfony\Component\Validator\Constraints\NotBlank as NotBlankConstraint;
 
 /**
  * teg controller.
@@ -75,7 +75,22 @@ class tegController extends Controller
         // Se crea el formulario
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
+        //Validacion de Archios
+        $notBlankConstraint = new NotBlankConstraint();
+        $notBlankConstraint->message = 'Por favor, debe cargar un archivo PDF.';
+        $errors = $this->get('validator')->validateValue(
+        $entity->getCapitulos()->get(0)->getFile(),
+        $notBlankConstraint );
+        foreach ($errors as $error) {
+            $form->addError($error);
+        }
 
+                printf("<pre>");
+                print_r($errors);  
+                printf("</pre>");
+                printf("<pre>");
+                print_r($Form->getErrors());  
+                printf("</pre>");
         if ($form->isValid()) {
             // Se obtiene el usuario creador
             $userLogged = $this->get('security.token_storage')->getToken()->getUser();
