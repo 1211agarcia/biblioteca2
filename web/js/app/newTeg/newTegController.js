@@ -6,7 +6,7 @@ newTeg.controller('newTegController', function ($scope) {
     $scope.pasoDosValid = false;
 	$scope.generar = function(){
 		//console.log($scope.formData);
-		$scope.cota_year = angular.isUndefinedOrNull($scope.formData.biblioteca_tegbundle_teg_publicacion) || $scope.formData.biblioteca_tegbundle_teg_publicacion.$invalid? "'Año'" : ("0" + (parseInt($scope.formData.biblioteca_tegbundle_teg_publicacion.getFullYear()) % 100) ).slice (-2);
+		$scope.cota_year = angular.isUndefinedOrNull($scope.formData.biblioteca_tegbundle_teg_publicacion_year) || isNaN($scope.formData.biblioteca_tegbundle_teg_publicacion_year)? "'Año'" : ("0" + (parseInt($scope.formData.biblioteca_tegbundle_teg_publicacion_year) % 100) ).slice (-2);
 
 		$scope.cota_school = angular.isUndefinedOrNull($scope.formData.biblioteca_tegbundle_teg_escuela) || angular.isInvalide("school",$scope.biblioteca_tegbundle_teg_escuela)?"Escuela" :
         "D"+$scope.formData.biblioteca_tegbundle_teg_escuela.charAt(0);

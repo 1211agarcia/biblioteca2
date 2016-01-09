@@ -16,6 +16,7 @@ use Biblioteca\TegBundle\Form\tegType;
 use Biblioteca\TegBundle\Form\searchType;
 use Biblioteca\UserBundle\Entity\usuario as User;
 use Symfony\Component\Validator\Constraints\NotBlank as NotBlankConstraint;
+use Symfony\Component\Form\FormError;
 
 /**
  * teg controller.
@@ -78,19 +79,15 @@ class tegController extends Controller
         //Validacion de Archios
         $notBlankConstraint = new NotBlankConstraint();
         $notBlankConstraint->message = 'Por favor, debe cargar un archivo PDF.';
-        $errors = $this->get('validator')->validateValue(
-        $entity->getCapitulos()->get(0)->getFile(),
-        $notBlankConstraint );
-        foreach ($errors as $error) {
-            $form->addError($error);
+        //Para cada capitulo validamos de ser asi agregamos el error
+        foreach ($entity->getCapitulos() as $key => $capitulo) {
+            $errors = $this->get('validator')->validateValue(
+                $entity->getCapitulos()->get($key)->getFile(),
+                $notBlankConstraint );   
+                foreach ($errors as $error) {
+                    $form->get('capitulos')->addError( new FormError("Para el Capítulo ".($key + 1)." , debe cargar un archivo PDF."));
+                }
         }
-
-                printf("<pre>");
-                print_r($errors);  
-                printf("</pre>");
-                printf("<pre>");
-                print_r($Form->getErrors());  
-                printf("</pre>");
         if ($form->isValid()) {
             // Se obtiene el usuario creador
             $userLogged = $this->get('security.token_storage')->getToken()->getUser();
@@ -104,10 +101,7 @@ class tegController extends Controller
                 
                 $capitulo = new documento();
 
-                $capitulo = $actualCapitulo;
-                printf("<pre>");
-                print_r($actualCapitulo);  
-                printf("</pre>");  
+                $capitulo = $actualCapitulo; 
                 $entity->addCapitulo($capitulo);
 
                 $em->persist($capitulo);
@@ -135,7 +129,7 @@ class tegController extends Controller
             $userManager = $this->get('fos_user.user_manager');
             $userManager->updateUser($creator);
 
-            //return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));
         }
 
         return array(
