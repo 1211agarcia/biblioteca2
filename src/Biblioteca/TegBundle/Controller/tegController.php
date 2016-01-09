@@ -15,6 +15,8 @@ use Biblioteca\TegBundle\Entity\keyWord;
 use Biblioteca\TegBundle\Form\tegType;
 use Biblioteca\TegBundle\Form\searchType;
 use Biblioteca\UserBundle\Entity\usuario as User;
+use Symfony\Component\Validator\Constraints\File as FileConstraint;
+
 /**
  * teg controller.
  *
@@ -88,7 +90,9 @@ class tegController extends Controller
                 $capitulo = new documento();
 
                 $capitulo = $actualCapitulo;
-                
+                printf("<pre>");
+                print_r($actualCapitulo);  
+                printf("</pre>");  
                 $entity->addCapitulo($capitulo);
 
                 $em->persist($capitulo);
@@ -116,7 +120,7 @@ class tegController extends Controller
             $userManager = $this->get('fos_user.user_manager');
             $userManager->updateUser($creator);
 
-            return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));
+            //return $this->redirect($this->generateUrl('teg_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -313,7 +317,7 @@ class tegController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             
-            foreach ($entity->getCapitulos() as $actualCapitulo) {  
+            foreach ($entity->getCapitulos() as $actualCapitulo) {
                 $actualCapitulo->setTeg($entity);
             }
             foreach ($entity->getAuthors() as $actualAuthor) {

@@ -155,7 +155,7 @@ class teg
      *      minMessage = "Debe tener al menos 1 Archivo, en caso de ser el tomo completo",
      *      maxMessage = "Sólo puede tener como maximo {{ limit }} Archivos"
      * )
-     * @ORM\OneToMany(targetEntity="documento", mappedBy="teg") 
+     * @ORM\OneToMany(targetEntity="documento", mappedBy="teg", cascade={"persist", "remove"}, orphanRemoval=true) 
      * @Assert\Valid
      */
     protected $capitulos;

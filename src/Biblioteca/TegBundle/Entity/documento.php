@@ -263,6 +263,6 @@ class documento
     }
 
     public function __toString() {
-        return sprintf('%s.%s', $this->getName(), $this->getPath());
+        return sprintf('%d.%s', $this->id, $this->path);
     }
 }

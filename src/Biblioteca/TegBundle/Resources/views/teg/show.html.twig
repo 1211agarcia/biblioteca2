@@ -4,92 +4,94 @@
 
 {% endblock %} 
 {% block body %}
-<div ng-controller="showTegController as ctrl">
-    <div class="alert alert-info" style="/*border-color: red;border-width: medium;padding: 5px;margin: 5px;background-color: maroon;border-radius: 5px;*/">
-            <a class="btn btn-danger" href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i>&nbsp;Volver</a>
-            {% if edit is defined and edit %}
-                <a class="btn btn-default" href="{{ path('teg_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Editar</a>
-            {% endif %}
-            {% if publish_form is defined %}
-                {{ form_start(publish_form) }}
-                {{ form_errors(publish_form) }}
-                {# { form_widget(publish_form.submit) } #}
-                {% if entity.published %}
-                    <button type="submit" id="form_submit" name="form[submit]" class="btn btn-default"><i class="fa fa-eye-slash fa-lg"></i>&nbsp;Ocultar</button>
-                    {% else %}
-                    <button type="submit" id="form_submit" name="form[submit]" class="btn btn-default"><i class="fa fa-eye fa-lg"></i>&nbsp;Publicar</button>
-                {% endif %}
-                
-                {{ form_widget(publish_form._token) }}
-                {# { form_rest(publish_form) } #}
-                {{ form_end(publish_form, {'render_rest': false}) }}
-            {% endif %}
-            {% if isSAdmin or isAdmin %}
-                <span  style="float:right; padding: 6px 12px;">creado por <a href="{{ path('teg') }}">{{entity.creator}}</a></span>
-            {% endif %}
-    </div>
-    <div class="col-md-2 col-xs-12">
-        <ul class="nav nav-pills">
-            <li class="active"><a data-toggle="tab" href="#detalles"><i class="fa fa-book fa-lg">&nbsp;Detalles</i></a></li>
-            <li ><a data-toggle="tab" href="#capitulo"><i class="fa fa-files-o fa-lg">&nbsp;Archivos</i></a></li>
-            
-        </ul>
-    </div>
-    <div class="tab-content  form-horizontal col-md-9 col-xs-12">
-        {% if not entity.published %}
-            <h4 class="alert alert-danger"><i class="fa fa-eye-slash fa-x2"></i>&nbsp;Este trabajo se encuentra oculto</h4>
-            
+<div class="panel panel-default">
+    <div class="panel-heading"> 
+        <a class="btn btn-danger" href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i>&nbsp;Volver</a>&nbsp;
+        {% if edit is defined and edit %}
+            <a class="btn btn-default" href="{{ path('teg_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Editar</a>&nbsp;
         {% endif %}
-        <div id="detalles" class="tab-pane fade in active">
-            <h3>{{ entity.titulo }}</h3>
-            <div class="form-group">
-                <label class="col-sm-3 col-xs-6 col-md-2 control-label">Autor(es)</label> 
-                <div class="col-xs-9 col-md-4">
-                    <p class="form-control-static">{% for iField in entity.authors %} {{ iField }}, {% endfor %}</p>
-                </div>
-                <label class="col-sm-3 col-xs-6 col-md-2 control-label">Tutor(es)</label> 
-                <div class="col-xs-9 col-md-4">
-                    <p class="form-control-static">{% for iField in entity.tuthors %} {{ iField }}, {% endfor %}</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 col-xs-6 col-md-2 control-label">Publicación</label> 
-                <div class="col-xs-9 col-md-4">
-                    <p class="form-control-static">{{ entity.publicacion|date('d-m-Y') }}</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 col-xs-6 col-md-2 control-label">Resumen</label> 
-                <div id="resumen" class="col-xs-12 col-md-9">
-                    <p>{{ entity.resumen}}</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 col-xs-6 col-md-2 control-label">Palabras Clave</label> 
-                <div class="col-xs-9">
-                    <p class="form-control-static">{% for iField in entity.keyWords %} {{ iField }}, {% endfor %}</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 col-xs-6 col-md-2 control-label">cota</label> 
-                <div class="col-xs-9">
-                    <p class="form-control-static">{{ entity.cota}}</p>
-                </div>
-            </div>
+        {% if publish_form is defined %}
+            {{ form_start(publish_form) }}
+            {{ form_errors(publish_form) }}
+            {# { form_widget(publish_form.submit) } #}
+            {% if entity.published %}
+                <button type="submit" id="form_submit" name="form[submit]" class="btn btn-default"><i class="fa fa-eye-slash fa-lg"></i>&nbsp;Ocultar</button>&nbsp;
+                {% else %}
+                <button type="submit" id="form_submit" name="form[submit]" class="btn btn-default"><i class="fa fa-eye fa-lg"></i>&nbsp;Publicar</button>
+            {% endif %}
+            
+            {{ form_widget(publish_form._token) }}
+            {# { form_rest(publish_form) } #}
+            {{ form_end(publish_form, {'render_rest': false}) }}
+        {% endif %}
+        {% if isSAdmin or isAdmin %}
+            <span  style="float:right; padding: 6px 12px;">creado por <a href="{{ path('teg') }}">{{entity.creator}}</a></span>
+        {% endif %}
+    </div>
+    <div class="panel-body" ng-controller="showTegController">
+        <div class="col-md-2 col-xs-12">
+            <ul class="nav nav-pills">
+                <li class="active"><a data-toggle="tab" href="#detalles"><i class="fa fa-book fa-lg">&nbsp;Detalles</i></a></li>
+                <li ><a data-toggle="tab" href="#capitulo"><i class="fa fa-files-o fa-lg">&nbsp;Archivos</i></a></li>
+                
+            </ul>
         </div>
-        <div id="capitulo" class="tab-pane fade" ng-init="initViewer('{{ asset('bundles/bibliotecateg/js/viewer.js/index.html') }}')">
-            <i class="fa">Seleccione un capitulo</i>
-            <select id="chapterSelect"class="btn btn-default" ng-model="chapterSelected" placeholder="Archivos">
-                {% for iField in entity.capitulos %}
-                <option ng-init="addChapter({{ loop.index0 }}, '{{ asset('uploads/capitulos/capitulo' ~ loop.index ~ '.pdf') }}','{{iField.name}}');" value="[[chapters[{{ loop.index0 }}].url]]" {% if loop.index0 == 0 %}selected="selected"{% endif %}>[[chapters[{{ loop.index0 }}].name]]</option>
-                {% endfor %}
-            </select>
-            <a class="btn btn-default" download ng-href="[[chapterSelected]]">Descargar&nbsp;<i class="fa fa-cloud-download fa-lg"></i></a>
-            <a class="btn btn-default" target="_blank" ng-href="[[chapterSelected]]">Abrir en nueva pestaña&nbsp;<i class="fa fa-external-link fa-lg"></i></a>
-            <iframe ng-init="initChapterSelected();" ng-src="[[chapterSelected]]" name="viewer" id="viewer" width='100%' height='500px'></iframe>
+        <div class="tab-content  form-horizontal col-md-9 col-xs-12">
+            {% if not entity.published %}
+                <h4 class="nav alert-danger"><i class="fa fa-eye-slash fa-x2"></i>&nbsp;Este trabajo se encuentra oculto</h4>
+                
+            {% endif %}
+            <div id="detalles" class="tab-pane fade in active">
+                <h3>{{ entity.titulo }}</h3>
+                <div class="form-group">
+                    <label class="col-sm-3 col-xs-6 col-md-2 control-label">Autor(es)</label> 
+                    <div class="col-xs-9 col-md-4">
+                        <p class="form-control-static">{% for iField in entity.authors %} {{ iField }}, {% endfor %}</p>
+                    </div>
+                    <label class="col-sm-3 col-xs-6 col-md-2 control-label">Tutor(es)</label> 
+                    <div class="col-xs-9 col-md-4">
+                        <p class="form-control-static">{% for iField in entity.tuthors %} {{ iField }}, {% endfor %}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 col-xs-6 col-md-2 control-label">Publicación</label> 
+                    <div class="col-xs-9 col-md-4">
+                        <p class="form-control-static">{{ entity.publicacion|date('d-m-Y') }}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 col-xs-6 col-md-2 control-label">Resumen</label> 
+                    <div id="resumen" class="col-xs-12 col-md-9">
+                        <p>{{ entity.resumen}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 col-xs-6 col-md-2 control-label">Palabras Clave</label> 
+                    <div class="col-xs-9">
+                        <p class="form-control-static">{% for iField in entity.keyWords %} {{ iField }}, {% endfor %}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 col-xs-6 col-md-2 control-label">cota</label> 
+                    <div class="col-xs-9">
+                        <p class="form-control-static">{{ entity.cota}}</p>
+                    </div>
+                </div>
+            </div>
+            <div id="capitulo" class="tab-pane fade" ng-init="initViewer('{{ asset('bundles/bibliotecateg/js/viewer.js/index.html') }}')">
+                <i class="fa">Seleccione un capitulo</i>
+                <select id="chapterSelect"class="btn btn-default" ng-model="chapterSelected" placeholder="Archivos">
+                    {% for iField in entity.capitulos %}
+                    <option ng-init="addChapter({{ loop.index0 }}, '{{ asset('uploads/capitulos/' ~ iField ) }}','{{iField.name}}');" value="[[chapters[{{ loop.index0 }}].url]]" {% if loop.index0 == 0 %}selected="selected"{% endif %}>[[chapters[{{ loop.index0 }}].name]]</option>
+                    {% endfor %}
+                </select>
+                <a class="btn btn-default" download ng-href="[[chapterSelected]]">Descargar&nbsp;<i class="fa fa-cloud-download fa-lg"></i></a>
+                <a class="btn btn-default" target="_blank" ng-href="[[chapterSelected]]">Abrir en nueva pestaña&nbsp;<i class="fa fa-external-link fa-lg"></i></a>
+                <iframe ng-init="initChapterSelected();" ng-src="[[chapterSelected]]" name="viewer" id="viewer" width='100%' height='500px'></iframe>
+            </div>
         </div>
     </div>
-
+</div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}
