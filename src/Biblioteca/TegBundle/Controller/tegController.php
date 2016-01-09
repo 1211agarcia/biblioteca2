@@ -302,31 +302,34 @@ class tegController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BibliotecaTegBundle:teg')->find($id);
-
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find teg entity.');
         }
+
         $publishForm = $this->createPublishForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $em->persist($entity);
+            
             foreach ($entity->getCapitulos() as $actualCapitulo) {  
-                $em->persist($actualCapitulo);
+                $actualCapitulo->setTeg($entity);
             }
             foreach ($entity->getAuthors() as $actualAuthor) {
-                $em->persist($actualAuthor);
+                $actualAuthor->setTeg($entity);
             }
             foreach ($entity->getTuthors() as $actualTuthor) {
-                $em->persist($actualTuthor);
+                $actualTuthor->setTeg($entity);
             }
+
             foreach ($entity->getKeyWords() as $actualKeyWord) {
-                $em->persist($actualKeyWord);
+                $actualKeyWord->setTeg($entity);
             }
-            $em->persist($entity);
+
             $em->flush();
 
-            $this->redirect($this->generateUrl('teg_show', array('id' => $id)));
+            return $this->redirect($this->generateUrl('teg_show', array('id' => $id)));
         }
 
         return array(

@@ -123,7 +123,7 @@ class teg
 
     /**
      * @var array
-     * @ORM\OneToMany(targetEntity="author", mappedBy="teg") 
+     * @ORM\OneToMany(targetEntity="author", mappedBy="teg", cascade={"persist", "remove"}, orphanRemoval=true) 
      * @Assert\Valid
      * @Assert\Count(
      *      min = "1",
@@ -142,7 +142,7 @@ class teg
      *      minMessage = "Debe tener al menos 1 Tutor",
      *      maxMessage = "Sólo puede tener como maximo {{ limit }} Tutores"
      * )
-     * @ORM\OneToMany(targetEntity="tuthor", mappedBy="teg") 
+     * @ORM\OneToMany(targetEntity="tuthor", mappedBy="teg", cascade={"persist", "remove"}, orphanRemoval=true) 
      * @Assert\Valid
      */
     private $tuthors;
@@ -163,7 +163,7 @@ class teg
     /**
      * @var array
      *
-     * @ORM\OneToMany(targetEntity="keyWord", mappedBy="teg") 
+     * @ORM\OneToMany(targetEntity="keyWord", mappedBy="teg", cascade={"persist", "remove"}, orphanRemoval=true) 
      * @Assert\Valid
      *
      * @Assert\Count(
@@ -510,6 +510,7 @@ class teg
     public function removeAuthor(\Biblioteca\TegBundle\Entity\author $author)
     {
         $this->authors->removeElement($author);
+        $author->setTeg(null);
     }
     /**
      * Remove tuthor
@@ -519,6 +520,7 @@ class teg
     public function removeTuthor(\Biblioteca\TegBundle\Entity\tuthor $tuthor)
     {
         $this->tuthors->removeElement($tuthor);
+        $tuthor->setTeg(null);
     }
     /**
      * Remove keyWord
@@ -528,6 +530,7 @@ class teg
     public function removeKeyWord(\Biblioteca\TegBundle\Entity\keyword $keyWord)
     {
         $this->keyWords->removeElement($keyWords);
+        $keyWord->setTeg(null);
     }
     /**
      * Remove capitulo
@@ -537,6 +540,7 @@ class teg
     public function removeCapitulo(\Biblioteca\TegBundle\Entity\documento $capitulo)
     {
         $this->capitulos->removeElement($capitulo);
+        $capitulo->setTeg(null);
     }
 
     /**
@@ -545,6 +549,7 @@ class teg
      */
     public function removeAllAuthors()
     {
+        $capitulo->setTeg(null);
         $this->authors->clear();
 
     }
