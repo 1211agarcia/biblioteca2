@@ -90,39 +90,24 @@ class tegController extends Controller
         }
         if ($form->isValid()) {
             // Se obtiene el usuario creador
-            $userLogged = $this->get('security.token_storage')->getToken()->getUser();
-            $creator = $userLogged;
+            $creator = $this->getUser();
+            
             // Se agrega la nueva teg creada al creador
             $creator->addCreation($entity);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             foreach ($entity->getCapitulos() as $actualCapitulo) {  
-                
-                $capitulo = new documento();
-
-                $capitulo = $actualCapitulo; 
-                $entity->addCapitulo($capitulo);
-
-                $em->persist($capitulo);
+                $actualCapitulo->setTeg($entity);
             }
             foreach ($entity->getAuthors() as $actualAuthor) {
-                $author = new author();
-                $author = $actualAuthor;
-                $entity->addAuthor($author);
-                $em->persist($author);
+                $actualAuthor->setTeg($entity);
             }
             foreach ($entity->getTuthors() as $actualTuthor) {
-                $tuthor = new tuthor();
-                $tuthor = $actualTuthor;
-                $entity->addTuthor($tuthor);
-                $em->persist($tuthor);
+                $actualTuthor->setTeg($entity);
             }
             foreach ($entity->getKeyWords() as $actualKeyWord) {
-                $keyWord = new keyWord();
-                $keyWord = $actualKeyWord;
-                $entity->addKeyWord($keyWord);
-                $em->persist($keyWord);
+                $actualKeyWord->setTeg($entity);
             }
 
             $em->flush();
@@ -228,22 +213,16 @@ class tegController extends Controller
         }
 
         $arrayReturn = array('entity' => $entity);
-        // Si el usuario solicitante puede editar
-        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
 
         //Si el user es de Rol Admin, puede publicar.
-        if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ){
-
-            if($userLogged->getRoles()[0] === "ROLE_ADMIN")
-            {
-                $publishForm = $this->createPublishForm($id);
-                $arrayReturn['publish_form'] = $publishForm->createView();
-            }
-            //Si el user es de Rol Admin ó Autor puede Editar.
-            $arrayReturn['edit'] = ($userLogged->getCreations()->contains($entity) || $userLogged->getRoles()[0] === "ROLE_ADMIN");
+        if( $this->isGranted('ROLE_ADMIN'))
+        {
+            $publishForm = $this->createPublishForm($id);
+            $arrayReturn['publish_form'] = $publishForm->createView();
         }
+        //Si el user es de Rol Admin ó Autor puede Editar.
+        $arrayReturn['edit'] = ($this->getUser()->getCreations()->contains($entity) || $this->isGranted('ROLE_ADMIN'));
         return $arrayReturn;
-        
     }
 
     /**
@@ -335,7 +314,6 @@ class tegController extends Controller
             foreach ($entity->getTuthors() as $actualTuthor) {
                 $actualTuthor->setTeg($entity);
             }
-
             foreach ($entity->getKeyWords() as $actualKeyWord) {
                 $actualKeyWord->setTeg($entity);
             }

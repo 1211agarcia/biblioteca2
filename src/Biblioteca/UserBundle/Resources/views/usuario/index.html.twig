@@ -36,7 +36,13 @@
         {% for user in users %}
             <tr>
                 <td><a href="{{ path('user_show', { id: user.id }) }}">{{ user.username }}</a></td>
-                <td>{{ user.roles[0] }}</td>
+                <td>
+                    <ul>
+                    {% for role in user.roles %}
+                    <li class="form-control-static">{{ role }}</li>
+                    {% endfor %}
+                    </ul>
+                </td>
                 <td>{% if user.lastLogin %}{{ user.lastLogin|date('Y-m-d H:i') }}{% else %}nunca{% endif %}</td>
                 <td>
                     <div class="item-actions">
