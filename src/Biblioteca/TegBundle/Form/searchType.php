@@ -32,27 +32,17 @@ class searchType extends AbstractType
                 array('label'=> 'Buscar',
                     'attr'=> array('class' => 'btn btn-primary','value'=> 'Buscar','ng-disabled'=> 'isInvalid()', 'ng-click' => 'load($event)', 'ng-model' => 'loadingSubmit', 'disabler'=>'Buscando'))
             )
-            ->add('desde', 'choice',
+            ->add('desde', 'date',
                 array(
-                    'choices' => range(1998, date('Y')),
-                    'required' => false,
-                    'label_attr' => array('class' => 'form-control-static'),
-                    'attr'=> array('ng-model'=>'desde',
-                                   'class' => 'form-control',
-                                   'ng-options'=>'n for n in [] | range:1998:'.date('Y')
-                                   )
-                )
+                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'attr'=> array('class' => 'form-control', 'min'=>"1998-01-01", 'max'=>date('Y')."-".date('m')."-".date('d'), 'ng-model'=>'desde'),
+                    'widget' => 'single_text')
             )
-            ->add('hasta', 'choice',
+            ->add('hasta', 'date',
                 array(
-                    'choices' => range(1998, date('Y')),
-                    'required' => false,
-                    'label_attr' => array('class' => 'form-control-static'),
-                    'attr'=> array('ng-model'=>'hasta',
-                                   'class' => 'form-control',
-                                   'ng-options'=>'n for n in [] | range:fechaMin:'.date('Y')
-                                   )
-                    )
+                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    'attr'=> array('class' => 'form-control', 'min'=>"[[desde]]", 'max'=>date('Y')."-".date('m')."-".date('d')),
+                    'widget' => 'single_text')
             )
             ->add('escuela', 'choice',
                 array(

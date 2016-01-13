@@ -64,11 +64,11 @@ class tegRepository extends EntityRepository
         else{
             //Si ingreso rango inferior
             if (isset($data['desde'])) {
-                $desde = "'".$data['desde']."-1-1'";
+                $desde = "'".$data['desde']->format('Y-m-d')."'";
             }else{$desde = 't.publicacion';}
             //Si ingreso rango superior
             if (isset($data['hasta'])) {
-                $hasta = "'".$data['hasta']."-12-31'";
+                $hasta = "'".$data['hasta']->format('Y-m-d')."'";
             }else{$hasta = 't.publicacion';}
             $exprInteval = $qb->expr()->between('t.publicacion', $desde, $hasta);
         }

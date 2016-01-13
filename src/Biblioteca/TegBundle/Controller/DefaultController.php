@@ -81,6 +81,20 @@ class DefaultController extends Controller
                 );
         
         }
+        $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
+            $query = $repository->findAllQuery();
+$paginator  = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1)/*page number*/,
+                10/*limit per page*/
+            );
+
+            return array(
+                    'form' => $form->createView(),
+                    'entities' => $pagination,
+                    'pagination' => $pagination
+                );
         /*else{
             //esto no se que hace es para ir a una pagina si hay error en el form
             return $this->redirectToRoute('home', array(), 301);

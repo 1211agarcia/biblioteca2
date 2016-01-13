@@ -14,7 +14,7 @@
             <div class="col-sm-5 col-xs-12" style="margin-bottom: 10px;" ng-init="q='{{form.q.vars.value}}';">
                 {{ form_widget(form.q) }}
             </div>
-            <div class="col-sm-3 col-xs-5" ng-init="desde='{{form.desde.vars.value}}';hasta='{{form.hasta.vars.value}}';escuela='{{form.escuela.vars.value}}';">
+            <div class="col-sm-4 col-xs-6" ng-init="desde='{{form.desde.vars.value}}';hasta='{{form.hasta.vars.value}}';escuela='{{form.escuela.vars.value}}';">
                 <div class="input-group" id="datepicker">
                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                     {{ form_widget(form.desde) }}
@@ -22,7 +22,7 @@
                     {{ form_widget(form.hasta) }}
                 </div>
             </div>
-            <div class="col-sm-3 col-xs-5">
+            <div class="col-sm-2 col-xs-4">
                {{ form_widget(form.escuela) }}
             </div>
             <div class="col-xs-1" ng-init="desde='';hasta='';escuela='';">
