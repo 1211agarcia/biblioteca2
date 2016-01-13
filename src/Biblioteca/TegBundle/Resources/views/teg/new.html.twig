@@ -293,14 +293,14 @@
                     {{ form_widget(form.escuela) }}
                 </div>
             </div>
-            <div class="form-group" >
+            <div class="form-group col-lg-6" >
                 {{ form_label(form.cota) }}
                 {{ form_errors(form.cota) }}
                 
                 <div class="col-lg-2 col-md-3 col-xs-12" ng-init="initCota('{{form.cota.vars.value}}');">
                     <div class="input-group">
                         <span class="input-group-addon">[[cota_school]]</span>
-                        <input type="number" string-to-number min="1" max="99" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" style="width: initial;">
+                        <input type="number" name="cota_index" string-to-number min="1" max="99" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" style="width: initial;">
                         <span id="cota_year" class="input-group-addon">/[[cota_year]]</span>
                     </div>
                 </div>

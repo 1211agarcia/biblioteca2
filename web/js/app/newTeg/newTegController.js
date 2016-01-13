@@ -6,9 +6,9 @@ newTeg.controller('newTegController', function ($scope) {
     $scope.pasoDosValid = false;
 	$scope.generar = function(){
 		//console.log($scope.formData);
-		$scope.cota_year = angular.isUndefinedOrNull($scope.formData.biblioteca_tegbundle_teg_publicacion_year) || isNaN($scope.formData.biblioteca_tegbundle_teg_publicacion_year)? "'Año'" : ("0" + (parseInt($scope.formData.biblioteca_tegbundle_teg_publicacion_year) % 100) ).slice (-2);
-
-		$scope.cota_school = angular.isUndefinedOrNull($scope.formData.biblioteca_tegbundle_teg_escuela) || angular.isInvalide("school",$scope.biblioteca_tegbundle_teg_escuela)?"Escuela" :
+		$scope.cota_year = !$scope.isValid('biblioteca_tegbundle_teg[publicacion]')? "Año" : ("0" + (parseInt($scope.formData.biblioteca_tegbundle_teg_publicacion.getFullYear()) % 100) ).slice (-2);
+		
+        $scope.cota_school = !$scope.isValid('biblioteca_tegbundle_teg[publicacion]') || angular.isInvalide("school",$scope.biblioteca_tegbundle_teg_escuela)?"Escuela" :
         "D"+$scope.formData.biblioteca_tegbundle_teg_escuela.charAt(0);
 
         $scope.cota_index = angular.isUndefinedOrNull($scope.cota_index) ? "00" : ("0" + $scope.cota_index).slice (-2);
@@ -49,6 +49,12 @@ newTeg.controller('newTegController', function ($scope) {
                 $scope.formInputTeg[item+"[1][lastname]"].$valid : true);
                 
             break;
+            case "biblioteca_tegbundle_teg[cota]":
+                return ( $scope.formInputTeg["biblioteca_tegbundle_teg[escuela]"].$valid &&
+                $scope.formInputTeg["biblioteca_tegbundle_teg[publicacion]"].$valid &&
+                $scope.formInputTeg["cota_index"].$valid);
+                
+            break;
             case "biblioteca_tegbundle_teg[capitulos]":
             console.log("0 = "+$scope.formInputTeg[item+"[0][file]"].$valid);
             console.log("1 = "+$scope.formInputTeg[item+"[1][file]"].$valid);
@@ -82,18 +88,19 @@ newTeg.controller('newTegController', function ($scope) {
             $scope.isValid('biblioteca_tegbundle_teg[resumen]') &&
             $scope.isValid('biblioteca_tegbundle_teg[authors]') &&
             $scope.isValid('biblioteca_tegbundle_teg[tuthors]') &&
+            $scope.isValid('biblioteca_tegbundle_teg[cota]') &&
             $scope.isValid('biblioteca_tegbundle_teg[publicacion]'));
         console.log("files "+$scope.isValid('biblioteca_tegbundle_teg[capitulos]'));
 
         $scope.pasoDosValid = (
             $scope.pasoUnoValid &&
-            $scope.isValid('biblioteca_tegbundle_teg[capitulos]') && 
-            $scope.isValid('biblioteca_tegbundle_teg[published]')
+            $scope.isValid('biblioteca_tegbundle_teg[capitulos]') 
+            //&& $scope.isValid('biblioteca_tegbundle_teg[published]')
             //&& $scope.isValid('biblioteca_tegbundle_teg[cota]')
             );
         console.log("paso 2 "+($scope.pasoUnoValid &&
-            $scope.isValid('biblioteca_tegbundle_teg[capitulos]') && 
-            $scope.isValid('biblioteca_tegbundle_teg[published]')
+            $scope.isValid('biblioteca_tegbundle_teg[capitulos]')
+            //&& $scope.isValid('biblioteca_tegbundle_teg[published]')
             //&& $scope.isValid('biblioteca_tegbundle_teg[cota]')
             ));
         console.log("paso 2 "+$scope.pasoDosValid);
