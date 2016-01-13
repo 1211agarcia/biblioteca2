@@ -22,7 +22,6 @@
     ng-model="formData.{{ id }}"
     ng-class="{ error: formInputTeg['{{ full_name }}'].$invalid && formInputTeg['{{ full_name }}'].$touched, valid: formInputTeg['{{ full_name }}'].$valid}"
 {%- endblock widget_attributes -%}
-
  
 {% block form_widget_simple %}
 {% spaceless %}
@@ -113,7 +112,15 @@
     #}
 {% endspaceless %}
 {%- endblock choice_widget_collapsed -%}
-
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+    <ul class="alert alert-danger">
+        {%- for error in errors -%}
+            <li>{{ error.message }}</li>
+        {%- endfor -%}
+    </ul>
+    {%- endif -%}
+{%- endblock form_errors -%}
 {% use 'form_div_layout.html.twig' with form_label %}
 {% block form_label %}
 {% spaceless %}
@@ -286,6 +293,19 @@
                     {{ form_widget(form.escuela) }}
                 </div>
             </div>
+            <div class="form-group" >
+                {{ form_label(form.cota) }}
+                {{ form_errors(form.cota) }}
+                
+                <div class="col-lg-2 col-md-3 col-xs-12" ng-init="initCota('{{form.cota.vars.value}}');">
+                    <div class="input-group">
+                        <span class="input-group-addon">[[cota_school]]</span>
+                        <input type="number" string-to-number min="1" max="99" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" style="width: initial;">
+                        <span id="cota_year" class="input-group-addon">/[[cota_year]]</span>
+                    </div>
+                </div>
+                {{ form_widget(form.cota, { 'attr': { 'ng-model':'cota','style':'display:none'} }) }}
+            </div>
             <div class="nav" style="margin: auto; width: 100px;;">
             	<a ng-disabled="!pasoUnoValid"class="btn btn-primary" data-toggle="tab" href="#paso2">Siguiente&nbsp;<i class="fa fa-arrow-right fa-fw"></i></a>
             </div>            
@@ -300,7 +320,7 @@
 				{% for capField in form.capitulos %}
                 	<div class="panel panel-success col-lg-2 col-md-4 col-xs-12">
 					    <div class="panel-heading">
-					        <h3 class="panel-title">Capítulo {{ loop.index }} <span style="color:red" title="Este campo es requerido"> (*)</span></h3>
+					        <h3 class="panel-title">Capítulo {{ loop.index }} <span ng-if="isRequiredFiles"style="color:red" title="Este campo es requerido"> (*)</span></h3>
 					    </div>
 					    <div class="panel-body" ng-controller="newTegController">
 	                    	{% if capField.errors[0].message is defined %} 
@@ -313,32 +333,19 @@
                     </div>    
                 {% endfor %}
             </div>
-            <div class="form-group" >
-                {{ form_label(form.cota) }}
-                {{ form_errors(form.cota) }}
-                
-                <div class="col-lg-2 col-md-3 col-xs-12" ng-init="initCota('{{form.cota.vars.value}}');">
-                    <div class="input-group">
-                        <span class="input-group-addon">[[cota_school]]</span>
-                        <input type="number" string-to-number min="1" max="99" placeholder="Indice" ng-model="cota_index" required="required" class="form-control" style="width: initial;">
-                        <span id="cota_year" class="input-group-addon">/[[cota_year]]</span>
-                    </div>
-                </div>
-                {{ form_widget(form.cota, { 'attr': { 'ng-model':'cota','style':'display:none'} }) }}
-            </div>
             
+            {#
             <div class="form-group">
-                
                 {{ form_errors(form.published) }}
                 <div class="col-xs-offset-3 col-xs-9">
                     {{ form_widget(form.published) }}
                     {{ form_label(form.published) }}
                 </div>
-            </div>
+            </div> #}
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                     {{ form_widget(form.submit, { 'attr': { 'ng-disabled':'!pasoDosValid'} }) }}
-                    {{ form_widget(form.reset) }}
+                    {#{ form_widget(form.reset) }#}
                 </div>
             </div>
         </div>

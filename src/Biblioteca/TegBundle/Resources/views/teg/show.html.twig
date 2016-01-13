@@ -5,6 +5,12 @@
 {% endblock %} 
 {% block body %}
 <div class="panel panel-default">
+    {% if exitosa is defined %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Operación realizada con <strong>Exito!</strong>
+    </div>
+    {% endif %}
     <div class="panel-heading"> 
         <a class="btn btn-danger" href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i>&nbsp;Volver</a>&nbsp;
         {% if edit is defined and edit %}

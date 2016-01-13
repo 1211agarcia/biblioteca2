@@ -213,7 +213,9 @@ class tegController extends Controller
         }
 
         $arrayReturn = array('entity' => $entity);
-
+       // if( $exitosa ){
+         //   $arrayReturn['exitosa'] = "exitosa";
+        //}
         //Si el user es de Rol Admin, puede publicar.
         if( $this->isGranted('ROLE_ADMIN'))
         {
@@ -221,7 +223,12 @@ class tegController extends Controller
             $arrayReturn['publish_form'] = $publishForm->createView();
         }
         //Si el user es de Rol Admin ó Autor puede Editar.
-        $arrayReturn['edit'] = ($this->getUser()->getCreations()->contains($entity) || $this->isGranted('ROLE_ADMIN'));
+        $userLogged = new User();
+        $userLogged = $this->getUser();
+        if($userLogged)
+        {
+            $arrayReturn['edit'] = ($userLogged->getCreations()->contains($entity) || $this->isGranted('ROLE_ADMIN'));
+        }
         return $arrayReturn;
     }
 
