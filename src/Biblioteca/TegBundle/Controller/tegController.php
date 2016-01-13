@@ -54,7 +54,7 @@ class tegController extends Controller
         );
         $form = $this->createForm(new searchType(), null, array(
             'action' => $this->generateUrl('teg_search'),
-            'attr'   => array('class' => 'searchform')));
+            'attr'   => array('class' => 'searchform form-inline')));
         
         return array(
                 'form' => $form->createView(),

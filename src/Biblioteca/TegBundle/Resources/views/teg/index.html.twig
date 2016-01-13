@@ -10,29 +10,25 @@
 <div ng-controller="searchTegController">
     {{ form_start(form) }}
         {{ form_errors(form) }}
-        <div class="row">
-            <div class="col-sm-5 col-xs-12" style="margin-bottom: 10px;" ng-init="q='{{form.q.vars.value}}';">
+            <div class="form-group col-xs-10 col-md-8 col-lg-5" style="margin-bottom: 10px;padding-right: 0px;" ng-init="q='{{form.q.vars.value}}';">
                 {{ form_widget(form.q) }}
             </div>
-            <div class="col-sm-4 col-xs-6" ng-init="desde='{{form.desde.vars.value}}';hasta='{{form.hasta.vars.value}}';escuela='{{form.escuela.vars.value}}';">
-                <div class="input-group" id="datepicker">
-                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                    {{ form_widget(form.desde) }}
-                    <span class="input-group-addon">a</span>
-                    {{ form_widget(form.hasta) }}
-                </div>
+            <div class="form-group col-md-1" style="width:initial;padding-left: 0px;padding-right: 0px;">
+                {{ form_widget(form.submit) }}{{ form_widget(form._token) }}    
             </div>
-            <div class="col-sm-2 col-xs-4">
+            <div class="form-group col-xs-5 col-md-4 col-lg-2" style="padding-right: 0px;">
                {{ form_widget(form.escuela) }}
             </div>
-            <div class="col-xs-1" ng-init="desde='';hasta='';escuela='';">
-                {{ form_widget(form.submit) }}
-                {{ form_widget(form._token) }}
+            <div class="form-group col-xs-6 col-md-5 col-lg-3 input-group" ng-init="desde='{{form.desde.vars.value}}';hasta='{{form.hasta.vars.value}}';escuela='{{form.escuela.vars.value}}';">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                {{ form_widget(form.desde) }}
+                <span class="input-group-addon">a</span>
+                {{ form_widget(form.hasta) }}
             </div>
-        </div>
-        <span ng-show="isInvalid()">Seleccione uno filtro ó ingrese palabra o frase</span>
+                
     {{ form_rest(form) }}
     {{ form_end(form, {'render_rest': false}) }}
+    <span ng-show="isInvalid()">Seleccione uno filtro ó ingrese palabra o frase</span>
 </div>
 {% endif %} 
 

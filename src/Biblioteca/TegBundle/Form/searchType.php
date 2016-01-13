@@ -34,13 +34,13 @@ class searchType extends AbstractType
             )
             ->add('desde', 'date',
                 array(
-                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    //'label_attr' => array('class' => 'control-label col-xs-3'),
                     'attr'=> array('class' => 'form-control', 'min'=>"1998-01-01", 'max'=>date('Y')."-".date('m')."-".date('d'), 'ng-model'=>'desde'),
                     'widget' => 'single_text')
             )
             ->add('hasta', 'date',
                 array(
-                    'label_attr' => array('class' => 'control-label col-xs-3'),
+                    //'label_attr' => array('class' => 'control-label col-xs-3'),
                     'attr'=> array('class' => 'form-control', 'min'=>"[[desde]]", 'max'=>date('Y')."-".date('m')."-".date('d')),
                     'widget' => 'single_text')
             )
