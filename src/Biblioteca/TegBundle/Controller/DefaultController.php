@@ -63,8 +63,14 @@ class DefaultController extends Controller
             $data = $form->getData();
             
             $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
-
-            $query = $repository->search($data);//->getQuery();
+            if( $this->isGranted('ROLE_ADMIN')){
+                $query = $repository->search($data);//->getQuery();
+            }
+            else
+            {
+                //Se muestran los resultados de TEGs publicos solamente
+                $query = $repository->search($data, false);
+            }
             
             $paginator  = $this->get('knp_paginator');
             $pagination = $paginator->paginate(

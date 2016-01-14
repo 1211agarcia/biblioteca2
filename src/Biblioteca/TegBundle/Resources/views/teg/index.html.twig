@@ -28,11 +28,7 @@
                 
     {{ form_rest(form) }}
     {{ form_end(form, {'render_rest': false}) }}
-    
-    q[[ search['search[q]'].$error ]]
-    desde[[ search['search[desde]'].$error ]]
-    hasta[[ search['search[hasta]'].$error ]]
-    escuela[[ search['search[escuela]'].$error ]]
+
     <span ng-show="isTouched()">Seleccione uno filtro ó ingrese palabra o frase</span>
 </div>
 {% endif %} 

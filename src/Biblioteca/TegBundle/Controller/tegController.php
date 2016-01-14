@@ -37,8 +37,7 @@ class tegController extends Controller
     {
         $repository = $this->getDoctrine()->getRepository('BibliotecaTegBundle:teg');
         
-        $userLogged = $this->get('security.token_storage')->getToken()->getUser();
-        if( $this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') && ($userLogged->getRoles()[0] === "ROLE_ADMIN" || $userLogged->getRoles()[0] === "ROLE_SUPER_ADMIN" )){
+        if( $this->isGranted('ROLE_ADMIN')){
             $query = $repository->findAllQuery();
         }
         else
