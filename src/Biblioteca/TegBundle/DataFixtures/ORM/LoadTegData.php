@@ -48,10 +48,12 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
                     foreach ($teg->getAuthors() as $author) {    
                         $author->setName("Name autor ".$i." ".$y);
                         $author->setLastname("LastName autor ".$i." ".$y);
+                        $author->setTeg($teg);
                     }
                     foreach ($teg->getTuthors() as $tuthor) {    
                         $tuthor->setName("Name tutor ".$i." ".$y);
                         $tuthor->setLastname("LastName tutor ".$i." ".$y);
+                        $tuthor->setTeg($teg);
                     }
                     
                     
