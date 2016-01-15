@@ -338,7 +338,7 @@ class tegController extends Controller
         );
     }
     /**
-     * Deletes a teg entity.
+     * publicar a teg entity.
      *
      * @Route("/{id}", name="teg_publish")
      * @Method("POST")

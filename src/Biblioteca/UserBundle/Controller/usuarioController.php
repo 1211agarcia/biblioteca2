@@ -61,4 +61,52 @@ class usuarioController extends Controller
             'user' => $user
         ));
     }
+    /**
+     * Bloquear a teg entity.
+     *
+     * @Route("/{id}", name="user_toblock")
+     * @Method("POST")
+     * @Template("BibliotecaUserBundle:usuario:show.html.twig")
+     */
+    public function ToBlockAction(Request $request, $id)
+    {
+        $form = $this->createToBlockForm($id);
+      $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('BibliotecaUserBundle:usuario')->find($id);
+
+            if (!$entity) {
+                throw $this->createNotFoundException('Unable to find teg entity.');
+            }
+          //Si el valor existente es diferente al entrante se hace la accion
+            $entity->setToBlocked(!$entity->getBlocked());
+            $em->persist($entity);
+            $em->flush();
+            
+        }
+        return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
+        
+    }
+
+    /**
+     * Creates a form to "publicar" a teg entity by id.
+     *
+     * @param mixed $id The entity id
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createToBlockForm($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('BibliotecaUserBundle:usuario')->find($id);
+        $form = $this->createFormBuilder(null, array('attr' => array('style' => 'display:initial;')))
+            ->setAction($this->generateUrl('user_toblock', array('id' => $id)))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array('label' => ($entity->getBlocked()?'Ocultar':'publicar'), 'attr'=> array('class' => 'btn btn-default')))
+            ->getForm()
+        ;
+        return $form;
+    }
 }

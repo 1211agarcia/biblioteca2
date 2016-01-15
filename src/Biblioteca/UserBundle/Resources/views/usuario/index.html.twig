@@ -29,7 +29,7 @@
                 <th><i class="fa fa-user"></i> Usuario</th>
                 <th>Rol</th>
                 <th><i class="fa fa-calendar"></i> Último Acceso</th>
-                <th><i class="fa fa-cogs"></i> Acciones</th>
+                {#<th><i class="fa fa-cogs"></i> Acciones</th>#}
             </tr>
         </thead>
         <tbody>
@@ -44,25 +44,23 @@
                     </ul>
                 </td>
                 <td>{% if user.lastLogin %}{{ user.lastLogin|date('Y-m-d H:i') }}{% else %}nunca{% endif %}</td>
-                <td>
+                {#<td>
                     <div class="item-actions">
                         {% if not user.locked %}
-                            <a href="{{ path('user_show', { id: user.id }) }}" class="btn btn-sm btn-danger">
+                            <a href="{{ path('user_toblock', { id: user.id }) }}" class="btn btn-sm btn-danger">
                                 <i class="fa fa-lock"></i>&nbsp;Bloquear</a>
                         {% else %}
-                            <a href="{{ path('user_show', { id: user.id }) }}" class="btn btn-sm btn-default">
+                            <a href="{{ path('user_toblock', { id: user.id }) }}" class="btn btn-sm btn-default">
                                 <i class="fa fa-unlock"></i>&nbsp;Desbloquear</a>
                         {% endif %}
                         {% if not user.enabled %}
                             <a href="{{ path('user_show', { id: user.id }) }}" class="btn btn-sm btn-success">
                                 <i class="fa fa-check"></i>&nbsp;Confirmar cuenta</a>
                         {% endif %}
-                        {# % if user.isAuthor(app.user) % #}
                             <a href="{{ path('user_show', { id: user.id }) }}" class="btn btn-sm btn-warning">
                                 <i class="fa fa-edit"></i>&nbsp;Editar</a>
-                        {#% endif % #}
                     </div>
-                </td>
+                </td>#}
             </tr>
         {% endfor %}
         </tbody>

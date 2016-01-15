@@ -1,15 +1,14 @@
 <?php
 namespace Biblioteca\UserBundle\Controller\Security;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use FOS\UserBundle\Controller\SecurityController as BaseController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\SecurityContextInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
+
 /**
  * {@inheritDoc}
  */
-class SecurityController extends Controller
+class SecurityController extends  BaseController
 {
     public function loginAction(Request $request)
     {
@@ -67,11 +66,12 @@ class SecurityController extends Controller
         $requestAttributes = $this->container->get('request')->attributes;
         $route = $requestAttributes->get('_route');
         $security = $this->container->get('security.context');
-        if ('ds_facyt_infrastructure_security_login' === $route) {
+        
+        if ('fos_user_security_login' === $route) {
             
             if ($security->isGranted('ROLE_USER')) {
                 return $this->redirect(
-                    $this->generateUrl('biblioteca_user_homepage')
+                    $this->generateUrl('biblioteca_teg')
                 );
             }
             $template = sprintf('BibliotecaUserBundle:Security:login.html.twig');
