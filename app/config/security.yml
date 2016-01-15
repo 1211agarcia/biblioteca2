@@ -35,6 +35,7 @@ security:
 
     role_hierarchy:
         ROLE_USER:       ROLE_USER
+        ROLE_ESTUDIANTE:  ROLE_ESTUDIANTE
         ROLE_ADMIN:       ROLE_ADMIN
         ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
 
@@ -42,4 +43,9 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: ROLE_SUPER_ADMIN }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/user/, role: ROLE_SUPER_ADMIN }
+        - { path: ^/teg/new, role: ROLE_ADMIN, }
+        - { path: ^/teg/new, role: ROLE_ESTUDIANTE }
+        - { path: ^/edit, role: ROLE_ADMIN, }
+        - { path: ^/edit, role: ROLE_ESTUDIANTE }
+        - { path: ^/miteg/, role: ROLE_ESTUDIANTE }

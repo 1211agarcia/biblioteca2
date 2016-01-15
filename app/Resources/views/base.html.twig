@@ -1,12 +1,12 @@
 {# Verificacion de Usuario #}
 {% set isAdmin = false %}
 {% set isSAdmin = false %}
-{% set isUser = false %}
+{% set isEstudiante = false %}
 {% set isLogged = is_granted("IS_AUTHENTICATED_FULLY") %}
 {% if isLogged %}
     {% set isAdmin = app.user.roles[0]=="ROLE_ADMIN" %}
     {% set isSAdmin = app.user.roles[0]=="ROLE_SUPER_ADMIN" %}
-    {% set isUser = app.user.roles[0]=="ROLE_USER" %}
+    {% set isEstudiante = app.user.roles[0]=="ROLE_ESTUDIANTE" %}
 {% endif %}
 {# Fin de Verificacion #}
 {% spaceless %}
@@ -50,7 +50,6 @@
 
 			<script src="{{ asset('js/angular.min.js') }}"></script>
 			<script src="{{ asset('plugins/angular-loading-bar/loading-bar.min.js') }}"></script>
-			<!--script src="{# { asset('js/app.js') } #}"></script-->		
 			<script src="{{ asset('js/jquery/1.11.3/jquery.min.js') }}"></script>
 			<script src="{{ asset('js/bootstrap.min.js')}}"></script>
 			

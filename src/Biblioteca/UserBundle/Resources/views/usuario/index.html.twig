@@ -39,7 +39,7 @@
                 <td>
                     <ul>
                     {% for role in user.roles %}
-                    <li class="form-control-static">{{ role }}</li>
+                    <li>{{ role }}</li>
                     {% endfor %}
                     </ul>
                 </td>
@@ -79,9 +79,8 @@
 
 {% block javascripts %}
     {{ parent() }}  
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('js/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{ asset('js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{ asset('js/dataTables.bootstrap.min.js')}}"></script>
 
 
 <script> $(document).ready(function() {

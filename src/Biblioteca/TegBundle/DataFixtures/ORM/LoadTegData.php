@@ -6,6 +6,9 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Biblioteca\TegBundle\Entity\teg as Teg;
 use Biblioteca\TegBundle\Entity\documento as Document;
+use Biblioteca\TegBundle\Entity\author;
+use Biblioteca\TegBundle\Entity\tuthor;
+use Biblioteca\TegBundle\Entity\keyWord;
 
 /**
  * Clase LoadTegData "DataFixtures".
@@ -39,13 +42,31 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
 
                     $teg->setCota("D".$escuela[0].($i+1)."/".(($y<10)?"0".$y : $y));
 
-                    $teg->setTitulo("Titulo-".$i);
+                    $teg->setTitulo("Titulo-".$escuela." ".$y." ".$i);
 
                     $teg->setResumen("Resumen-".$i);
-                    //$teg->setPalabrasClave(array('Palabra-$i-1', 'Palabra-$i-2','Palabra-$i-3'));
-                    //$teg->setAutores(array('Autor-$i-1', 'Autor-$i-2'));
-                    //$teg->setTutores(array('Tutor-$i-1', 'Tutor-$i-2'));
+                    foreach ($teg->getAuthors() as $author) {    
+                        $author->setName("Name autor ".$i." ".$y);
+                        $author->setLastname("LastName autor ".$i." ".$y);
+                    }
+                    foreach ($teg->getTuthors() as $tuthor) {    
+                        $tuthor->setName("Name tutor ".$i." ".$y);
+                        $tuthor->setLastname("LastName tutor ".$i." ".$y);
+                    }
                     
+                    
+                    for ($k=1; $k <=3 ; $k++) { 
+                        $keyWord = new keyWord();
+                        $keyWord->setKeyWord("Name palabra ".$i." ".$y);
+                        $teg->addKeyWord($keyWord);
+                    }
+                    foreach ($teg->getCapitulos() as $document) { 
+            
+                        $document->setPath($teg->getEscuela().'/'.$teg->getCota().'/capitulo'.".pdf");
+                        
+                        $manager->persist($document);
+                    }
+
                     $manager->persist($teg);
 
                     $manager->flush();
@@ -61,6 +82,6 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
     */
     public function getOrder()
     {
-        return 2;
+        return 1;
     }
 }

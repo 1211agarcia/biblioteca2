@@ -67,9 +67,12 @@ class usuario extends BaseUser
                 array_push($this->roles, 'ROLE_USER');
                 break;
             case 2:
-                array_push($this->roles, 'ROLE_ADMIN');
+                array_push($this->roles, 'ROLE_ESTUDIANTE');
                 break;
             case 3:
+                array_push($this->roles, 'ROLE_ADMIN');
+                break;
+            case 4:
                 array_push($this->roles, 'ROLE_SUPER_ADMIN');
                 break;
             default:
@@ -77,7 +80,21 @@ class usuario extends BaseUser
                 break;
         }
     }      
+    /**
+     * 
+     * @throws Exception
+     * @param array $roles 
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = array();
 
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
+
+        return $this;
+    }
     /**
      * Get id
      *

@@ -25,7 +25,8 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface
             //$user->setPhone('0412-000000'.$i);
             //$school = $manager->getRepository('DSFacytDomain:School')->findOneById(1);
             //$user->setSchool($school);
-            $user->addRole($i);
+            $user->addRole($i+1);
+            
             $user->setEnabled(true);
 
 
