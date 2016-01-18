@@ -43,7 +43,9 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
                     $teg->setCota("D".$escuela[0].($i+1)."/".(($y<10)?"0".$y : $y));
 
                     $teg->setTitulo("Titulo-".$escuela." ".$y." ".$i);
-
+                    if(($i % 2) == 0){
+                        $teg->setPublished(true);
+                    }
                     $teg->setResumen("Resumen-".$i);
                     foreach ($teg->getAuthors() as $author) {    
                         $author->setName("Name autor ".$i." ".$y);

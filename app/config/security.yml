@@ -44,8 +44,8 @@ security:
         - { path: ^/register, role: ROLE_SUPER_ADMIN }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/user/, role: ROLE_SUPER_ADMIN }
-        - { path: ^/new, role: ROLE_ADMIN, }
-        - { path: ^/new, role: ROLE_ESTUDIANTE }
+        - { path: ^/teg/new, role: ROLE_ADMIN, }
+        - { path: ^/teg/new, role: ROLE_ESTUDIANTE }
         - { path: ^/edit, role: ROLE_ADMIN, }
         - { path: ^/edit, role: ROLE_ESTUDIANTE }
         - { path: ^/miteg/, role: ROLE_ESTUDIANTE }

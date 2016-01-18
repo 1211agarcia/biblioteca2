@@ -72,7 +72,7 @@ class teg
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=500, unique=true)
+     * @ORM\Column(type="string", unique=true)
      * @Assert\Length(
      *     min=5,
      *     max=500,
