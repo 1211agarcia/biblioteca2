@@ -62,7 +62,7 @@ class usuarioController extends Controller
         ));
     }
     /**
-     * Bloquear a teg entity.
+     * Bloquear a user entity.
      *
      * @Route("/{id}", name="user_toblock")
      * @Method("POST")
@@ -71,7 +71,7 @@ class usuarioController extends Controller
     public function ToBlockAction(Request $request, $id)
     {
         $form = $this->createToBlockForm($id);
-      $form->handleRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -91,7 +91,7 @@ class usuarioController extends Controller
     }
 
     /**
-     * Creates a form to "publicar" a teg entity by id.
+     * Creates a form to "bloaquear" a user entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -104,7 +104,7 @@ class usuarioController extends Controller
         $form = $this->createFormBuilder(null, array('attr' => array('style' => 'display:initial;')))
             ->setAction($this->generateUrl('user_toblock', array('id' => $id)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => ($entity->getBlocked()?'Ocultar':'publicar'), 'attr'=> array('class' => 'btn btn-default')))
+            ->add('submit', 'submit', array('label' => ($entity->getBlocked()?'Desbloquear':'Bloquear'), 'attr'=> array('class' => 'btn btn-default')))
             ->getForm()
         ;
         return $form;
