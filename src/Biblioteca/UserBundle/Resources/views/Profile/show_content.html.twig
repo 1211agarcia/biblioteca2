@@ -55,19 +55,25 @@
         <a style="float: right;" class="btn btn-default" href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out fa-fw"></i>&nbsp;Salir</a>
         {% else %}
             {% if not user.enabled %}
-                <a href="{{ path('user_show', { id: user.id }) }}" class="btn btn-sm btn-success">
-                    <i class="fa fa-check"></i>&nbsp;Confirmar cuenta</a>
+                {{ form_start(operation_form) }}
+                {{ form_errors(operation_form) }}
+                <button type="submit" id="form_submit" name="form[submit]" class="btn btn-sm btn-success">
+                <i class="fa fa-check"></i>&nbsp;Habilitar Cuenta</button>&nbsp;
+                {{ form_widget(operation_form._token) }}
+                {{ form_end(operation_form, {'render_rest': false}) }}
             {% else %}
+                {{ form_start(operation_form) }}
+                {{ form_errors(operation_form) }}
                 {% if not user.locked %}
-                    <a href="{{ path('user_toblock', { id: user.id }) }}" class="btn btn-sm btn-danger">
-                        <i class="fa fa-lock"></i>&nbsp;Bloquear</a>
+                    <button type="submit" id="form_submit" name="form[submit]" class="btn btn-sm btn-danger"><i class="fa fa-lock fa-lg"></i>&nbsp;Bloquear</button>&nbsp;
                 {% else %}
-                    <a href="{{ path('user_toblock', { id: user.id }) }}" class="btn btn-sm btn-default">
-                        <i class="fa fa-unlock"></i>&nbsp;Desbloquear</a>
+                    <button type="submit" id="form_submit" name="form[submit]" class="btn btn-sm btn-success"><i class="fa fa-unlock fa-lg"></i>&nbsp;Desbloquear</button>&nbsp;
                 {% endif %}
+                {{ form_widget(operation_form._token) }}
+                {{ form_end(operation_form, {'render_rest': false}) }}
             {% endif %}
-                <a href="{{ path('user_show', { id: user.id }) }}" class="btn btn-sm btn-warning">
-                    <i class="fa fa-edit"></i>&nbsp;Editar</a>
+                {#<a href="{{ path('user_show', { id: user.id }) }}" class="btn btn-sm btn-warning">
+                    <i class="fa fa-edit"></i>&nbsp;Editar</a>#}
         {% endif %}
 
     </div>

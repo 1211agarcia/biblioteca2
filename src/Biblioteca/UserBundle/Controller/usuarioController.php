@@ -56,40 +56,43 @@ class usuarioController extends Controller
         /*if (!is_object($user) || !$user instanceof UserInterface) {
             throw new AccessDeniedException('This user does not have access to this section.');
         }*/
+        $operationForm = $this->createtolockForm($id);
 
         return $this->render('FOSUserBundle:Profile:show.html.twig', array(
-            'user' => $user
-        ));
+            'user' => $user,
+            'operation_form' => $operationForm->createView())
+        );
     }
     /**
      * Bloquear a user entity.
      *
-     * @Route("/{id}", name="user_toblock")
+     * @Route("/{id}", name="user_lock")
      * @Method("POST")
      * @Template("BibliotecaUserBundle:usuario:show.html.twig")
      */
-    public function ToBlockAction(Request $request, $id)
+    public function toLockAction(Request $request, $id)
     {
-        $form = $this->createToBlockForm($id);
+        $form = $this->createToLockForm($id);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BibliotecaUserBundle:usuario')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find teg entity.');
+            $userManager = $this->get('fos_user.user_manager');
+            
+            $user = $userManager->findUserBy(array('id'=>$id));
+            if (!$user) {
+                throw $this->createNotFoundException('Unable to find usuario.');
             }
-          //Si el valor existente es diferente al entrante se hace la accion
-            $entity->setToBlocked(!$entity->getBlocked());
-            $em->persist($entity);
-            $em->flush();
+            $user->setLocked(!$user->isLocked());
+            if(!$user->isEnabled()){
+                $user->setConfirmationToken(null);
+                $user->setEnabled(true);
+            }
+            $userManager->updateUser($user);
             
         }
         return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
         
     }
-
     /**
      * Creates a form to "bloaquear" a user entity by id.
      *
@@ -97,16 +100,18 @@ class usuarioController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createToBlockForm($id)
+    private function createToLockForm($id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('BibliotecaUserBundle:usuario')->find($id);
+        $userManager = $this->get('fos_user.user_manager');
+            
+        $user = $userManager->findUserBy(array('id'=>$id));
         $form = $this->createFormBuilder(null, array('attr' => array('style' => 'display:initial;')))
-            ->setAction($this->generateUrl('user_toblock', array('id' => $id)))
+            ->setAction($this->generateUrl('user_lock', array('id' => $id)))
             ->setMethod('POST')
-            ->add('submit', 'submit', array('label' => ($entity->getBlocked()?'Desbloquear':'Bloquear'), 'attr'=> array('class' => 'btn btn-default')))
+            ->add('submit', 'submit')
             ->getForm()
         ;
         return $form;
     }
+
 }
