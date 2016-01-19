@@ -26,18 +26,18 @@ class usuario extends BaseUser
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * ORM\Column(type="string", length=50, nullable=false)
      *
-     * @Assert\NotBlank(message="Please enter your name.", groups={"Registration", "Profile"})
-     * @Assert\Length(
+     * Assert\NotBlank(message="Please enter your name.", groups={"Registration", "Profile"})
+     * Assert\Length(
      *     min=5,
      *     max=50,
      *     minMessage="El nombre es muy corto. (min 5)",
      *     maxMessage="El nombre es muy largo. (max 50)"
      * )
-     * @TegAssert\ContainsAlphanumeric
-     */
-    protected $name;
+     * TegAssert\ContainsAlphanumeric
+     *
+     * protected $name;*/
     
 
     /**
@@ -104,52 +104,6 @@ class usuario extends BaseUser
     {
         return $this->id;
     } 
-
-    /**
-     * Set nombre
-     *
-     * @param string $nombre
-     * @return usuario
-     */
-    public function setNombre($nombre)
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
-    /**
-     * Get nombre
-     *
-     * @return string 
-     */
-    public function getNombre()
-    {
-        return $this->nombre;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return usuario
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
 
     /**
      * Add creation

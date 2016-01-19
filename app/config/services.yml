@@ -11,3 +11,10 @@ services:
         class: Biblioteca\UserBundle\Form\Type\RegistrationType
         tags:
             - { name: form.type, alias: biblioteca_user_registration }
+#    biblioteca_user.registration.form.type:
+#        class:     Biblioteca\UserBundle\Form\Type\RegistrationFormType
+#        arguments:     ["@fos_user.registration.form", "@request", "@fos_user.user_manager", "@fos_user.mailer"]
+#        tags:
+#            - { name:     form.type, alias:     biblioteca_user_registration }
+#        scope:     request
+#        public:     false

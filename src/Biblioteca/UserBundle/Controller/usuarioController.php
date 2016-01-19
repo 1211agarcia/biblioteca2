@@ -41,7 +41,7 @@ class usuarioController extends Controller
     /**
      * Encuentra y muestra un usuario.
      *
-     * @Route("/{id}", name="user_show")
+     * @Route("/{id}", requirements={"id" = "\d+"}, name="user_show")
      * @Method("GET")
      * @Template()
      */

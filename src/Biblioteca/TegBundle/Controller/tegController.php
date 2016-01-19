@@ -198,7 +198,7 @@ class tegController extends Controller
     /**
      * Finds and displays a teg entity.
      *
-     * @Route("/{id}", name="teg_show")
+     * @Route("/{id}", requirements={"id" = "\d+"}, name="teg_show")
      * @Method("GET")
      * @Template()
      */
@@ -235,7 +235,7 @@ class tegController extends Controller
     /**
      * Displays a form to edit an existing teg entity.
      *
-     * @Route("/{id}/edit", name="teg_edit")
+     * @Route("/{id}/edit", requirements={"id" = "\d+"}, name="teg_edit")
      * @Method("GET")
      * @Template("BibliotecaTegBundle:teg:new.html.twig")
      */
@@ -292,7 +292,7 @@ class tegController extends Controller
     /**
      * Edits an existing teg entity.
      *
-     * @Route("/{id}", name="teg_update")
+     * @Route("/{id}", requirements={"id" = "\d+"}, name="teg_update")
      * @Method("PUT")
      * @Template("BibliotecaTegBundle:teg:new.html.twig")
      */
@@ -340,7 +340,7 @@ class tegController extends Controller
     /**
      * publicar a teg entity.
      *
-     * @Route("/{id}", name="teg_publish")
+     * @Route("/{id}", requirements={"id" = "\d+"}, name="teg_publish")
      * @Method("POST")
      * @Template("BibliotecaTegBundle:teg:show.html.twig")
      */

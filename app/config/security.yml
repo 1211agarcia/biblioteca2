@@ -46,6 +46,6 @@ security:
         - { path: ^/user/, role: ROLE_SUPER_ADMIN }
         - { path: ^/teg/new, role: ROLE_ADMIN, }
         - { path: ^/teg/new, role: ROLE_ESTUDIANTE }
-        - { path: ^/edit, role: ROLE_ADMIN, }
-        - { path: ^/edit, role: ROLE_ESTUDIANTE }
-        - { path: ^/miteg/, role: ROLE_ESTUDIANTE }
+        - { path: /edit, role: ROLE_ADMIN, }
+        - { path: /edit, role: ROLE_ESTUDIANTE }
+        - { path: /miteg, role: ROLE_ESTUDIANTE }

@@ -8,10 +8,10 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class RegistrationType extends AbstractType
 {
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
             ->add('roles', 'collection', array(
                 'label_attr' => array('class' => 'control-label col-xs-3'),
                 'type'   => 'choice',
@@ -21,8 +21,8 @@ class RegistrationType extends AbstractType
                     'required'  => true,
                     'attr'      => array('class' => 'form-control'),
                     'choices'  => array(
-                        '1' => 'Estudiante',
-                        '2' => 'Administrador'),
+                        '2' => 'Estudiante',
+                        '3' => 'Administrador'),
                     ),
                 )
             )
