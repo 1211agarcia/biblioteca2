@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Biblioteca\UserBundle\Entity\usuario as User;
+use Biblioteca\UserBundle\Form\Type\RegistrationType as userType;
 /**
  * ususario controller.
  *
@@ -28,11 +29,7 @@ class usuarioController extends Controller
         $userManager = $this->get('fos_user.user_manager');
         
         $users = $userManager->findUsers();
-        /* fomulario para filtrar usuarios    
-        $form = $this->createForm(new searchType(), null, array(
-            'action' => $this->generateUrl('teg_search'),
-            'attr'   => array('class' => 'searchform')));
-        */
+
         return (array(
             'users' => $users
         ));
@@ -64,6 +61,83 @@ class usuarioController extends Controller
         );
     }
     /**
+     * Displays a form to edit an existing user entity.
+     *
+     * @Route("/{id}/edit", requirements={"id" = "\d+"}, name="user_edit")
+     * @Method("GET")
+     * @Template()
+     */
+    public function editAction($id)
+    {
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(array('id'=>$id));
+
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find user.');
+        }
+
+        $editForm = $this->createEditForm($user);
+        
+        return $this->render('FOSUserBundle:Registration:register.html.twig', array(
+            'form'   => $editForm->createView(),
+            'id_user' =>$id
+        ));
+    }
+
+    /**
+     * Creates a form to edit a teg entity.
+     *
+     * @param teg $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createEditForm(User $user)
+    {
+  
+        $form = $this->createForm(new userType(), $user, array(
+            'action' => $this->generateUrl('user_update', array('id' => $user->getId())),
+            'method' => 'PUT',
+            'attr'   => array('class' => 'form-horizontal'),
+        ));
+
+        $form
+            ->add('submit', 'submit', array('label' => 'Actualizar',
+                                             'attr' => array('class' => 'btn btn-primary' )
+                                             )
+            )
+        ;
+        return $form;
+    }
+    /**
+     * Edits an existing user entity.
+     *
+     * @Route("/{id}", requirements={"id" = "\d+"}, name="user_update")
+     * @Method("PUT")
+     * @Template()
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $userManager = $this->get('fos_user.user_manager');
+        $user = $userManager->findUserBy(array('id'=>$id));
+        if (!$user) {
+            throw $this->createNotFoundException('Unable to find user entity.');
+        }
+
+        $editForm = $this->createEditForm($user);
+        $editForm->handleRequest($request);
+
+        if ($editForm->isValid()) {
+            $userManager->updateUser($user);
+
+            return $this->redirect($this->generateUrl('user_show', array('id' => $id)));
+        }
+
+        return $this->render('FOSUserBundle:Registration:register.html.twig', array(
+            'form'   => $editForm->createView(),
+            'id_user' => $id
+        ));
+    }
+    /**
      * Bloquear a user entity.
      *
      * @Route("/{id}", name="user_lock")
@@ -82,10 +156,12 @@ class usuarioController extends Controller
             if (!$user) {
                 throw $this->createNotFoundException('Unable to find usuario.');
             }
-            $user->setLocked(!$user->isLocked());
             if(!$user->isEnabled()){
                 $user->setConfirmationToken(null);
                 $user->setEnabled(true);
+            }else
+            {
+                $user->setLocked(!$user->isLocked());
             }
             $userManager->updateUser($user);
             
