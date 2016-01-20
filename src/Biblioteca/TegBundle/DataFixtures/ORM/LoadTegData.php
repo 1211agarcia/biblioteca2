@@ -40,7 +40,7 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
                     $teg->setPublicacion(new \DateTime('10/05/'.(2000+$y)));
                     $teg->setEscuela($escuela);
 
-                    $teg->setCota("D".$escuela[0].($i+1)."/".(($y<10)?"0".$y : $y));
+                    $teg->setCota("D".$escuela[0].(($i<10)?"0".$i : $i)."/".(($y<10)?"0".$y : $y));
 
                     $teg->setTitulo("Titulo-".$escuela." ".$y." ".$i);
                     if(($i % 2) == 0){
@@ -62,12 +62,14 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
                     for ($k=1; $k <=3 ; $k++) { 
                         $keyWord = new keyWord();
                         $keyWord->setKeyWord("Name palabra ".$i." ".$y);
+                        $keyWord->setTeg($teg);
                         $teg->addKeyWord($keyWord);
                     }
                     foreach ($teg->getCapitulos() as $document) { 
             
                         $document->setPath($teg->getEscuela().'/'.$teg->getCota().'/capitulo'.".pdf");
-                        
+                        $document->setTeg($teg);
+                         
                         $manager->persist($document);
                     }
 

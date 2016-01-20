@@ -5,8 +5,11 @@ newTeg.controller('newTegController', function ($scope) {
     $scope.pasoUnoValid = false;
     $scope.pasoDosValid = false;
 	$scope.generar = function(){
-		//console.log($scope.formData);
-		$scope.cota_year = !$scope.isValid('biblioteca_tegbundle_teg[publicacion]')? "Año" : ("0" + (parseInt($scope.formData.biblioteca_tegbundle_teg_publicacion.getFullYear()) % 100) ).slice (-2);
+        console.log($scope.formData.biblioteca_tegbundle_teg_publicacion.year);
+        console.log((new Date ($scope.formData.biblioteca_tegbundle_teg_publicacion)).getFullYear());
+        console.log($scope.formData.biblioteca_tegbundle_teg_escuela);
+		console.log($scope.formData.biblioteca_tegbundle_teg_cota);
+		$scope.cota_year = !$scope.isValid('biblioteca_tegbundle_teg[publicacion]')? "Año" : ("0" + (parseInt((new Date ($scope.formData.biblioteca_tegbundle_teg_publicacion)).getFullYear()) % 100) ).slice (-2);
 		
         $scope.cota_school = !$scope.isValid('biblioteca_tegbundle_teg[publicacion]') || angular.isInvalide("school",$scope.biblioteca_tegbundle_teg_escuela)?"Escuela" :
         "D"+$scope.formData.biblioteca_tegbundle_teg_escuela.charAt(0);
