@@ -61,7 +61,7 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
                     
                     for ($k=1; $k <=3 ; $k++) { 
                         $keyWord = new keyWord();
-                        $keyWord->setKeyWord("Name palabra ".$i." ".$y);
+                        $keyWord->setKeyWord("Name palabra ".$k." ".$i." ".$y);
                         $keyWord->setTeg($teg);
                         $teg->addKeyWord($keyWord);
                     }
