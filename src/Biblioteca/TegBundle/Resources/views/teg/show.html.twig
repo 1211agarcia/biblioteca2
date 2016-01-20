@@ -14,7 +14,11 @@
     <div class="panel-heading"> 
         <a class="btn btn-danger" href="{{ path('teg') }}"><i class="fa fa-arrow-left fa-fw"></i>&nbsp;Volver</a>&nbsp;
         {% if edit is defined and edit %}
-            <a class="btn btn-default" href="{{ path('teg_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Editar</a>&nbsp;
+            {% if isEstudiante and app.user.id == entity.creator.id %}
+                <a class="btn btn-default" href="{{ path('teg_myedit') }}"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Editar</a>&nbsp;
+            {% else %}
+                <a class="btn btn-default" href="{{ path('teg_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil-square-o fa-lg"></i>&nbsp;Editar</a>&nbsp;
+            {% endif %}
         {% endif %}
         {% if publish_form is defined %}
             {{ form_start(publish_form) }}

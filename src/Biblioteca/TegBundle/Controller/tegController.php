@@ -176,14 +176,19 @@ class tegController extends Controller
      *
      * @Route("/miteg", name="teg_my")
      * @Method("GET")
-     * @Template()
+     * @Template("BibliotecaTegBundle:teg:new.html.twig")
      */
     public function myTegAction()
     {
         $userLogged = $this->get('security.token_storage')->getToken()->getUser();
 
         if($userLogged->getCreations()->count() === 0){
-            return $this->redirect($this->generateUrl('teg_new'));
+            $entity = new teg();
+            $form   = $this->createCreateForm($entity);
+            return array(
+                'operacion' => 0,//Significa que sera NEW
+                'form'   => $form->createView(),
+            );
         }
         else
         {
@@ -193,6 +198,31 @@ class tegController extends Controller
         
         }
 
+    }
+    /**
+     * Displays a form to edit an existing teg entity.
+     *
+     * @Route("/mitegedit", name="teg_myedit")
+     * @Method("GET")
+     * @Template("BibliotecaTegBundle:teg:new.html.twig")
+     */
+    public function myeditAction()
+    {
+        $entity = $this->getUser()->getCreations()->get(0);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find teg entity.');
+        }
+
+        $editForm = $this->createEditForm($entity);
+        $publishForm = $this->createPublishForm($entity->getId());
+
+        return array(
+            'operacion' => 1,//significa que es edicion
+            'id'      => $entity->getId(),
+            'form'   => $editForm->createView(),
+            'publish_form' => $publishForm->createView(),
+        );
     }
 
     /**
@@ -235,7 +265,7 @@ class tegController extends Controller
     /**
      * Displays a form to edit an existing teg entity.
      *
-     * @Route("/{id}/edit", requirements={"id" = "\d+"}, name="teg_edit")
+     * @Route("/edit/{id}", requirements={"id" = "\d+"}, name="teg_edit")
      * @Method("GET")
      * @Template("BibliotecaTegBundle:teg:new.html.twig")
      */
