@@ -200,7 +200,7 @@ class documento
         // check if we have an old image
         if (isset($this->temp)) {
             // delete the old image
-            unlink($this->getUploadRootDir().'/'.$this->temp);
+            unlink($this->getUploadRootDir().'/'.$this->id.".".$this->temp);
             // clear the temp image path
             $this->temp = null;
         }
@@ -263,6 +263,6 @@ class documento
     }
 
     public function __toString() {
-        return sprintf('%d.%s', $this->id, $this->path);
+        return sprintf('%d.pdf', $this->id);
     }
 }

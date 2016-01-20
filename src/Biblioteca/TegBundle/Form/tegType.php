@@ -50,7 +50,7 @@ class tegType extends AbstractType
             ->add('publicacion', 'date',
                 array(
                     'label_attr' => array('class' => 'control-label col-xs-3'),
-                    'attr'=> array('class' => 'form-control', 'min'=>"1998-01-01", 'max'=>date('Y')."-".date('m')."-".date('d')),
+                    'attr'=> array('class' => 'form-control', 'min'=>'1998-01-01', 'max'=>date('Y')."-".date('m')."-".date('d')),
                     'widget' => 'single_text',
                     'required'  => true
                     /*'format' => 'dd-MM-yyyy'/*,

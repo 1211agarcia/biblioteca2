@@ -344,6 +344,7 @@ class tegController extends Controller
             
             foreach ($entity->getCapitulos() as $actualCapitulo) {
                 $actualCapitulo->setTeg($entity);
+                //$em->persist($actualCapitulo);
             }
             foreach ($entity->getAuthors() as $actualAuthor) {
                 $actualAuthor->setTeg($entity);
