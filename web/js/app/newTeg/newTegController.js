@@ -2,17 +2,17 @@ newTeg.controller('newTegController', function ($scope) {
     $scope.files = [];
     $scope.formData = {};
     $scope.formData.biblioteca_tegbundle_teg_keyWords = [];
+    $scope.formData.biblioteca_tegbundle_teg_publicacion = new Date();
     $scope.pasoUnoValid = false;
     $scope.pasoDosValid = false;
 	$scope.generar = function(){
-        console.log($scope.formData.biblioteca_tegbundle_teg_publicacion.year);
         console.log((new Date ($scope.formData.biblioteca_tegbundle_teg_publicacion)).getFullYear());
-        console.log($scope.formData.biblioteca_tegbundle_teg_escuela);
+        console.log(new String($scope.formData.biblioteca_tegbundle_teg_escuela));
 		console.log($scope.formData.biblioteca_tegbundle_teg_cota);
 		$scope.cota_year = !$scope.isValid('biblioteca_tegbundle_teg[publicacion]')? "Año" : ("0" + (parseInt((new Date ($scope.formData.biblioteca_tegbundle_teg_publicacion)).getFullYear()) % 100) ).slice (-2);
 		
         $scope.cota_school = !$scope.isValid('biblioteca_tegbundle_teg[publicacion]') || angular.isInvalide("school",$scope.biblioteca_tegbundle_teg_escuela)?"Escuela" :
-        "D"+$scope.formData.biblioteca_tegbundle_teg_escuela.charAt(0);
+        "D"+(new String($scope.formData.biblioteca_tegbundle_teg_escuela)).charAt(0);
 
         $scope.cota_index = angular.isUndefinedOrNull($scope.cota_index) ? "00" : ("0" + $scope.cota_index).slice (-2);
 
