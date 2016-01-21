@@ -29,7 +29,7 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
     */
     public function load(ObjectManager $manager)
     {
-/*
+
         foreach (Teg::getSchools() as $escuela) {
             for ($y=1; $y <= 10; $y++) { 
                 
@@ -79,7 +79,7 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
                 
                 }
             }
-        }*/
+        }
     }
     
     /**
