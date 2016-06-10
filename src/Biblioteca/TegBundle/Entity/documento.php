@@ -69,7 +69,7 @@ class documento
     public function setFile(UploadedFile $file = null)
     {
         $this->file = $file;
-        // check if we have an old image path
+        // check if we have an old pdf path
         if (isset($this->path)) {
             // store the old name to delete after the update
             $this->temp = $this->path;
@@ -114,7 +114,7 @@ class documento
     protected function getUploadDir()
     {
         // se deshace del __DIR__ para no meter la pata
-        // al mostrar el documento/imagen cargada en la vista.
+        // al mostrar el documento/pdf cargada en la vista.
         return 'uploads/capitulos';
     }
 
@@ -197,11 +197,15 @@ class documento
             return;
         }
 
-        // check if we have an old image
+        // check if we have an old pdf
         if (isset($this->temp)) {
-            // delete the old image
-            unlink($this->getUploadRootDir().'/'.$this->id.".".$this->temp);
-            // clear the temp image path
+            
+            if(file_exists($this->getUploadRootDir().'/'.$this->id.".".$this->temp)){
+                // delete the old pdf
+                unlink($this->getUploadRootDir().'/'.$this->id.".".$this->temp);
+            }
+
+            // clear the temp pdf path
             $this->temp = null;
         }
 
