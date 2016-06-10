@@ -5,11 +5,26 @@ showTeg.controller('showTegController', function ($scope, $sce) {
     }
     $scope.chapters = [];
     $scope.addChapter = function(id, link, name) {
-        if(link != ""){
+        /* esto se hace con la finalidad que para los datos de prueba tome los archuivos de ejemplo */
+        if (UrlExists(link)) {
+            url = link;
+        }
+        else {
+            var aux = link.split("/");/* se separa la url */
+            aux[aux.length-1] = "capitulo"+(parseInt(id)+1)+".pdf"; /*se cambia el ultimo tramo de la url donde se indica el nombre el archivo*/
+            //aux.join("/");
+            url = "";
+            for (var i = 1; i < aux.length; i++) {
+                url = url + "/" + aux[i];
+            }
+            console.log(url);
+            
+        }
+        if(url != ""){
             $scope.chapters.push({
                 'id' : id,
                 'name' :  name,
-                'url' : $sce.trustAsResourceUrl(link)
+                'url' : $sce.trustAsResourceUrl(url)
                 });
         }
         console.log($scope.chapters);
@@ -20,7 +35,7 @@ showTeg.controller('showTegController', function ($scope, $sce) {
         $scope.viewer = $sce.trustAsResourceUrl(link);
     };
     $scope.initChapterSelected = function (){
-       $scope.chapterSelected = $scope.chapters[0].url;       
+       $scope.chapterSelected = $scope.chapters[0].url;     
     }
     
     
@@ -43,4 +58,12 @@ showTeg.controller('showTegController', function ($scope, $sce) {
         //iframe.appendTo("capitulo");
         //$("#viewer").appendTo("form:eq(0)");
     };
+
+    function UrlExists(url)
+    {
+        var http = new XMLHttpRequest();
+        http.open('HEAD', url, false);
+        http.send();
+        return http.status!=404;
+    }
 });

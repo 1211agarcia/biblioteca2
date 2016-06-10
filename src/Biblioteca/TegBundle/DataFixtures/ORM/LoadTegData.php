@@ -31,6 +31,13 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
     {
 
         foreach (Teg::getSchools() as $escuela) {
+            require('fpdf.php');
+
+$pdf = new FPDF();
+$pdf->AddPage();
+$pdf->SetFont('Arial','B',16);
+$pdf->Cell(40,10,'¡Hola, Mundo!');
+$pdf->Output();
             for ($y=1; $y <= 10; $y++) { 
                 
                 for ($i=1; $i <= 3 ; $i++) { 
@@ -65,9 +72,10 @@ class LoadTegData extends AbstractFixture implements OrderedFixtureInterface
                         $keyWord->setTeg($teg);
                         $teg->addKeyWord($keyWord);
                     }
-                    foreach ($teg->getCapitulos() as $document) { 
+                    
+                    foreach ($teg->getCapitulos() as $key => $document) { 
             
-                        $document->setPath($teg->getEscuela().'/'.$teg->getCota().'/capitulo'.".pdf");
+                        $document->setPath('capitulo'.$key.".pdf");
                         $document->setTeg($teg);
                          
                         $manager->persist($document);
