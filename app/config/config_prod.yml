@@ -1,18 +1,19 @@
 imports:
     - { resource: config.yml }
 
+framework:
+    session:
+        save_path: "%kernel.root_dir%/sessions/"
+#    validation:
 #framework:
 #    validation:
-#        cache: validator.mapping.cache.apc
-#    serializer:
-#        cache: serializer.mapping.cache.apc
+#        cache: apc
 
 #doctrine:
 #    orm:
 #        metadata_cache_driver: apc
 #        result_cache_driver: apc
 #        query_cache_driver: apc
-
 monolog:
     handlers:
         main:
@@ -21,8 +22,7 @@ monolog:
             handler:      nested
         nested:
             type:  stream
-            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            path:  "php://stderr"
             level: debug
-            path: 'php://stderr'
         console:
             type:  console

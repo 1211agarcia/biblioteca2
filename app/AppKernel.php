@@ -24,12 +24,14 @@ class AppKernel extends Kernel
             new Biblioteca\TegBundle\BibliotecaTegBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
         );
-
+        if (in_array($this->getEnvironment(), array('prod'))) {
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
+        }
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+            //$bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
             $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
-            $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
         }
 
         return $bundles;
